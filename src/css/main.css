@@ -1,0 +1,73 @@
+html {
+    box-sizing: border-box;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background-color: #f9774e;
+    background-image: -webkit-linear-gradient(315deg, #f9b94e 0%, #f9774e 100%);
+    background-image: linear-gradient(135deg, #f9b94e 0%, #f9774e 100%);
+    font-size: 14px;
+    font-family: Nunito, arial, sans-serif;
+    font-weight: 400;
+    min-height: 100%;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+fieldset,
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+img {
+    border: 0;
+}
+
+.clear-float:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+

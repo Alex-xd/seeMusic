@@ -1,0 +1,1 @@
+export const INIT_SONGLIST = 'INIT_SONGLIST'
