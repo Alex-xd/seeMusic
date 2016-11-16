@@ -1,16 +1,16 @@
 <template>
     <div class="player">
-        <img :src="currentTrackInfo.cover" class="player__cover">
+        <img :src="player.currentTrackInfo.cover" class="player__cover">
         <div class="player__timer">
             <div class="player__timer__elapsed">
                 {{player.elapsed | time}}
             </div>
             <div class="player__timer__total">
-                {{currentTrackInfo.duration | time}}
+                {{player.currentTrackInfo.duration | time}}
             </div>
         </div>
         <div class="slider player__progress-bar">
-            <input type="range" :value="player.elapsed" :max="currentTrackInfo.duration">
+            <input type="range" :value="player.elapsed" :max="player.currentTrackInfo.duration">
         </div>
         <ul class="player__controls">
             <!-- 重复 -->
@@ -50,7 +50,20 @@
                 </svg>
             </li>
         </ul>
+        <h1 class="player__title" v-text="player.currentTrackInfo.title"></h1>
+        <h2 class="player__sub-title">{{player.currentTrackInfo.album}} - {{player.currentTrackInfo.artist}}</h2>
+        <div class="player__volume">
+            <div class="player__volume__icon">
+                <svg class="icon" viewbox="0 0 100 100">
+                    <use xlink:href="#volume"></use>
+                </svg>
+            </div>
+            <div class="slider slider--volume player__volume__slider">
+                <input type="range" :value="player.volume" max="100" />
+            </div>
+        </div>
         <SVGcomponent></SVGcomponent>
+        <!-- <audio :src="" class="audio"></audio> -->
     </div>
 </template>
 <script>
@@ -68,19 +81,15 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'currentTrackInfo',
             'player'
         ])
     },
     methods: {
         ...mapMutations({
             toggleRepeat: types.TOGGLE_REPEAT,
-            toggleShuffle: types.TOGGLE_SHUFFLE,
-            pause: types.PAUSE,
-            skipBack: types.SKIP_BACK,
-            skipForward: types.SKIP_FORWARD
+            toggleShuffle: types.TOGGLE_SHUFFLE
         }),
-        ...mapActions(['play'])
+        ...mapActions(['play', 'pause', 'skipBack', 'skipForward'])
     }
 }
 

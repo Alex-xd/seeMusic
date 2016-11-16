@@ -16,16 +16,18 @@
     </ol>
 </template>
 <script>
+//【删】
 import {
+    mapMutations,
     mapGetters,
     mapActions
 } from 'vuex'
 
 export default {
     computed: {
-        ...mapGetters([
-            'tracks'
-        ])
+        tracks(){
+            return this.$store.state.songlist.tracks
+        }
     }
 }
 
