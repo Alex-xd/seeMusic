@@ -10,20 +10,18 @@
 <script>
 import Player from './player/Player.vue'
 import SongList from './songlist/SongList.vue'
-import store from '../store' 
-import {mapActions} from 'vuex'
+import store from '../store'
 
 export default {
     components: {
         Player,
         SongList
     },
-    store,// 根组件注入store
-    methods:{
-        ...mapActions(['initStore'])
-    },
-    mounted() { //初始化store数据
-        this.initStore()
+    // 根组件注入store
+    store,
+    mounted() {
+        //初始化store数据
+        this.$store.dispatch('initStore')
     }
 }
 
@@ -38,9 +36,19 @@ export default {
     max-width: 75em;
     padding: 0;
     width: 100%;
-    /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-    /*-webkit-font-smoothing: antialiased;*/
-    /*-moz-osx-font-smoothing: grayscale;*/
 }
+
+@media (min-width:75em) {
+    .music-player {
+        margin: 2.5rem auto;
+    }
+}
+
+@media (min-width:42em) {
+    .music-player {
+        margin: 2rem auto;
+    }
+}
+
 </style>
 

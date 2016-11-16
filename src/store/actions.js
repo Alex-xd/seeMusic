@@ -7,7 +7,13 @@ export const initStore = ({ commit }) => {
         .then((rsp) => {
             rsp.json()
                 .then((data) => {
-                    commit(types.INIT_SONGLIST, data)
+                    commit(types.INIT_SONGLIST, data);
                 })
         }).catch((e) => console.error(e))
 }
+
+// export const play = ({commit,state}) =>{
+// 	let timer = setInterval(()=>{
+// 		state
+// 	},1000)
+// }

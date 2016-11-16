@@ -1,18 +1,27 @@
-# seemusic
+# See Music
 
-> A Vue.js project
+> 这是个音乐播放器，哈哈哈哈霍霍或或哈哈…………  嗝……
 
-## Build Setup
+服务器在本地，没有上传，所以下载后运行不了的，施工现场，请戴安全帽。
+
+## 使用
 
 ``` bash
-# install dependencies
+# 安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 浏览器访问localhost:8080
 npm run dev
 
-# build for production with minification
+# 打包
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 该项目施工中🚧
+
+待开发功能：
+
+- 歌曲热门评论随机抽取显示
+- 用户登录
+- 用户注册
+- 用户歌单

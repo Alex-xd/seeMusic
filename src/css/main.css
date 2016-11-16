@@ -1,9 +1,6 @@
 html {
     box-sizing: border-box;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
     background-color: #f9774e;
-    background-image: -webkit-linear-gradient(315deg, #f9b94e 0%, #f9774e 100%);
     background-image: linear-gradient(135deg, #f9b94e 0%, #f9774e 100%);
     font-size: 14px;
     font-family: Nunito, arial, sans-serif;
@@ -48,6 +45,8 @@ td {
 
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: block;
+    margin: 8px;
 }
 
 ol,
@@ -70,4 +69,5 @@ img {
     display: block;
     clear: both;
 }
+
 
