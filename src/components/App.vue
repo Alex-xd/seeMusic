@@ -26,7 +26,7 @@ export default {
 }
 
 </script>
-<style scoped>
+<style>
 .music-player {
     color: #3f3d34;
     box-shadow: 0 0 1rem rgba(63, 61, 52, 0.6);

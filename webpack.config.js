@@ -22,7 +22,7 @@ module.exports = {
             exclude: /node_modules/
         }, {
             test: /\.(png|jpg|gif|svg)$/,
-            loader: 'file',
+            loader: 'url?limit=8192',
             options: {
                 name: '[name].[ext]?[hash]'
             }
@@ -31,7 +31,7 @@ module.exports = {
             loaders: [
                 'style-loader',
                 'css-loader?importLoaders=1',
-                'postcss-loader',
+                // 'postcss-loader',
                 'sass-loader'
             ]
         }]

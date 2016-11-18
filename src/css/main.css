@@ -62,6 +62,8 @@ a {
 
 img {
     border: 0;
+    height: auto;
+    width: 100%;
 }
 
 .clear-float:after {

@@ -1,6 +1,15 @@
-//统一管理api接口
-export default {
-	defauleSongList:'/Server/Recommend',
-	searchSongs:'/Server/Song',//请求参数：s  （歌曲名或歌手名）
+/**
+ * 对歌曲相关API做一层封装，方便统一管理，
+ */
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+import API from './address.js'
 
+Vue.use(VueResource);
+
+export default {
+    // 获取默认歌单 返回promise
+    getDefaultSonglist() {
+        return Vue.http.get(API.getDefaultSongList)
+    }
 }

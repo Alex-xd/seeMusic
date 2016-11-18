@@ -4,31 +4,34 @@ const state = {
     currentTrack: 0,
     currentTrackInfo: {},
     elapsed: 0,
+    songReady: false,
     playing: false,
     repeat: false,
-    shuffle: true,
-    volume: 68,
-    timer: null
+    shuffle: false,
+    volume: 0.68,
+    imgUrl: './src/assets/loadingImg.png'
 }
 
+// mutation 【专注处理此模块的数据，其他的什么都不干】
 const mutations = {
     // 播放(读进度条)
     [types.PLAY](state) {
         state.elapsed += 10000;
     },
     // 播放
-    [types.SET_PLAYING](state, timer) {
+    [types.SET_PLAYING](state) {
         state.playing = true;
-        state.timer = timer;
-        console.log(typeof state.timer);
+
     },
     // 暂停
     [types.SET_PAUSE](state) {
         state.playing = false;
+        state.songReady = false;
     },
-    // 下一曲
+    // 切歌
     [types.SELECT_TRACK](state, newtrack) {
         state.currentTrack = newtrack;
+        state.playing = false;
         state.elapsed = 0;
     },
     // 开启/关闭 重复播放
@@ -38,21 +41,33 @@ const mutations = {
     // 开启/关闭 随机播放
     [types.TOGGLE_SHUFFLE](state) {
         state.shuffle = !state.shuffle;
+    },
+    [types.SET_SONG_READY](state) {
+        state.songReady = true;
     }
 }
 
+// actions 【专注此模块的函数，也可任意访问到其他模块state，触发任意mutation】
 const actions = {
     // 播放
     play: ({ commit, state, dispatch }) => {
         let timer = setInterval(() => {
-            if (state.elapsed >= state.currentTrackInfo.duration) {
-                dispatch('skipForward');
-            }
-            commit(types.PLAY); // elapsed += .1;
-        }, 1000);
+            if (audio.readyState === 4) {
+                audio.play();
+                commit(types.SET_PLAYING);
+                clearInterval(timer);
+            } else console.log(audio.readyState)
+        }, 100);
+        commit(types.SET_SONG_READY);
+    },
+    //暂停
+    pause: ({ commit, state, dispatch }) => {
+        if (!state.playing) {
+            return;
+        }
 
-        // alert('playing');
-        commit(types.SET_PLAYING, timer);
+        audio.pause();
+        commit(types.SET_PAUSE);
     },
     // 下一首
     skipForward: ({ commit, state, rootState, dispatch }) => {
@@ -80,14 +95,8 @@ const actions = {
         commit(types.INIT_PLAYER);
         dispatch('play');
     },
-    //暂停
-    pause: ({ commit, state, dispatch }) => {
-        if (!state.playing) {
-            return;
-        }
-        commit(types.SET_PAUSE);
-    }
 }
+
 
 export default {
     state,

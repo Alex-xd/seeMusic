@@ -1,11 +1,11 @@
 // actions
 import * as types from './mutation-types'
-import song from './api/song.js'
+import API from './api/API.js'
 
 export default {
     // ajax初始化默认歌单 
     initStore: ({ commit }) => {
-        song.getDefaultSonglist()
+        API.getDefaultSonglist()
             .then((rsp) =>
                 rsp.json()
                 .then((data) =>

@@ -20,7 +20,14 @@ export default {
     },
     // 初始化播放器
     [types.INIT_PLAYER](state) {
-        state.player.currentTrackInfo = state.songlist.tracks[state.player.currentTrack]
+        // 拷贝当前播放歌曲信息到player模块state中
+        state.player.currentTrackInfo = state.songlist.tracks[state.player.currentTrack];
+        // 加载图片
+        state.player.elapsed = 0;
+        state.player.songReady = false;
+        state.player.playing = false;
+        state.player.imgUrl = state.player.currentTrackInfo.cover;
+
     },
 
 }
