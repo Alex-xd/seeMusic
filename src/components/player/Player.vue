@@ -142,8 +142,8 @@
         z-index: 9999;
         border-radius: 50%;
         &--playing {
-            animation: cube 16s linear infinite;
-            @keyframes cube {
+            animation: 16s linear 0s infinite normal both running rotate;
+            @keyframes rotate {
                 from {
                     transform: rotate(0);
                 }
@@ -152,7 +152,7 @@
                 }
             }
         }
-        &--wrapper{
+        &--wrapper {
             background-color: #ddd8c8;
             padding: 1rem;
         }
@@ -248,7 +248,6 @@
         </ul>
         <h1 class="player__title" v-text="player.currentTrackInfo.title"></h1>
         <h2 class="player__sub-title">{{player.currentTrackInfo.album}} - {{player.currentTrackInfo.artist}}</h2>
-
         <!-- 音量调节 -->
         <div class="player__volume">
             <div class="player__volume__icon">
