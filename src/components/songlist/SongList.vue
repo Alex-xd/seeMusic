@@ -40,7 +40,7 @@
             }
         }
         &--active {
-            color: #f9774e;
+            color: #f9934e;
         }
     }
 }
@@ -67,8 +67,7 @@
 </style>
 <template>
     <ol class="songlist">
-        <!-- :class="{songlist__track--active:player.currentTrack === $index}" -->
-        <li class="songlist__track" v-for="track in tracks">
+        <li class="songlist__track" v-for="(track,index) in tracks" :class="{'songlist__track--active':player.currentTrack === index}" @click="playthis(index)">
             <img :src="track.cover" class="songlist__track__cover">
             <div class="songlist__track__info">
                 <h3 class="songlist__track_title">{{track.title}}</h3>
@@ -83,7 +82,6 @@
     </ol>
 </template>
 <script>
-//【删】
 import {
     mapMutations,
     mapGetters,
@@ -94,6 +92,17 @@ export default {
     computed: {
         tracks() {
             return this.$store.state.songlist.tracks
+        },
+        ...mapGetters([
+            'player'
+        ])
+    },
+    methods: {
+        playthis(index) {
+            this.$store.dispatch('selectTrack', {
+                newtrack: index,
+                isSelected: true
+            });
         }
     }
 }

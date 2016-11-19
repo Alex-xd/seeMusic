@@ -8,9 +8,9 @@
     </div>
 </template>
 <script>
-import Player from './player/Player.vue'
-import SongList from './songlist/SongList.vue'
-import store from '../store'
+import Player from './player/Player'
+import SongList from './songlist/SongList'
+import store from 'store'
 
 export default {
     components: {
