@@ -1,6 +1,6 @@
 // actions
 import * as types from './mutation-types'
-import API from './api/API.js'
+import API from 'api/API'
 
 export default {
     // ajax初始化默认歌单 

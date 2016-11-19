@@ -1,7 +1,7 @@
 <style lang="sass">
 .slider {
     line-height: 1em;
-    overflow: hidden;
+    overflow: visible;
     padding: 6px 0;
 }
 
@@ -9,7 +9,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #f2f2f2;
+    background: #e5e2e2;
     height: 8px;
     position: relative;
     width: 100%;
@@ -80,17 +80,16 @@
     cursor: pointer;
     margin: 0;
     padding: 1rem;
-    transition: opacity .4s, color .4s;
+    display: flex;
+    flex-direction: column;
+    transition: all .8s ease;
+    justify-content: center;
     &--small {
         -webkit-transform: scale(0.4);
         transform: scale(0.4);
     }
     &--dimmed {
         opacity: .6;
-    }
-    &--outlined {
-        border: 2px solid #f2f2f2;
-        border-radius: 100%;
     }
     &--active {
         color: #f9774e;
@@ -120,19 +119,18 @@
 .player {
     background: #fff;
     text-align: center;
+    font-family: fantasy,Nunito, arial, sans-serif;
     &__title {
-        font-size: 27.3px;
-        font-size: 1.95rem;
+        font-size: 1.80rem;
         line-height: 1em;
-        margin: 0 0 13.65px;
         margin: 0 0 0.975rem;
+        padding: 0 1rem;
     }
     &__sub-title {
-        font-size: 21px;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         line-height: 1em;
-        margin: 0 0 10.5px;
         margin: 0 0 0.75rem;
+        padding: 0 1rem;
         color: #7f7c6b;
         font-weight: 400;
     }
@@ -141,15 +139,17 @@
         max-width: 33em;
         z-index: 9999;
         border-radius: 50%;
-        &--playing {
+        transition: all 6s;
+        animation: 23s linear 0s infinite normal both paused rotate;
+        &--rotating {
             animation: 16s linear 0s infinite normal both running rotate;
-            @keyframes rotate {
-                from {
-                    transform: rotate(0);
-                }
-                to {
-                    transform: rotate(360deg);
-                }
+        }
+        @keyframes rotate {
+            0% {
+                transform: rotate(0);
+            }
+            100% {
+                transform: rotate(360deg);
             }
         }
         &--wrapper {
@@ -168,18 +168,19 @@
     }
     &__controls {
         display: flex;
+        justify-content: space-around;
         list-style: none;
         padding: 1rem 2rem;
-        height: 111px;
-        margin: 2rem 0;
+        margin: 1rem 0;
     }
     &__volume {
         display: flex;
-        padding: 2rem;
+        padding: 4rem 3rem;
         &__slider {
             width: 100%;
         }
         &__icon {
+            padding: 0;
             width: 2rem;
             height: 2rem;
             margin-right: 1rem;
@@ -195,7 +196,7 @@
 <template>
     <div class="player">
         <div class="player__cover--wrapper">
-            <img :src="player.imgUrl" class="player__cover" :class="{'player__cover--playing':player.playing}">
+            <img :src="player.imgUrl" class="player__cover" :class="{'player__cover--rotating':player.playing}">
         </div>
         <div class="player__timer">
             <div class="player__timer__elapsed">
@@ -206,61 +207,48 @@
             </div>
         </div>
         <div class="slider player__progress-bar">
-            <input type="range" :value="player.elapsed" :max="player.currentTrackInfo.duration">
+            <input type="range" :value="player.elapsed" @input="changeElapsed" :max="player.currentTrackInfo.duration">
         </div>
         <ul class="player__controls">
             <!-- 重复 -->
             <li class="control control--small" :class="{'control--active':player.repeat,'control--dimmed':!player.repeat}" @click="toggleRepeat">
-                <svg class="icon" viewbox="0 0 100 100">
-                    <use xlink:href="#repeat"></use>
-                </svg>
+                <span class="fa fa-retweet fa-3x"></span>
             </li>
             <!-- 上一首 -->
             <li class="control" @click="skipBack">
-                <svg class="icon" viewbox="0 0 100 100">
-                    <use xlink:href="#skip-back"></use>
-                </svg>
+                <span class="fa fa-backward fa-3x"></span>
             </li>
             <!-- 播放 暂停 -->
-            <li class="control control--outlined">
-                <svg class="icon" viewbox="0 0 100 100" @click="play" v-if="!player.songReady">
-                    <use xlink:href="#play"></use>
-                </svg>
-                <svg class="icon" viewbox="0 0 100 100" @click="pause" v-if="player.songReady">
-                    <use xlink:href="#pause"></use>
-                </svg>
+            <li class="control">
+                <span class="fa fa-play-circle fa-4x" @click="play" v-if="!player.playing"></span>
+                <span class="fa fa-pause-circle fa-4x" @click="pause" v-if="player.playing"></span>
             </li>
             <!-- 下一首 -->
             <li class="control" @click="skipForward">
-                <svg class="icon" viewbox="0 0 100 100">
-                    <use xlink:href="#skip-forward"></use>
-                </svg>
+                <span class="fa fa-forward fa-3x"></span>
             </li>
             <!-- 随机播放 -->
             <li class="control control--small" v-bind:class="{
                     'control--active' : player.shuffle,
                     'control--dimmed' : !player.shuffle
                 }" @click="toggleShuffle">
-                <svg class="icon" viewbox="0 0 100 100">
-                    <use xlink:href="#shuffle"></use>
-                </svg>
+                <span class="fa fa-random fa-3x"></span>
             </li>
         </ul>
         <h1 class="player__title" v-text="player.currentTrackInfo.title"></h1>
-        <h2 class="player__sub-title">{{player.currentTrackInfo.album}} - {{player.currentTrackInfo.artist}}</h2>
+        <h2 class="player__sub-title">{{player.currentTrackInfo.album}} - {{player.currentTrackInfo.artists}}</h2>
         <!-- 音量调节 -->
         <div class="player__volume">
-            <div class="player__volume__icon">
-                <svg class="icon" viewbox="0 0 100 100">
-                    <use xlink:href="#volume"></use>
-                </svg>
+            <div class="player__volume__icon control" @click="mute">
+                <span class="fa fa-volume-up fa-2x" v-if="!player.muted"></span>
+                <span class="fa fa-volume-off fa-2x" v-if="player.muted"></span>
             </div>
             <div class="slider slider--volume player__volume__slider">
-                <input type="range" :value="player.volume" max="1" />
+                <input type="range" :value="player.volume" @input="changeVolume" max="100" />
             </div>
         </div>
-        <SVGcomponent></SVGcomponent>
-        <audio :src="player.currentTrackInfo.mp3Url" id="audio" controls preload="auto"></audio>
+        <!-- audio标签 -->
+        <audio :src="player.currentTrackInfo.mp3Url" id="audio" preload="auto" :autoplay="player.playing" :loop="player.repeat"></audio>
     </div>
 </template>
 <script>
@@ -269,13 +257,9 @@ import {
     mapActions,
     mapGetters
 } from 'vuex'
-import SVGcomponent from './SVG.vue'
-import * as types from '../../store/mutation-types.js'
+import * as types from 'store/mutation-types'
 
 export default {
-    components: {
-        SVGcomponent
-    },
     computed: {
         ...mapGetters([
             'player'
@@ -290,8 +274,17 @@ export default {
             'play',
             'pause',
             'skipBack',
-            'skipForward'
+            'skipForward',
+            'mute'
         ]),
+        changeVolume(e) {
+            this.$store.commit(types.UPDATE_VOLUME, e.target.value);
+            document.getElementById('audio').volume = e.target.value / 100;
+        },
+        changeElapsed(e) {
+            this.$store.commit(types.UPDATE_PROGRESS_BAR, e.target.value);
+            document.getElementById('audio').currentTime = e.target.value / 1000;
+        }
     }
 }
 

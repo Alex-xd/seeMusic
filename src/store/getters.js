@@ -1,6 +1,6 @@
 export default {
-    // 获取默认歌单
+    // songlist模块的state对象
     songlist: (state) => state.songlist,
-
-    player: (state) => state.player
+	// player模块的state对象
+    player: (state) => state.player,
 }
