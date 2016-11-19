@@ -28,17 +28,18 @@ export default {
 </script>
 <style>
 .music-player {
+    height:100%;
     color: #3f3d34;
-    box-shadow: 0 0 1rem rgba(63, 61, 52, 0.6);
+    /*box-shadow: 0 0 1rem rgba(63, 61, 52, 0.6);*/
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
-    max-width: 75em;
+    /*max-width: 74em;*/
     padding: 0;
     width: 100%;
 }
 
-@media (min-width:75em) {
+/*@media (min-width:75em) {
     .music-player {
         margin: 2.5rem auto;
     }
@@ -49,6 +50,6 @@ export default {
         margin: 2rem auto;
     }
 }
-
+*/
 </style>
 

@@ -1,7 +1,7 @@
 <style lang="sass">
 @media screen and (min-width:451px) {
     .songlist {
-        width: 56%;
+        width: 60%;
     }
 }
 
@@ -14,7 +14,7 @@
 .songlist {
     background: #4a473c;
     color: #f2f2f2;
-    height: 61.85rem;
+    height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
     padding: 0 3rem;

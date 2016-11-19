@@ -106,7 +106,7 @@
 
 @media screen and (min-width:451px) {
     .player {
-        width: 44%;
+        width: 40%;
     }
 }
 
@@ -117,32 +117,38 @@
 }
 
 .player {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: #fff;
     text-align: center;
-    font-family: fantasy,Nunito, arial, sans-serif;
+    font-family: fantasy, Nunito, arial, sans-serif;
     &__title {
-        font-size: 1.80rem;
-        line-height: 1em;
-        margin: 0 0 0.975rem;
+        font-size: 1.8rem;
+        line-height: 1.8em;
+        // margin: 0 0 0.975rem;
+        margin-bottom: -1.2rem;
         padding: 0 1rem;
     }
     &__sub-title {
         font-size: 1.2rem;
-        line-height: 1em;
-        margin: 0 0 0.75rem;
+        line-height: 1.2em;
+        // margin: 0 0 0.75rem;
         padding: 0 1rem;
         color: #7f7c6b;
         font-weight: 400;
     }
     &__cover {
         display: block;
-        max-width: 33em;
+        // max-width: 25em;
+        width:93%;   
         z-index: 9999;
+        margin: 0 auto;
         border-radius: 50%;
-        transition: all 6s;
-        animation: 23s linear 0s infinite normal both paused rotate;
+        transition: all 2s;
+        animation: 60s linear 0s infinite normal both paused rotate;
         &--rotating {
-            animation: 16s linear 0s infinite normal both running rotate;
+            animation: 60s linear 0s infinite normal both running rotate;
         }
         @keyframes rotate {
             0% {
@@ -161,7 +167,7 @@
         background: #c1bdb1;
         display: flex;
         justify-content: space-between;
-        padding: 1rem;
+        padding: .6rem;
     }
     &__progress-bar {
         margin-top: -1rem;
@@ -170,12 +176,13 @@
         display: flex;
         justify-content: space-around;
         list-style: none;
-        padding: 1rem 2rem;
-        margin: 1rem 0;
+        // padding: 1rem 2rem;
+        // margin: 0 0 1rem 0;
     }
     &__volume {
         display: flex;
-        padding: 4rem 3rem;
+        padding: 2rem 4rem 2rem 5rem;
+        // padding: 0 4rem 2rem 5rem;
         &__slider {
             width: 100%;
         }
@@ -191,23 +198,28 @@
 .hide.hide {
     display: none;
 }
-
+.player__topbox{
+    display: flex;
+    flex-direction: column;
+}
 </style>
 <template>
     <div class="player">
-        <div class="player__cover--wrapper">
-            <img :src="player.imgUrl" class="player__cover" :class="{'player__cover--rotating':player.playing}">
-        </div>
-        <div class="player__timer">
-            <div class="player__timer__elapsed">
-                {{player.elapsed | time}}
+        <div class="player__topbox">
+            <div class="player__cover--wrapper">
+                <img :src="player.imgUrl" class="player__cover" :class="{'player__cover--rotating':player.playing}">
             </div>
-            <div class="player__timer__total">
-                {{player.currentTrackInfo.duration | time}}
+            <div class="player__timer">
+                <div class="player__timer__elapsed">
+                    {{player.elapsed | time}}
+                </div>
+                <div class="player__timer__total">
+                    {{player.currentTrackInfo.duration | time}}
+                </div>
             </div>
-        </div>
-        <div class="slider player__progress-bar">
-            <input type="range" :value="player.elapsed" @input="changeElapsed" :max="player.currentTrackInfo.duration">
+            <div class="slider player__progress-bar">
+                <input type="range" :value="player.elapsed" @input="changeElapsed" :max="player.currentTrackInfo.duration">
+            </div>
         </div>
         <ul class="player__controls">
             <!-- 重复 -->
@@ -240,8 +252,8 @@
         <!-- 音量调节 -->
         <div class="player__volume">
             <div class="player__volume__icon control" @click="mute">
-                <span class="fa fa-volume-up fa-2x" v-if="!player.muted"></span>
-                <span class="fa fa-volume-off fa-2x" v-if="player.muted"></span>
+                <span class="fa fa-volume-up fa-2x" v-if="!player.muted" style="position:relative;top:-3px;"></span>
+                <span class="fa fa-volume-off fa-2x" v-if="player.muted" style="position:relative;top:-3px;"></span>
             </div>
             <div class="slider slider--volume player__volume__slider">
                 <input type="range" :value="player.volume" @input="changeVolume" max="100" />

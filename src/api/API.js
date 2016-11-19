@@ -10,6 +10,6 @@ Vue.use(VueResource);
 export default {
     // 获取默认歌单 返回promise
     getDefaultSonglist() {
-        return Vue.http.get('/Server/Recommend')
+        return Vue.http.get(API.getDefaultSongList)
     }
 }

@@ -13,7 +13,7 @@ const state = {
     shuffle: true,
     volume: 68,
     muted: false,
-    imgUrl: './src/assets/loadingImg.png'
+    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png'
 }
 
 // mutation 【专注处理此模块的数据，其他的什么都不干】
@@ -66,12 +66,12 @@ const actions = {
             return;
         }
         let timer = setInterval(() => {
-            if (state.elapsed >= state.currentTrackInfo.duration) {
+            if (state.elapsed >= (state.currentTrackInfo.duration - 100)) {
                 timer = null;
                 dispatch('skipForward');
             }
             commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
-        }, 500);
+        }, 1000);
         audio.play();
         commit(types.SET_PLAYING);
     },
@@ -109,7 +109,7 @@ const actions = {
         }
         commit(types.SELECT_TRACK, newtrack);
         commit(types.INIT_PLAYER);
-        window.location.hash="#songlist__track--active"
+
         dispatch('play');
     },
     // 静音
