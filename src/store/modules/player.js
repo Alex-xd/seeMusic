@@ -109,6 +109,7 @@ const actions = {
         }
         commit(types.SELECT_TRACK, newtrack);
         commit(types.INIT_PLAYER);
+        window.location.hash="#songlist__track--active"
         dispatch('play');
     },
     // 静音
