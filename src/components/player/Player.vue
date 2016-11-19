@@ -140,7 +140,7 @@
     }
     &__cover {
         display: block;
-        max-width: 25em;
+        // max-width: 25em;
         width:93%;   
         z-index: 9999;
         margin: 0 auto;
