@@ -12,7 +12,6 @@ module.exports = {
         // npm run build 路径配置
         // path: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
         // publicPath: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
-        
         // npm run dev 开发路径配置 
         path: path.resolve(__dirname, '/dist/'),
         publicPath: '/dist/',
@@ -132,7 +131,7 @@ module.exports = {
             // 路由都代理到服务器的8080端口上，以解决跨域问题
             '/Server/**': {
                 changeOrigin: true,
-                target: 'http://localhost:8080',
+                target: 'http://119.29.148.154:8080',
                 secure: false
             }
         }
