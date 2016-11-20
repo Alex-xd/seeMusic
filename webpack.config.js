@@ -9,8 +9,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
     entry: './src/main.js',
     output: {
+        // npm run build 路径配置
         // path: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
         // publicPath: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
+        
+        // npm run dev 开发路径配置 
         path: path.resolve(__dirname, '/dist/'),
         publicPath: '/dist/',
         filename: 'build.js'
