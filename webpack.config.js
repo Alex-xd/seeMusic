@@ -9,10 +9,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
     entry: './src/main.js',
     output: {
-        path: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
-        publicPath: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
-        // path: path.resolve(__dirname, '/dist/'),
-        // publicPath: '/dist/',
+        // path: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
+        // publicPath: '/usr/local/Cellar/tomcat/8.5.6/libexec/webapps/Server/src/dist/',
+        path: path.resolve(__dirname, '/dist/'),
+        publicPath: '/dist/',
         filename: 'build.js'
     },
     devtool: '#eval-source-map',
@@ -20,7 +20,7 @@ module.exports = {
     module: {
         rules: [{
                 test: /\.vue$/,
-                loader: 'vue',
+                loader: 'vue-loader',
                 options: {
                     vue: {
                         autoprefixer: {
@@ -37,23 +37,23 @@ module.exports = {
                             //     fallbackloader: 'vue-style-loader',
                             //     loader: 'vue-style-loader!css!sass?souceMap',
                             // }),
-                            js: 'babel'
+                            js: 'babel-loader'
                         }
                     }
                 }
             }, {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 exclude: /node_modules/
             }, {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url?limit=8192',
+                loader: 'url-loader?limit=8192',
                 options: {
                     name: '[name].[ext]?[hash:6]'
                 }
             }, {
                 test: /\.scss$/,
-                loader: 'style!css?souceMap!sass!postcss'
+                loader: 'style-loader!css-loader?souceMap!sass-loader!postcss-loader'
                     // 想要把import的文件都打包成一个文件就启用下面的配置
                     // loader: ExtractTextPlugin.extract({
                     //     fallbackloader: 'style',
@@ -61,7 +61,7 @@ module.exports = {
                     // })
             }, {
                 test: /\.css$/,
-                loader: 'style!css?souceMap!postcss'
+                loader: 'style-loader!css-loader?souceMap!postcss-loader'
                     // loader: ExtractTextPlugin.extract({
                     //     fallbackloader: 'style',
                     //     loader: 'css?souceMap!postcss',
@@ -70,19 +70,19 @@ module.exports = {
             // 支持font awesome的一组loader
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
+                loader: "url-loader?limit=10000&mimetype=application/font-woff"
             }, {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
+                loader: "url-loader?limit=10000&mimetype=application/font-woff"
             }, {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/octet-stream"
+                loader: "url-loader?limit=10000&mimetype=application/octet-stream"
             }, {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
+                loader: "file-loader"
             }, {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=image/svg+xml"
+                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
             }
         ]
     },
