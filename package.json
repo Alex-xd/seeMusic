@@ -7,7 +7,9 @@
     "scripts": {
         "dev": "webpack-dev-server --config webpack.dev.conf.js --open --inline --hot",
         "build": "webpack --config webpack.prod.conf.js --progress --hide-modules",
-        "start": "electron ."
+        "testapp": "electron ./dist/.",
+        "buildapp": "electron-packager . SeeMusic && --ignore=node_modules/electron-* && cp Icon.icns SeeMusic/Contents/Resources/atom.icns",
+        "package": "asar pack SeeMusic.app/Contents/Resources/app SeeMusic.app/Contents/Resources/app.asar"
     },
     "dependencies": {
         "font-awesome": "^4.7.0",
@@ -23,8 +25,6 @@
         "babel-preset-stage-2": "^6.18.0",
         "cross-env": "^3.0.0",
         "css-loader": "^0.25.0",
-        "devtron": "^1.4.0",
-        "electron": "^1.4.7",
         "extract-text-webpack-plugin": "^2.0.0-beta.4",
         "favicons-webpack-plugin": "^0.0.7",
         "file-loader": "^0.9.0",
