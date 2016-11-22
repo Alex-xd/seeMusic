@@ -21,6 +21,10 @@ npm run test
 
 ## 跨平台开发
 
+**重要！**
+
+若要编译为可执行应用，必须先将`src/api/address.js`中`fullUrl`设为`true`，否则会请求不到数据！
+
 ```bash
 # 在dist目录下安装electron相关依赖
 npm run install
