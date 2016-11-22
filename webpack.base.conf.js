@@ -10,7 +10,7 @@ module.exports = {
         // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
         // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
         publicPath: 'http://localhost:8000/', 
-        filename: 'index_bundle.js'
+        filename: '[name].[hash:6].js'
     },
     module: {
         rules: [{
@@ -79,6 +79,7 @@ module.exports = {
         alias: {
             'vue$': 'vue/dist/vue',
             'src': path.resolve(__dirname, './src'),
+            'css': path.resolve(__dirname, './src/css'),
             'api': path.resolve(__dirname, './src/api'),
             'components': path.resolve(__dirname, './src/components'),
             'store': path.resolve(__dirname, './src/store')

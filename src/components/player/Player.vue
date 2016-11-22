@@ -141,7 +141,7 @@
     &__cover {
         display: block;
         max-width: 25em;
-        width:93%;   
+        width: 93%;
         z-index: 9999;
         margin: 0 auto;
         border-radius: 50%;
@@ -198,10 +198,12 @@
 .hide.hide {
     display: none;
 }
-.player__topbox{
+
+.player__topbox {
     display: flex;
     flex-direction: column;
 }
+
 </style>
 <template>
     <div class="player">

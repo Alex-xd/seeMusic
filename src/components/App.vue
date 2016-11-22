@@ -4,7 +4,6 @@
         <!--组装组件-->
         <Player></Player>
         <SongList></SongList>
-        <!--<UserPanel></UserPanel>-->
     </div>
 </template>
 <script>
@@ -28,7 +27,7 @@ export default {
 </script>
 <style>
 .music-player {
-    height:100%;
+    height: 100%;
     color: #3f3d34;
     /*box-shadow: 0 0 1rem rgba(63, 61, 52, 0.6);*/
     display: flex;
@@ -38,6 +37,7 @@ export default {
     padding: 0;
     width: 100%;
 }
+
 
 /*@media (min-width:75em) {
     .music-player {
@@ -51,5 +51,6 @@ export default {
     }
 }
 */
+
 </style>
 

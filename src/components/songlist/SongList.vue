@@ -1,12 +1,12 @@
 <style lang="sass">
 @media screen and (min-width:451px) {
-    .songlist {
+    .songlist--container {
         width: 60%;
     }
 }
 
 @media screen and (max-width:450px) {
-    .songlist {
+    .songlist--container {
         width: 100%;
     }
 }
@@ -61,27 +61,31 @@
 }
 
 ::-webkit-scrollbar-button {
-    background-color: #7c2929;
+    background-color: #3f3d34;
 }
 
 </style>
 <template>
-    <ol class="songlist">
-        <li class="songlist__track" v-for="(track,index) in tracks" :class="{'songlist__track--active':player.currentTrack === index}" @click="playthis(index)">
-            <img :src="track.cover" class="songlist__track__cover">
-            <div class="songlist__track__info">
-                <h3 class="songlist__track_title">{{track.title}}</h3>
-                <span class="songlist__track__sub-title">
+    <div class="songlist--container">
+        <Pannel></Pannel>
+        <ol class="songlist">
+            <li class="songlist__track" v-for="(track,index) in songlist.tracks" :class="{'songlist__track--active':player.currentTrack === index}" @click="playthis(index)">
+                <img :src="track.cover" class="songlist__track__cover">
+                <div class="songlist__track__info">
+                    <h3 class="songlist__track_title">{{track.title}}</h3>
+                    <span class="songlist__track__sub-title">
                         {{track.album}} - {{track.artists}}
                     </span>
-            </div>
-            <span class="songlist__track__time">
+                </div>
+                <span class="songlist__track__time">
                 {{track.duration | time}}
             </span>
-        </li>
-    </ol>
+            </li>
+        </ol>
+    </div>
 </template>
 <script>
+import Pannel from './Pannel'
 import {
     mapMutations,
     mapGetters,
@@ -89,12 +93,13 @@ import {
 } from 'vuex'
 
 export default {
+    components:{
+        Pannel
+    },
     computed: {
-        tracks() {
-            return this.$store.state.songlist.tracks
-        },
         ...mapGetters([
-            'player'
+            'player',
+            'songlist'
         ])
     },
     methods: {

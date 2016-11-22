@@ -58,7 +58,7 @@ const mutations = {
     }
 }
 
-// actions 【专注此模块的函数，也可任意访问到其他模块state，触发任意mutation】
+// actions 
 const actions = {
     // 播放
     play: ({ commit, state, dispatch }) => {
@@ -66,6 +66,9 @@ const actions = {
             return;
         }
         let timer = setInterval(() => {
+            if (audio.paused) {
+                clearInterval(timer);
+            }
             if (state.elapsed >= (state.currentTrackInfo.duration - 100)) {
                 timer = null;
                 dispatch('skipForward');

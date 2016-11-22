@@ -66,7 +66,10 @@ img {
     height: auto;
     width: 100%;
 }
-
+button,
+input{
+    line-height: normal;
+}
 .clear-float:after {
     content: '';
     display: block;
