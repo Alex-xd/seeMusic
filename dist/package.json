@@ -1,0 +1,16 @@
+{
+    "name": "SeeMusic",
+    "description": "A Vue.js project",
+    "author": "Alex-xd <zhangboyuan_xd@qq.com>",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+        "test": "electron .",
+        "build": "electron-packager . SeeMusic --overwrite --ignore=node_modules/electron-* --ignore=node_modules/.bin --ignore=.git --ignore=dist --prune --platform=darwin --arch=all --app-copyright --app-version --icon=Icon.icns --out/public",
+        "package": "asar pack SeeMusic-darwin-x64/SeeMusic.app/Contents/Resources/app SeeMusic-darwin-x64/SeeMusic.app/Contents/Resources/app.asar"
+    },
+    "devDependencies": {
+        "electron": "^1.4.7",
+        "electron-packager": "^8.3.0"
+    }
+}

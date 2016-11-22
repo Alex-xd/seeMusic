@@ -6,10 +6,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.conf.js --open --inline --hot",
-    "build": "webpack --config webpack.prod.conf.js --progress --hide-modules",
-    "testapp": "electron ./dist/.",
-    "buildapp": "electron-packager . SeeMusic && --ignore=node_modules/electron-* && cp Icon.icns SeeMusic/Contents/Resources/atom.icns",
-    "package": "asar pack SeeMusic.app/Contents/Resources/app SeeMusic.app/Contents/Resources/app.asar"
+    "build": "webpack --config webpack.prod.conf.js --progress --hide-modules"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",

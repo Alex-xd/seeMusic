@@ -1,4 +1,9 @@
 .DS_Store
 node_modules/
-dist/
+dist/node_modules/
+dist/[SeeMusic*]
+dist/static
+dist/*.js
+dist/*.html
 npm-debug.log
+.idea
