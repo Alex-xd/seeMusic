@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
-    "install": "^0.8.2",
-    "npm": "^4.0.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.3",
