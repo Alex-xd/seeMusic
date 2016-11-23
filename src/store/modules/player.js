@@ -13,18 +13,16 @@ const state = {
     shuffle: true,
     volume: 68,
     muted: false,
-    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png'
+    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png',
+    onloadmp3Url: ''
 }
 
 // mutation 【专注处理此模块的数据，其他的什么都不干】
 const mutations = {
-    // 播放(读进度条)
-    [types.PLAY](state) {
-        state.elapsed += 10000;
-    },
     // 播放
     [types.SET_PLAYING](state) {
         state.playing = true;
+        state.onloadmp3Url = state.currentTrackInfo.mp3Url;
     },
     // 暂停
     [types.SET_PAUSE](state) {
@@ -64,19 +62,16 @@ const actions = {
     play: ({ commit, state, dispatch }) => {
         if (state.playing) {
             return;
+        } else {
+            commit(types.SET_PLAYING);
+            let timer = setInterval(() => {
+                if (state.elapsed >= (state.currentTrackInfo.duration - 100)) {
+                    timer = null;
+                    dispatch('skipForward');
+                }
+                commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
+            }, 1000);
         }
-        let timer = setInterval(() => {
-            if (audio.paused) {
-                clearInterval(timer);
-            }
-            if (state.elapsed >= (state.currentTrackInfo.duration - 100)) {
-                timer = null;
-                dispatch('skipForward');
-            }
-            commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
-        }, 1000);
-        audio.play();
-        commit(types.SET_PLAYING);
     },
     //暂停
     pause: ({ commit, state, dispatch }) => {

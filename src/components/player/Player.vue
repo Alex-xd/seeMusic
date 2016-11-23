@@ -262,7 +262,7 @@
             </div>
         </div>
         <!-- audio标签 -->
-        <audio :src="player.currentTrackInfo.mp3Url" id="audio" preload="auto" :autoplay="player.playing" :loop="player.repeat"></audio>
+        <audio :src="player.onloadmp3Url" id="audio" preload="auto" :autoplay="player.playing" :loop="player.repeat"></audio>
     </div>
 </template>
 <script>

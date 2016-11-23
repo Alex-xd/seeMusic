@@ -37,6 +37,9 @@ export default {
         state.player.imgUrl = state.player.currentTrackInfo.cover;
 
         document.getElementById('audio').volume = state.player.volume / 100;
+        audio.addEventListener("canplaythrough", function () {
+            audio.play();
+        }, false);
     },
 
 }

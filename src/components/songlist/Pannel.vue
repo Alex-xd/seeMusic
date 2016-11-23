@@ -26,7 +26,7 @@
     <header class="pannel">
         <span class="pannel__default-list-btn fa fa-music" @click="searchSongs"></span>
         <div class="pannel__search input input--yoko">
-            <input class="input__field input__field--yoko" type="text" id="input-16" v-model.trim="keywords" @keyup.enter="searchSongs">
+            <input class="input__field input__field--yoko" type="text" id="input-16" v-model.trim="keywords" @keyup.enter="searchSongs" autocomplete="true">
             <span class="input__label input__label--yoko" for="input-16" @click="searchSongs">
      			 <span class="input__label-content input__label-content--yoko" >{{songlist.search.text}}</span>
             </span>

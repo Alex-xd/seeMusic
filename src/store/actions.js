@@ -8,12 +8,12 @@ export default {
         API.getDefaultSonglist()
             .then((rsp) =>
                 rsp.json()
-                .then((data) =>
-                    commit(types.INIT_SONGLIST, data)
-                )
+                .then((data) => {
+                    commit(types.INIT_SONGLIST, data);
+                })
                 .then(() => commit(types.INIT_PLAYER))
             )
             .catch((e) => console.error(e))
     },
-    
+
 }
