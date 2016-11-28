@@ -1,6 +1,6 @@
-const path = require('path')
-const webpack = require('webpack')
-const autoprefixer = require('autoprefixer')
+const path = require('path');
+const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
     entry: './src/main.js',
