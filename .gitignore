@@ -8,3 +8,5 @@ dist/*.html
 dist/
 npm-debug.log
 .idea
+.DS_Store
+.DS_Store?
