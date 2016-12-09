@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="scss">
 @media screen and (min-width:451px) {
     .songlist--container {
         width: 60%;
@@ -113,4 +113,3 @@ export default {
 }
 
 </script>
-

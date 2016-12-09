@@ -9,32 +9,31 @@ module.exports = {
         path: path.resolve(__dirname, './dist/static/'),
         // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
         // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
-        publicPath: 'http://localhost:8000/', 
+        publicPath: 'http://localhost:8000/',
         filename: '[name].[hash:6].js'
     },
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
-                    vue: {
-                        autoprefixer: {
-                            browsers: ['> 1%']
-                        },
-                        loaders: {
-                            js: 'babel-loader'
-                            // css: 'vue-style-loader!css?souceMap!postcss',
-                            // sass: 'vue-style-loader!css?souceMap!sass!postcss',
+                    autoprefixer: {
+                        browsers: ['last 3 versions']
+                    },
+                    loaders: {
+                        js: 'babel-loader',
+                        scss: 'vue-style-loader!css-loader?souceMap!sass-loader',
+                        sass: 'vue-style-loader!css-loader?souceMap!sass-loader?'
 
-                            // css: ExtractTextPlugin.extract({
-                            //     fallbackloader: 'vue-style-loader',
-                            //     loader: 'vue-style-loader!css!sass?souceMap',
-                            // }),
-                            // sass: ExtractTextPlugin.extract({
-                            //     fallbackloader: 'vue-style-loader',
-                            //     loader: 'vue-style-loader!css!sass?souceMap',
-                            // }),
-                        }
+                        // css: ExtractTextPlugin.extract({
+                        //     fallbackloader: 'vue-style-loader',
+                        //     loader: 'vue-style-loader!css!sass?souceMap',
+                        // }),
+                        // sass: ExtractTextPlugin.extract({
+                        //     fallbackloader: 'vue-style-loader',
+                        //     loader: 'vue-style-loader!css!sass?souceMap',
+                        // }),
                     }
                 }
             }, {
@@ -48,7 +47,7 @@ module.exports = {
                     name: '[name].[ext]?[hash:6]'
                 }
             }, {
-                test: /\.scss$/,
+                test: /\.s[a|c]ss$/,
                 loader: 'style-loader!css-loader?souceMap!sass-loader!postcss-loader'
             }, {
                 test: /\.css$/,
@@ -75,7 +74,9 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.js', '.vue'],
+        extensions: [
+            '.js', '.vue'
+        ],
         alias: {
             'vue$': 'vue/dist/vue',
             'src': path.resolve(__dirname, './src'),
@@ -86,21 +87,16 @@ module.exports = {
         }
     },
 
-    plugins: [
-        new webpack.LoaderOptionsPlugin({
+    plugins: [new webpack.LoaderOptionsPlugin({
             options: {
                 // 给postcss添加autoprefixer  (postcss是一个css处理平台)
                 // TODO:这里暂时还不知道怎么自定义浏览器版本
                 context: __dirname,
-                postcss: [
-                    autoprefixer
-                ]
+                postcss: [autoprefixer]
             },
             vue: {
                 // 配置让所有vue组件中的样式都pipe through postcss
                 postcss: [require('autoprefixer')()]
             }
-        })
-    ]
+        })]
 }
-

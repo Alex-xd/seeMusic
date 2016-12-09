@@ -1,10 +1,10 @@
 <!-- 根组件 在此组装子组件 -->
 <template>
-    <div class="music-player">
-        <!--组装组件-->
-        <Player></Player>
-        <SongList></SongList>
-    </div>
+<div class="music-player">
+    <!--组装组件-->
+    <Player></Player>
+    <SongList></SongList>
+</div>
 </template>
 <script>
 import Player from './player/Player'
@@ -23,9 +23,8 @@ export default {
         this.$store.dispatch('initStore')
     }
 }
-
 </script>
-<style>
+<style style="scss">
 .music-player {
     height: 100%;
     color: #3f3d34;
@@ -51,6 +50,4 @@ export default {
     }
 }
 */
-
 </style>
-

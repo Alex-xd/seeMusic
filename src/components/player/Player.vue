@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="scss">
 .slider {
     line-height: 1em;
     overflow: visible;
@@ -14,7 +14,6 @@
     position: relative;
     width: 100%;
 }
-
 .slider [type=range]:focus {
     outline: none;
 }
@@ -27,19 +26,17 @@
     cursor: pointer;
     height: 20px;
     position: relative;
-    -webkit-transition: -webkit-transform .2s;
-    transition: -webkit-transform .2s;
-    transition: transform .2s;
-    transition: transform .2s, -webkit-transform .2s;
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: -webkit-transform 0.2s;
+    transition: transform 0.2s;
+    transition: transform 0.2s, -webkit-transform 0.2s;
     width: 6px;
 }
-
-.slider [type=range]::-webkit-slider-thumb:focus,
-.slider [type=range]::-webkit-slider-thumb:active {
+.slider [type=range]::-webkit-slider-thumb:active,
+.slider [type=range]::-webkit-slider-thumb:focus {
     -webkit-transform: scale(1.3);
     transform: scale(1.3);
 }
-
 .slider [type=range]::-webkit-slider-thumb:after {
     background: #f9774e;
     bottom: 0;
@@ -59,7 +56,6 @@
     border: 3px solid #f9774e;
     width: 20px;
 }
-
 .slider--volume [type=range]::-webkit-slider-thumb:after {
     right: 14px;
 }
@@ -82,14 +78,14 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    transition: all .8s ease;
+    transition: all 0.8s ease;
     justify-content: center;
     &--small {
         -webkit-transform: scale(0.4);
         transform: scale(0.4);
     }
     &--dimmed {
-        opacity: .6;
+        opacity: 0.6;
     }
     &--active {
         color: #f9774e;
@@ -98,18 +94,16 @@
         color: #f9774e;
         transition: none;
     }
-    &:hover,
-    &:focus {
-        opacity: .8;
+    &:focus,
+    &:hover {
+        opacity: 0.8;
     }
 }
-
 @media screen and (min-width:451px) {
     .player {
         width: 40%;
     }
 }
-
 @media screen and (max-width:450px) {
     .player {
         width: 100%;
@@ -167,7 +161,7 @@
         background: #c1bdb1;
         display: flex;
         justify-content: space-between;
-        padding: .6rem;
+        padding: 0.6rem;
     }
     &__progress-bar {
         margin-top: -1rem;
@@ -203,67 +197,66 @@
     display: flex;
     flex-direction: column;
 }
-
 </style>
 <template>
-    <div class="player">
-        <div class="player__topbox">
-            <div class="player__cover--wrapper">
-                <img :src="player.imgUrl" class="player__cover" :class="{'player__cover--rotating':player.playing}">
+<div class="player">
+    <div class="player__topbox">
+        <div class="player__cover--wrapper">
+            <img :src="player.imgUrl" class="player__cover" :class="{'player__cover--rotating':player.playing}">
+        </div>
+        <div class="player__timer">
+            <div class="player__timer__elapsed">
+                {{player.elapsed | time}}
             </div>
-            <div class="player__timer">
-                <div class="player__timer__elapsed">
-                    {{player.elapsed | time}}
-                </div>
-                <div class="player__timer__total">
-                    {{player.currentTrackInfo.duration | time}}
-                </div>
-            </div>
-            <div class="slider player__progress-bar">
-                <input type="range" :value="player.elapsed" @input="changeElapsed" :max="player.currentTrackInfo.duration">
+            <div class="player__timer__total">
+                {{player.currentTrackInfo.duration | time}}
             </div>
         </div>
-        <ul class="player__controls">
-            <!-- 重复 -->
-            <li class="control control--small" :class="{'control--active':player.repeat,'control--dimmed':!player.repeat}" @click="toggleRepeat">
-                <span class="fa fa-retweet fa-3x"></span>
-            </li>
-            <!-- 上一首 -->
-            <li class="control" @click="skipBack">
-                <span class="fa fa-backward fa-3x"></span>
-            </li>
-            <!-- 播放 暂停 -->
-            <li class="control">
-                <span class="fa fa-play-circle fa-4x" @click="play" v-if="!player.playing"></span>
-                <span class="fa fa-pause-circle fa-4x" @click="pause" v-if="player.playing"></span>
-            </li>
-            <!-- 下一首 -->
-            <li class="control" @click="skipForward">
-                <span class="fa fa-forward fa-3x"></span>
-            </li>
-            <!-- 随机播放 -->
-            <li class="control control--small" v-bind:class="{
+        <div class="slider player__progress-bar">
+            <input type="range" :value="player.elapsed" @input="changeElapsed" :max="player.currentTrackInfo.duration">
+        </div>
+    </div>
+    <ul class="player__controls">
+        <!-- 重复 -->
+        <li class="control control--small" :class="{'control--active':player.repeat,'control--dimmed':!player.repeat}" @click="toggleRepeat">
+            <span class="fa fa-retweet fa-3x"></span>
+        </li>
+        <!-- 上一首 -->
+        <li class="control" @click="skipBack">
+            <span class="fa fa-backward fa-3x"></span>
+        </li>
+        <!-- 播放 暂停 -->
+        <li class="control">
+            <span class="fa fa-play-circle fa-4x" @click="play" v-if="!player.playing"></span>
+            <span class="fa fa-pause-circle fa-4x" @click="pause" v-if="player.playing"></span>
+        </li>
+        <!-- 下一首 -->
+        <li class="control" @click="skipForward">
+            <span class="fa fa-forward fa-3x"></span>
+        </li>
+        <!-- 随机播放 -->
+        <li class="control control--small" v-bind:class="{
                     'control--active' : player.shuffle,
                     'control--dimmed' : !player.shuffle
                 }" @click="toggleShuffle">
-                <span class="fa fa-random fa-3x"></span>
-            </li>
-        </ul>
-        <h1 class="player__title" v-text="player.currentTrackInfo.title"></h1>
-        <h2 class="player__sub-title">{{player.currentTrackInfo.album}} - {{player.currentTrackInfo.artists}}</h2>
-        <!-- 音量调节 -->
-        <div class="player__volume">
-            <div class="player__volume__icon control" @click="mute">
-                <span class="fa fa-volume-up fa-2x" v-if="!player.muted" style="position:relative;top:-3px;"></span>
-                <span class="fa fa-volume-off fa-2x" v-if="player.muted" style="position:relative;top:-3px;"></span>
-            </div>
-            <div class="slider slider--volume player__volume__slider">
-                <input type="range" :value="player.volume" @input="changeVolume" max="100" />
-            </div>
+            <span class="fa fa-random fa-3x"></span>
+        </li>
+    </ul>
+    <h1 class="player__title" v-text="player.currentTrackInfo.title"></h1>
+    <h2 class="player__sub-title">{{player.currentTrackInfo.album}} - {{player.currentTrackInfo.artists}}</h2>
+    <!-- 音量调节 -->
+    <div class="player__volume">
+        <div class="player__volume__icon control" @click="mute">
+            <span class="fa fa-volume-up fa-2x" v-if="!player.muted" style="position:relative;top:-3px;"></span>
+            <span class="fa fa-volume-off fa-2x" v-if="player.muted" style="position:relative;top:-3px;"></span>
         </div>
-        <!-- audio标签 -->
-        <audio :src="player.onloadmp3Url" id="audio" preload="auto" :autoplay="player.playing" :loop="player.repeat"></audio>
+        <div class="slider slider--volume player__volume__slider">
+            <input type="range" :value="player.volume" @input="changeVolume" max="100" />
+        </div>
     </div>
+    <!-- audio标签 -->
+    <audio :src="player.onloadmp3Url" id="audio" preload="auto" :autoplay="player.playing" :loop="player.repeat"></audio>
+</div>
 </template>
 <script>
 import {
@@ -301,6 +294,4 @@ export default {
         }
     }
 }
-
 </script>
-

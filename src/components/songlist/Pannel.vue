@@ -1,4 +1,4 @@
-<style lang="sass">
+<style lang="scss">
 .pannel {
     background: #3f3d34;
     height: 8rem;
@@ -60,4 +60,3 @@ export default {
 }
 
 </script>
-
