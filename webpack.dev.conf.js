@@ -11,7 +11,7 @@ config.plugins = (config.plugins || []).concat([
         // 所以使用了此插件其实就不管output.path的路径了，因为在index.html
         // 中引用的文件路径都被publicPath替换了，所以就相当于所有文件都在
         // http://localhost:8000/ 下面
-        filename: 'index.html', 
+        filename: 'index.html',
         template: 'src/index.template.html',
         hash: true,
         minify: {
@@ -29,7 +29,7 @@ config.devServer = {
     proxy: {
         '/Server/**': {
             changeOrigin: true,
-            target: 'http://119.29.148.154:8080',
+            target: 'http://music.alexxd.com',
             secure: false
         }
     }

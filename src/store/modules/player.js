@@ -1,20 +1,17 @@
-// 待解决的问题：
-// 【已解决，给audio的autoplay属性绑定到playing上即可】1.点击播放按钮的时候按钮应立即改变成暂停样式，而不是等到开始播放的时候才变
-
 import * as types from 'store/mutation-types'
 
 const state = {
-    currentTrack: 0,
-    currentTrackInfo: {},
-    elapsed: 0,
+    currentTrack: 0,  // 正在播放歌曲索引
+    currentTrackInfo: {},  // 正在播放歌曲信息
+    elapsed: 0, // 已播放时间
     playing: false,
     repeat: false,
     repeatOne: false,
     shuffle: true,
     volume: 68,
     muted: false,
-    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png',
-    onloadmp3Url: ''
+    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png', // 默认专辑图片
+    onloadmp3Url: '' // 填进audio标签的url
 }
 
 // mutation 【专注处理此模块的数据，其他的什么都不干】
@@ -56,7 +53,7 @@ const mutations = {
     }
 }
 
-// actions 
+// actions
 const actions = {
     // 播放
     play: ({ commit, state, dispatch }) => {
@@ -64,16 +61,33 @@ const actions = {
             return;
         } else {
             commit(types.SET_PLAYING);
+
+            // 走进度条
             let timer = setInterval(() => {
                 if (state.elapsed >= (state.currentTrackInfo.duration - 100)) {
                     timer = null;
                     dispatch('skipForward');
                 }
+                // 更新进度条状态
                 commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
             }, 1000);
+            audio.play();
         }
     },
-    //暂停
+    /**
+     * @params newtrack 跳转到下标为'newtrack'的这首歌
+     * @params isSelected 用于区分随机播放和点歌
+     */
+    selectTrack: ({ commit, state, dispatch }, { newtrack, isSelected }) => {
+        if (state.shuffle && !isSelected) {
+            newtrack = Math.floor(Math.random() * (state.songlistLength - 1));
+        }
+        commit(types.SELECT_TRACK, newtrack);
+        commit(types.INIT_PLAYER);
+
+        dispatch('play');
+    },
+    // 暂停
     pause: ({ commit, state, dispatch }) => {
         if (!state.playing) {
             return;
@@ -99,16 +113,6 @@ const actions = {
         }
 
         dispatch('selectTrack', { newtrack: newtrack });
-    },
-    // 跳转到下标为'newtrack'的这首歌
-    selectTrack: ({ commit, state, dispatch }, { newtrack, isSelected }) => {
-        if (state.shuffle && !isSelected) {
-            newtrack = Math.floor(Math.random() * (state.songlistLength - 1));
-        }
-        commit(types.SELECT_TRACK, newtrack);
-        commit(types.INIT_PLAYER);
-
-        dispatch('play');
     },
     // 静音
     mute: ({ commit, state, dispatch }) => {

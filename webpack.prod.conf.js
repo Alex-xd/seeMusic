@@ -2,7 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const config = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 // 避免客户端js被缓存的问题以及将生产文件分开打包
 // update: 直接使用HtmlWebpackPlugin中的hash选项自动打hash
@@ -13,12 +12,13 @@ config.output.publicPath = './static/' // 此处有坑:最后必须要加上反�
 
 let SOURCE_MAP = true
 
-config.devtool = SOURCE_MAP ? '#source-map' : false
+config.devtool = SOURCE_MAP
+    ? '#source-map'
+    : false
 
 config.plugins = (config.plugins || []).concat([
     new HtmlWebpackPlugin({
-        title: 'See Music',
-        filename: '../index.html', // build模式下这里是相对于output.path的路径
+        title: 'See Music', filename: '../index.html', // build模式下这里是相对于output.path的路径
         template: 'src/index.template.html',
         hash: true,
         minify: {
@@ -32,26 +32,7 @@ config.plugins = (config.plugins || []).concat([
         }
     }),
 
-    new webpack.LoaderOptionsPlugin({
-        minimize: true
-    }),
-
-    new FaviconsWebpackPlugin({
-        logo: './src/assets/favicon.png',
-        title: 'See Music',
-        icons: {
-            android: false,
-            appleIcon: false,
-            appleStartup: false,
-            coast: false,
-            favicons: true,
-            firefox: false,
-            opengraph: false,
-            twitter: false,
-            yandex: false,
-            windows: false
-        }
-    })
+    new webpack.LoaderOptionsPlugin({minimize: true})
 ])
 
 module.exports = config

@@ -16,5 +16,5 @@ export default new Vuex.Store({
         songlist,
         player
     },
-    strict: process.env.NODE_ENV !== 'production' //自动判断是否为发布环境，自动决定是否启用严格模式
+    strict: process.env.NODE_ENV !== 'production' //发布环境不使用严格模式
 })

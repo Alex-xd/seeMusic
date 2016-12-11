@@ -1,28 +1,35 @@
 <!-- 根组件 在此组装子组件 -->
 <template>
 <div class="music-player">
-    <!--组装组件-->
+    <!--组装子组件-->
     <Player></Player>
     <SongList></SongList>
+    <!-- <Panel></Panel> -->
 </div>
 </template>
 <script>
-import Player from './player/Player'
-import SongList from './songlist/SongList'
-import store from 'store'
+import store from 'store/index'
+import Player from './Player'
+import SongList from './SongList'
+// import Panel from './Panel'
 
 export default {
     components: {
         Player,
-        SongList
+        SongList,
+        // Panel
     },
     // 根组件注入store
     store,
     mounted() {
-        //初始化store数据
-        this.$store.dispatch('initStore')
+        //初始化
+        this.$store.dispatch('init');
+        audio.addEventListener("canplaythrough", function() {
+            audio.play();
+        }, false);
     }
 }
+
 </script>
 <style style="scss">
 .music-player {

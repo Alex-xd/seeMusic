@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
     entry: './src/main.js',
@@ -87,7 +88,8 @@ module.exports = {
         }
     },
 
-    plugins: [new webpack.LoaderOptionsPlugin({
+    plugins: [
+        new webpack.LoaderOptionsPlugin({
             options: {
                 // 给postcss添加autoprefixer  (postcss是一个css处理平台)
                 // TODO:这里暂时还不知道怎么自定义浏览器版本
@@ -98,5 +100,22 @@ module.exports = {
                 // 配置让所有vue组件中的样式都pipe through postcss
                 postcss: [require('autoprefixer')()]
             }
-        })]
+        }),
+        new FaviconsWebpackPlugin({
+            logo: './src/assets/favicon.png',
+            title: 'See Music',
+            icons: {
+                android: false,
+                appleIcon: false,
+                appleStartup: false,
+                coast: false,
+                favicons: true,
+                firefox: false,
+                opengraph: false,
+                twitter: false,
+                yandex: false,
+                windows: false
+            }
+        })
+    ]
 }
