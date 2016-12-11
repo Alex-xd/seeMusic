@@ -1,8 +1,7 @@
 import * as types from 'store/mutation-types'
 
 const state = {
-    currentTrack: 0,  // 正在播放歌曲索引
-    currentTrackInfo: {},  // 正在播放歌曲信息
+    currentTrackInfo: {}, // 正在播放歌曲的信息
     elapsed: 0, // 已播放时间
     playing: false,
     repeat: false,
@@ -10,7 +9,7 @@ const state = {
     shuffle: true,
     volume: 68,
     muted: false,
-    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png', // 默认专辑图片
+    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png', // 默认填充一张图片
     onloadmp3Url: '' // 填进audio标签的url
 }
 
@@ -24,12 +23,6 @@ const mutations = {
     // 暂停
     [types.SET_PAUSE](state) {
         state.playing = false;
-    },
-    // 切歌
-    [types.SELECT_TRACK](state, newtrack) {
-        state.currentTrack = newtrack;
-        state.playing = false;
-        state.elapsed = 0;
     },
     // 开启/关闭 重复播放
     [types.TOGGLE_REPEAT](state) {
@@ -56,7 +49,7 @@ const mutations = {
 // actions
 const actions = {
     // 播放
-    play: ({ commit, state, dispatch }) => {
+    play: ({commit, state, dispatch}) => {
         if (state.playing) {
             return;
         } else {
@@ -71,51 +64,20 @@ const actions = {
                 // 更新进度条状态
                 commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
             }, 1000);
+
             audio.play();
         }
     },
-    /**
-     * @params newtrack 跳转到下标为'newtrack'的这首歌
-     * @params isSelected 用于区分随机播放和点歌
-     */
-    selectTrack: ({ commit, state, dispatch }, { newtrack, isSelected }) => {
-        if (state.shuffle && !isSelected) {
-            newtrack = Math.floor(Math.random() * (state.songlistLength - 1));
-        }
-        commit(types.SELECT_TRACK, newtrack);
-        commit(types.INIT_PLAYER);
-
-        dispatch('play');
-    },
     // 暂停
-    pause: ({ commit, state, dispatch }) => {
+    pause: ({commit, state, dispatch}) => {
         if (!state.playing) {
             return;
         }
         audio.pause();
         commit(types.SET_PAUSE);
     },
-    // 下一首
-    skipForward: ({ commit, state, dispatch }) => {
-        let newtrack = state.currentTrack + 1;
-        newtrack = newtrack % state.songlistLength;
-        dispatch('selectTrack', { newtrack: newtrack });
-    },
-    // 上一首
-    skipBack: ({ commit, state, dispatch }) => {
-        let newtrack = state.currentTrack;
-
-        if (state.elapsed < 2000) {
-            newtrack = newtrack - 1;
-        }
-        if (newtrack < 0) {
-            newtrack = 0;
-        }
-
-        dispatch('selectTrack', { newtrack: newtrack });
-    },
     // 静音
-    mute: ({ commit, state, dispatch }) => {
+    mute: ({commit, state, dispatch}) => {
         if (state.muted) {
             audio.muted = false;
             commit(types.CHANGE_MUTE_STATE);
@@ -125,7 +87,6 @@ const actions = {
         }
     }
 }
-
 
 export default {
     state,

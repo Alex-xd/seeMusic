@@ -11,7 +11,6 @@
 import store from 'store/index'
 import Player from './Player'
 import SongList from './SongList'
-// import Panel from './Panel'
 
 export default {
     components: {

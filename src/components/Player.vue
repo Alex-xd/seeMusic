@@ -62,16 +62,16 @@
 import {
     mapMutations,
     mapActions,
-    mapGetters
+    mapState
 } from 'vuex'
 import * as types from 'store/mutation-types'
 
 export default {
     computed: {
-        ...mapGetters([
+        ...mapState({
             // 导入player模块状态
-            'playerSt'
-        ])
+            playerSt: state => state.player
+        })
     },
     methods: {
         ...mapMutations({
@@ -89,12 +89,12 @@ export default {
         // 改变音量
         changeVolume(e) {
             this.$store.commit(types.UPDATE_VOLUME, e.target.value);
-            document.getElementById('audio').volume = e.target.value / 100;
+            audio.volume = e.target.value / 100;
         },
         // 拖进度条
         changeElapsed(e) {
             this.$store.commit(types.UPDATE_PROGRESS_BAR, e.target.value);
-            document.getElementById('audio').currentTime = e.target.value / 1000;
+            audio.currentTime = e.target.value / 1000;
         },
     }
 }

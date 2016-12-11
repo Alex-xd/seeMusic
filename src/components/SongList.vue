@@ -2,7 +2,7 @@
 <div class="songlist--container">
     <Panel></Panel>
     <ol class="songlist">
-        <li class="songlist__track" v-for="(track,index) in songlistSt.tracks" :class="{'songlist__track--active':playerSt.currentTrack === index}" @click="playthis(index)">
+        <li class="songlist__track" v-for="(track,index) in state.tracks" :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
             <img :src="track.cover" class="songlist__track__cover">
             <div class="songlist__track__info">
                 <h3 class="songlist__track_title">{{track.title}}</h3>
@@ -21,8 +21,8 @@
 <script>
 import {
     mapMutations,
-    mapGetters,
-    mapActions
+    mapActions,
+    mapState
 } from 'vuex'
 import Panel from './Panel'
 
@@ -31,10 +31,10 @@ export default {
         Panel
     },
     computed: {
-        ...mapGetters([
-            'playerSt',
-            'songlistSt'
-        ])
+        ...mapState({
+            state: state => state,
+            playerSt: state => state.player
+        })
     },
     methods: {
         playthis(index) {
