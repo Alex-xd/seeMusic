@@ -31,7 +31,7 @@ npm run build
 npm run install
 
 # 预览效果
-npm run test
+npm run test
 
 # 编译生成可执行文件
 npm run build
