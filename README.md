@@ -1,8 +1,8 @@
 # See Music
 
-> 使用vue2.0 vuex webpack Electron搭建的跨平台云音乐播放器，网易云音乐接口强力支撑，可随意畅听高品质收费歌曲
+> 使用vue2 vuex axios webpack Electron搭建的跨平台云音乐播放器，网易云音乐接口强力支撑，可随意畅听高品质收费歌曲
 
-项目还在施工中🚧，基本功能已实现
+项目还在施工中🚧
 
 ## Usage
 
