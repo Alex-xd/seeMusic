@@ -50,8 +50,8 @@
         <!-- 音量调节 -->
         <div class="player__volume">
             <div class="player__volume__icon control" @click="mute">
-                <span class="fa fa-volume-up fa-2x" v-if="!playerSt.muted" style="position:relative;top:-3px;"></span>
-                <span class="fa fa-volume-off fa-2x" v-if="playerSt.muted" style="position:relative;top:-3px;"></span>
+                <span class="fa fa-volume-up fa-2x" v-if="!playerSt.muted"></span>
+                <span class="fa fa-volume-off fa-2x" v-if="playerSt.muted"></span>
             </div>
             <div class="slider slider--volume player__volume__slider">
                 <input type="range" :value="playerSt.volume" @input="changeVolume" max="100" />
@@ -170,15 +170,17 @@ export default {
     }
     &__volume {
         display: flex;
-        padding: 2rem 4rem 2rem 5rem;
+        padding: 2rem 6rem 2rem 6rem;
         &__slider {
             width: 100%;
         }
         &__icon {
+            position: relative;
+            left: -18px;
+            top: -3px;
             padding: 0;
             width: 2rem;
             height: 2rem;
-            margin-right: 1rem;
         }
     }
     &__download {
