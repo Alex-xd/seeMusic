@@ -57,7 +57,7 @@ const actions = {
 
             // 走进度条
             let timer = setInterval(() => {
-                if (state.elapsed >= (state.currentTrackInfo.duration - 100)) {
+                if (state.elapsed >= (state.currentTrackInfo.duration - 1000)) {
                     timer = null;
                     dispatch('skipForward');
                 }

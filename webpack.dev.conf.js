@@ -20,8 +20,6 @@ config.plugins = (config.plugins || []).concat([
     }),
 ])
 
-// 这里把接口在/Server/下的所有路由都代理
-// 到远程服务器的8080端口上，以解决跨域问题
 config.devServer = {
     historyApiFallback: true,
     noInfo: true,
@@ -29,7 +27,7 @@ config.devServer = {
     proxy: {
         '/Server/**': {
             changeOrigin: true,
-            target: 'http://music.alexxd.com',
+            target: 'http://localhost:8080',
             secure: false
         }
     }

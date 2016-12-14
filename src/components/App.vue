@@ -1,27 +1,28 @@
 <!-- 根组件 在此组装子组件 -->
 <template>
-<div class="music-player">
-    <!--组装子组件-->
-    <Player></Player>
-    <SongList></SongList>
-    <!-- <Panel></Panel> -->
-</div>
+    <div class="app">
+        <Player></Player>
+        <div class="container">
+            <Panel></Panel>
+            <router-view></router-view>
+        </div>
+    </div>
 </template>
 <script>
+import Vue from 'vue'
 import store from 'store/index'
 import Player from './Player'
-import SongList from './SongList'
+import Panel from './Panel'
 
 export default {
     components: {
         Player,
-        SongList,
-        // Panel
+        Panel
     },
-    // 根组件注入store
+    // 注入store
     store,
     mounted() {
-        //初始化
+        // 初始化数据
         this.$store.dispatch('init');
         audio.addEventListener("canplaythrough", function() {
             audio.play();
@@ -31,29 +32,28 @@ export default {
 
 </script>
 <style style="scss">
-.music-player {
+.app {
+    width: 100%;
     height: 100%;
-    color: #3f3d34;
-    /*box-shadow: 0 0 1rem rgba(63, 61, 52, 0.6);*/
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
-    /*max-width: 74em;*/
-    padding: 0;
-    width: 100%;
 }
 
-
-/*@media (min-width:75em) {
-    .music-player {
-        margin: 2.5rem auto;
+@media screen and (min-width:451px) {
+    .container {
+        width: 60%;
     }
 }
 
-@media (min-width:42em) {
-    .music-player {
-        margin: 2rem auto;
+@media screen and (max-width:450px) {
+    .container {
+        width: 100%;
     }
 }
-*/
+
+.container {
+    height: 100%;
+}
+
 </style>
+

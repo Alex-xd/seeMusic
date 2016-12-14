@@ -1,34 +1,30 @@
 <template>
-<div class="songlist--container">
-    <Panel></Panel>
-    <ol class="songlist">
-        <li class="songlist__track" v-for="(track,index) in state.tracks" :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
-            <img :src="track.cover" class="songlist__track__cover">
-            <div class="songlist__track__info">
-                <h3 class="songlist__track_title">{{track.title}}</h3>
-                <span class="songlist__track__sub-title">
+    <div class="songlist--container">
+        <ol class="songlist">
+            <li class="songlist__track" v-for="(track,index) in state.tracks" :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
+                <img :src="track.cover" class="songlist__track__cover">
+                <div class="songlist__track__info">
+                    <h3 class="songlist__track__info__title">{{track.title}}</h3>
+                    <span class="songlist__track__info__sub-title">
                         {{track.album}} - {{track.artists}}
                     </span>
-            </div>
-            <span class="songlist__track__time">
+                </div>
+                <span class="songlist__track__time">
                 {{track.duration | time}}
             </span>
-        </li>
-    </ol>
-</div>
+            </li>
+        </ol>
+    </div>
 </template>
-
 <script>
 import {
     mapMutations,
     mapActions,
     mapState
 } from 'vuex'
-import Panel from './Panel'
 
 export default {
-    components:{
-        Panel
+    components: {
     },
     computed: {
         ...mapState({
@@ -45,17 +41,11 @@ export default {
         }
     }
 }
-</script>
 
-<style lang="scss">@media screen and (min-width:451px) {
-    .songlist--container {
-        width: 60%;
-    }
-}
-@media screen and (max-width:450px) {
-    .songlist--container {
-        width: 100%;
-    }
+</script>
+<style lang="scss">
+.songlist--container {
+    height: 85%;
 }
 
 .songlist {
@@ -80,11 +70,6 @@ export default {
         &__info {
             margin: 0 2rem;
             width: 100%;
-            &__title {
-                font-size: 1.5rem;
-                line-height: 1em;
-                margin-top: 0.75rem;
-            }
         }
         &--active {
             color: #f9934e;
@@ -92,7 +77,9 @@ export default {
     }
 }
 
+
 /* 滚动条样式 */
+
 ::-webkit-scrollbar {
     width: 15px;
 }
@@ -108,4 +95,6 @@ export default {
 ::-webkit-scrollbar-button {
     background-color: #3f3d34;
 }
+
 </style>
+

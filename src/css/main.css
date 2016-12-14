@@ -3,7 +3,7 @@ html {
     // background-color: #f9774e;
     // background-image: linear-gradient(135deg, #f9b94e 0%, #f9774e 100%);
     font-size: 12px;
-    font-family: Nunito, arial, sans-serif;
+    font-family: Helvetica Neue, Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
     font-weight: 400;
     height: 100%;
 }
@@ -45,7 +45,7 @@ td {
 
 body {
     height: 100%;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Helvetica Neue, Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
     display: block;
     // margin: 8px;
 }
@@ -66,10 +66,12 @@ img {
     height: auto;
     width: 100%;
 }
+
 button,
-input{
+input {
     line-height: normal;
 }
+
 .clear-float:after {
     content: '';
     display: block;
@@ -78,4 +80,12 @@ input{
 
 #app {
     height: 100%;
+}
+
+.hover-1 {
+    transition: color .6s;
+}
+
+.hover-1:hover {
+    color: #f9934e;
 }
