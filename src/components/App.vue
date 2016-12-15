@@ -15,6 +15,7 @@ import Player from './Player'
 import Panel from './Panel'
 
 export default {
+    name:'app',
     components: {
         Player,
         Panel

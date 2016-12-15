@@ -10,13 +10,23 @@ export default {
      * 获取默认歌单
      * @return {promise}
      */
-    getDefaultSonglist: () => axios.get(API.getDefaultSongList),
+    getDefaultSonglist: () => axios.get(API.getDefaultSonglist),
 
     /**
      * @params options 是一个对象 格式：{params: {s: keywords }}
      * @return {promise}
      */
-    searchSongs: (options) => axios.get(API.getSongs, options),
+    searchSongs: (options) => axios.get(API.searchSongs, options),
 
-    getUrlByDfsId: (options) => axios.get(API.getMp3Url, options),
+    // 根据dfsid获取任意品质音源
+    getUrlByDfsId: (options) => axios.get(API.getUrlByDfsId, options),
+
+    // 获取评论
+    getCommments: (options) => axios.get(API.getComments, options),
+
+    // 添加歌曲到收藏夹
+    addToCollections: () => axios.get(API.addToCollections),
+
+    
+
 }

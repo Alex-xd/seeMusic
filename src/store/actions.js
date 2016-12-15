@@ -33,6 +33,26 @@ export default {
 
         dispatch('play');
     },
+    // 播放
+    play: ({ commit, state, dispatch }) => {
+        if (state.player.playing) {
+            return;
+        } else {
+            commit(types.SET_PLAYING);
+
+            // 走进度条
+            let timer = setInterval(() => {
+                if (state.player.elapsed >= (state.player.currentTrackInfo.duration - 1000)) {
+                    timer = null;
+                    dispatch('skipForward');
+                }
+                // 更新进度条状态
+                commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
+            }, 1000);
+
+            audio.play();
+        }
+    },
     // 下一首
     skipForward: ({ commit, state, dispatch }) => {
         let newtrack = state.currentTrack + 1;
@@ -55,28 +75,4 @@ export default {
             });
         }
     },
-    // 搜歌
-    searchSongs: ({ commit, state, dispatch }) => {
-        if (state.panel.search.keywords === '') {
-            // 如果搜索关键字为空，则显示默认歌单
-            commit(types.GET_DEFAULT_SONGLIST);
-            commit(types.INIT_PLAYER);
-        } else {
-            commit(types.UPDATE_SEARCH_STAT, 'Searching...');
-            API.searchSongs({
-                params: {
-                    s: state.panel.search.keywords
-                }
-            }).then((rsp) => {
-                commit(types.UPDATE_SONGLIST, rsp.data);
-                if (!state.player.playing) {
-                    commit(types.INIT_PLAYER);
-                }
-                commit(types.UPDATE_SEARCH_STAT, 'Search')
-            }).catch((e) => {
-                commit(types.UPDATE_SEARCH_STAT, 'Search')
-                console.error(e)
-            });
-        }
-    }
 }

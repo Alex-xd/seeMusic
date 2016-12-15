@@ -5,9 +5,9 @@ let host = fullUrl ? 'http://music.alexxd.com' : '';
 
 export default {
     // 根据歌曲名或歌手名查找歌曲 s
-    getSongs: host + '/Server/Song',
+    searchSongs: host + '/Server/Song',
     // 获取默认歌单  无参数
-    getDefaultSongList: host + '/Server/Recommend',
+    getDefaultSonglist: host + '/Server/Recommend',
     // 根据歌曲id获取评论  
     getComments: host + '/Server/Comments',
     // 添加好友
@@ -17,5 +17,5 @@ export default {
     // 添加歌曲到收藏夹
     addToCollections: host + '/Server/Addto_List',
     // 根据dfsid获取任意品质音源 dfsid
-    getMp3Url: host + '/Server/encipher',
+    getUrlByDfsId: host + '/Server/encipher',
 }

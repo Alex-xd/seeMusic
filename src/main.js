@@ -1,13 +1,14 @@
-import './css/main.css'
+import './css/main.scss'
 import 'font-awesome/css/font-awesome.css'
 import Vue from 'vue'
 import App from './components/App.vue'
-import { time } from './filters.js'
+import filters from './filters.js'
 import VueRouter from 'vue-router'
 import SongList from 'components/SongList'
 
 Vue.use(VueRouter);
-Vue.filter('time', time);
+Vue.filter('time', filters.time);
+Vue.filter('qualityToText', filters.qualityToText);
 
 const routes = [
     { path: '/', component: SongList },

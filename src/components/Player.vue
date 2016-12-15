@@ -18,6 +18,12 @@
             <div class="player__download">
                 <a :href="playerSt.onloadmp3Url" :download="playerSt.currentTrackInfo.title + '.mp3'" class="fa fa-download hover-1" title="download"></a>
             </div>
+            <select href="javascript:;" class="player__quality hover-1" @click="changeQuality">
+                <option>{{state.quality | qualityToText}}</option>
+                <option></option>
+                <option></option>
+                <option></option>
+            </select>
         </div>
         <ul class="player__controls">
             <!-- 重复 -->
@@ -70,8 +76,10 @@ import {
 import * as types from 'store/mutation-types'
 
 export default {
+    name: 'player',
     computed: {
         ...mapState({
+            state: state => state,
             // 导入player模块状态
             playerSt: state => state.player
         })
@@ -79,23 +87,40 @@ export default {
     methods: {
         ...mapMutations({
             toggleRepeat: types.TOGGLE_REPEAT,
-            toggleShuffle: types.TOGGLE_SHUFFLE
+            toggleShuffle: types.TOGGLE_SHUFFLE,
+            changeQuality: types.CHANGE_QUALITY
         }),
         ...mapActions([
             'play',
             'selectTrack',
-            'pause',
             'skipForward',
             'skipBack',
-            'mute'
         ]),
+        // 暂停
+        pause: function() {
+            if (!this.playerSt.playing) {
+                return;
+            }
+            audio.pause();
+            this.$store.commit(types.SET_PAUSE);
+        },
+        // 静音
+        mute: function() {
+            if (this.playerSt.muted) {
+                audio.muted = false;
+                this.$store.commit(types.CHANGE_MUTE_STATE);
+            } else {
+                audio.muted = true;
+                this.$store.commit(types.CHANGE_MUTE_STATE);
+            }
+        },
         // 改变音量
-        changeVolume(e) {
+        changeVolume: function(e) {
             this.$store.commit(types.UPDATE_VOLUME, e.target.value);
             audio.volume = e.target.value / 100;
         },
         // 拖进度条
-        changeElapsed(e) {
+        changeElapsed: function(e) {
             this.$store.commit(types.UPDATE_PROGRESS_BAR, e.target.value);
             audio.currentTime = e.target.value / 1000;
         },
@@ -104,6 +129,18 @@ export default {
 
 </script>
 <style lang="scss">
+@media screen and (min-width:451px) {
+    .player {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .player {
+        width: 100%;
+    }
+}
+
 .player {
     height: 100%;
     display: flex;
@@ -185,91 +222,110 @@ export default {
     }
     &__download {
         position: absolute;
-        right: 30px;
+        right: 25px;
         font-size: 20px;
         bottom: 52px;
     }
+    &__quality {
+        font-family: fantasy, 'Microsoft YaHei', STXihei, sans-serif;
+        font-weight: 900;
+        font-size: 1.2rem;
+        position: absolute;
+        left: 25px;
+        bottom: 52px;
+        cursor: pointer;
+        border: none;
+        background: #ddd8c8;
+        &:focus {
+            outline: none;
+        }
+        // 隐藏箭头
+        // IE10
+        &::-ms-expand {
+            display: none;
+        }
+        /* Chrome */
+        -webkit-appearance: none;
+        /* Firefox */
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: ' ';
+    }
 }
 
-.hide.hide {
+.hide {
     display: none;
+}
+
+.enabled {
+    color: #f9934e;
 }
 
 .slider {
     line-height: 1em;
     overflow: visible;
     padding: 6px 0;
-}
-
-.slider [type=range] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: #e5e2e2;
-    height: 8px;
-    position: relative;
-    width: 100%;
-}
-
-.slider [type=range]:focus {
-    outline: none;
-}
-
-.slider [type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #3f3d34;
-    border-radius: 99px;
-    cursor: pointer;
-    height: 20px;
-    position: relative;
-    -webkit-transition: -webkit-transform 0.2s;
-    transition: -webkit-transform 0.2s;
-    transition: transform 0.2s;
-    transition: transform 0.2s, -webkit-transform 0.2s;
-    width: 6px;
-}
-
-.slider [type=range]::-webkit-slider-thumb:active,
-.slider [type=range]::-webkit-slider-thumb:focus {
-    -webkit-transform: scale(1.3);
-    transform: scale(1.3);
-}
-
-.slider [type=range]::-webkit-slider-thumb:after {
-    background: #f9774e;
-    bottom: 0;
-    content: '';
-    display: block;
-    height: 8px;
-    margin-top: -4px;
-    pointer-events: none;
-    position: absolute;
-    right: 6px;
-    top: 50%;
-    width: 999px;
-}
-
-.slider--volume [type=range]::-webkit-slider-thumb {
-    background-color: #fff;
-    border: 3px solid #f9774e;
-    width: 20px;
-}
-
-.slider--volume [type=range]::-webkit-slider-thumb:after {
-    right: 14px;
+    & [type=range] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: #e5e2e2;
+        height: 8px;
+        position: relative;
+        width: 100%;
+    }
+    & [type=range]:focus {
+        outline: none;
+    }
+    & [type=range]::-webkit-slider-thumb {
+        appearance: none;
+        background-color: #3f3d34;
+        border-radius: 99px;
+        cursor: pointer;
+        height: 20px;
+        position: relative;
+        transition: -webkit-transform 0.2s;
+        transition: transform 0.2s;
+        width: 6px;
+    }
+    & [type=range]::-webkit-slider-thumb:active,
+    & [type=range]::-webkit-slider-thumb:focus {
+        transform: scale(1.3);
+    }
+    & [type=range]::-webkit-slider-thumb:after {
+        background: #f9774e;
+        bottom: 0;
+        content: '';
+        display: block;
+        height: 8px;
+        margin-top: -4px;
+        pointer-events: none;
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        width: 999px;
+    }
+    &--volume {
+        [type=range]::-webkit-slider-thumb {
+            background-color: #fff;
+            border: 3px solid #f9774e;
+            width: 20px;
+        }
+        [type=range]::-webkit-slider-thumb:after {
+            right: 14px;
+        }
+    }
 }
 
 .icon {
     fill: currentcolor;
     height: 100%;
     width: 100%;
-}
-
-.icon--inline {
-    display: inline-block;
-    height: 1em;
-    width: 1em;
+    &--inline {
+        display: inline-block;
+        height: 1em;
+        width: 1em;
+    }
 }
 
 .control {
@@ -297,18 +353,6 @@ export default {
     &:focus,
     &:hover {
         opacity: 0.8;
-    }
-}
-
-@media screen and (min-width:451px) {
-    .player {
-        width: 40%;
-    }
-}
-
-@media screen and (max-width:450px) {
-    .player {
-        width: 100%;
     }
 }
 

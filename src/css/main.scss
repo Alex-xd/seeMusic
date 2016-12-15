@@ -1,7 +1,5 @@
 html {
     box-sizing: border-box;
-    // background-color: #f9774e;
-    // background-image: linear-gradient(135deg, #f9b94e 0%, #f9774e 100%);
     font-size: 12px;
     font-family: Helvetica Neue, Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
     font-weight: 400;
@@ -78,6 +76,8 @@ input {
     clear: both;
 }
 
+
+// Global ---------------
 #app {
     height: 100%;
 }
@@ -89,3 +89,20 @@ input {
 .hover-1:hover {
     color: #f9934e;
 }
+
+// Drop Menu -----------
+.drop-menu > li {
+    display:none; 
+}
+.drop-title:hover .drop-menu > li {
+    display:block; 
+}
+
+
+
+
+
+
+
+
+

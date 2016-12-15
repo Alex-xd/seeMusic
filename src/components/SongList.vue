@@ -18,18 +18,14 @@
 </template>
 <script>
 import {
-    mapMutations,
-    mapActions,
     mapState
 } from 'vuex'
 
 export default {
-    components: {
-    },
+    name: 'songlist',
     computed: {
         ...mapState({
-            state: state => state,
-            playerSt: state => state.player
+            state: state => state
         })
     },
     methods: {

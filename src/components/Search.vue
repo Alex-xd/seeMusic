@@ -4,7 +4,7 @@
         <div class="search__input input input--yoko">
             <input class="input__field input__field--yoko" type="text" id="input-16" v-model.trim="keywords" @keyup.enter="searchSongs">
             <span class="input__label input__label--yoko" for="input-16" @click="searchSongs">
-            <span class="input__label-content input__label-content--yoko" >{{search.text}}</span>
+            <span class="input__label-content input__label-content--yoko" >{{searchSt.text}}</span>
             </span>
         </div>
     </div>
@@ -19,9 +19,11 @@ import 'css/textinput/input-text-effect.css';
 import * as types from 'store/mutation-types';
 
 export default {
+    name: 'search',
     computed: {
         ...mapState({
-            search: state => state.panel.search
+            searchSt: state => state.panel.search,
+            playerSt: state => state.player
         }),
         keywords: {
             get() {
@@ -33,7 +35,32 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['searchSongs'])
+        // 搜歌
+        searchSongs: function() {
+            const commit = this.$store.commit;
+
+            if (this.searchSt.keywords === '') {
+                // 如果搜索关键字为空，则显示默认歌单
+                commit(types.GET_DEFAULT_SONGLIST);
+                commit(types.INIT_PLAYER);
+            } else {
+                commit(types.UPDATE_SEARCH_STAT, 'Searching...');
+                API.searchSongs({
+                    params: {
+                        s: searchSt.keywords
+                    }
+                }).then((rsp) => {
+                    commit(types.UPDATE_SONGLIST, rsp.data);
+                    if (!this.playerSt.playing) {
+                        commit(types.INIT_PLAYER);
+                    }
+                    commit(types.UPDATE_SEARCH_STAT, 'Search')
+                }).catch((e) => {
+                    commit(types.UPDATE_SEARCH_STAT, 'Search')
+                    console.error(e)
+                });
+            }
+        }
     }
 }
 
@@ -44,7 +71,7 @@ export default {
         top: 10px;
         position: relative;
         overflow: hidden;
-        width: 80%;
+        width: 100%;
     }
 }
 
