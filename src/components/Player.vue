@@ -1,9 +1,11 @@
 <template>
     <div class="player">
         <div class="player--topbox">
+            <!-- 专辑封面 -->
             <div class="player__cover--wrapper">
                 <img :src="playerSt.imgUrl" class="player__cover" :class="{'player__cover--rotating':playerSt.playing}">
             </div>
+            <!-- 播放时间 -->
             <div class="player__timer">
                 <div class="player__timer__elapsed">
                     {{playerSt.elapsed | time}}
@@ -12,17 +14,17 @@
                     {{playerSt.currentTrackInfo.duration | time}}
                 </div>
             </div>
+            <!-- 进度条 -->
             <div class="slider player__progress-bar">
                 <input type="range" :value="playerSt.elapsed" @input="changeElapsed" :max="playerSt.currentTrackInfo.duration">
             </div>
+            <!-- 下载 -->
             <div class="player__download">
                 <a :href="playerSt.onloadmp3Url" :download="playerSt.currentTrackInfo.title + '.mp3'" class="fa fa-download hover-1" title="download"></a>
             </div>
-            <select href="javascript:;" class="player__quality hover-1" @click="changeQuality">
-                <option>{{state.quality | qualityToText}}</option>
-                <option></option>
-                <option></option>
-                <option></option>
+            <!-- 选择音质 -->
+            <select href="javascript:;" class="player__quality hover-1" v-model="quality">
+                <option v-for="(option,index) in qualityOptions" v-if="playerSt.currentTrackInfo.urls['q'+index]" :value="option.value">{{option.text}}</option>
             </select>
         </div>
         <ul class="player__controls">
@@ -77,18 +79,42 @@ import * as types from 'store/mutation-types'
 
 export default {
     name: 'player',
+    data: function() {
+        return {
+            qualityOptions: [{
+                text: '普通 96kbps',
+                value: '0'
+            }, {
+                text: '较高 128kbps',
+                value: '1'
+            }, {
+                text: '超高 192kbps',
+                value: '2'
+            }, {
+                text: '无损 320kbps',
+                value: '3'
+            }]
+        }
+    },
     computed: {
         ...mapState({
             state: state => state,
             // 导入player模块状态
             playerSt: state => state.player
-        })
+        }),
+        quality: {
+            get: function() {
+                return this.$store.state.quality;
+            },
+            set: function(value) {
+                this.$store.commit(types.CHANGE_QUALITY, value);
+            }
+        }
     },
     methods: {
         ...mapMutations({
             toggleRepeat: types.TOGGLE_REPEAT,
-            toggleShuffle: types.TOGGLE_SHUFFLE,
-            changeQuality: types.CHANGE_QUALITY
+            toggleShuffle: types.TOGGLE_SHUFFLE
         }),
         ...mapActions([
             'play',
@@ -129,6 +155,7 @@ export default {
 
 </script>
 <style lang="scss">
+// 手机 && 电脑
 @media screen and (min-width:451px) {
     .player {
         width: 40%;
@@ -138,6 +165,43 @@ export default {
 @media screen and (max-width:450px) {
     .player {
         width: 100%;
+    }
+}
+
+// 高度
+@media all and (max-height:451px) {
+    .player__cover {
+        &--wrapper {
+            display: none;
+        }
+        max-width: 0em;
+    }
+}
+
+@media (min-height:452px) and (max-height:591px) {
+    .player__cover {
+        &--wrapper {
+            display: block;
+        }
+        max-width: 15em;
+    }
+}
+
+@media (min-height:592px) and (max-height:691px) {
+    .player__cover {
+        &--wrapper {
+            display: block;
+        }
+        max-width: 25em;
+    }
+}
+
+@media all and (min-height:692px) {
+    .player__cover {
+        &--wrapper {
+            display: block;
+        }
+        max-width: 32em;
     }
 }
 
@@ -168,9 +232,7 @@ export default {
         font-weight: 400;
     }
     &__cover {
-        display: block;
-        max-width: 30em;
-        width: 93%;
+        transition: all .8s;
         z-index: 9999;
         margin: 0 auto;
         border-radius: 50%;
@@ -207,7 +269,7 @@ export default {
     }
     &__volume {
         display: flex;
-        padding: 2rem 6rem 2rem 6rem;
+        padding: 2rem 6rem 3rem 6rem;
         &__slider {
             width: 100%;
         }
@@ -222,20 +284,21 @@ export default {
     }
     &__download {
         position: absolute;
-        right: 25px;
+        right: 5%;
         font-size: 20px;
-        bottom: 52px;
+        bottom: 44px;
     }
     &__quality {
         font-family: fantasy, 'Microsoft YaHei', STXihei, sans-serif;
         font-weight: 900;
         font-size: 1.2rem;
         position: absolute;
-        left: 25px;
-        bottom: 52px;
+        left: 5%;
+        bottom: 48px;
         cursor: pointer;
         border: none;
         background: #ddd8c8;
+        padding: 3px 2px 0 3px;
         &:focus {
             outline: none;
         }

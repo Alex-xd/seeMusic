@@ -8,7 +8,6 @@ import SongList from 'components/SongList'
 
 Vue.use(VueRouter);
 Vue.filter('time', filters.time);
-Vue.filter('qualityToText', filters.qualityToText);
 
 const routes = [
     { path: '/', component: SongList },

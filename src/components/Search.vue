@@ -26,10 +26,10 @@ export default {
             playerSt: state => state.player
         }),
         keywords: {
-            get() {
+            get: function() {
                 return this.$store.state.panel.search.keywords
             },
-            set(value) {
+            set: function(value) {
                 this.$store.commit(types.UPDATE_KEYWORDS, value);
             }
         }

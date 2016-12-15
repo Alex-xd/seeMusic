@@ -9,15 +9,5 @@ export default {
         }
 
         return minutes + ':' + mseconds;
-    },
-    qualityToText: function (qnum) {
-        const map = {
-            0: 'BQ',
-            1: 'LQ',
-            2: 'MQ',
-            3: 'HQ'
-        }
-
-        return map[qnum];
     }
 }

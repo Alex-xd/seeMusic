@@ -9,11 +9,14 @@ const state = {
          * title,
          * artist,
          * duration,
-         * mp3Url,
-         * dfsId:{
-         *     l,
-         *     m,
-         *     h
+         * // MP3 url, q0~q3代表不同品质
+         * // q0为url，q1~q3均是一个加密id，
+         * // 需向后台发送请求解密后才可得到真实url
+         * urls:{ 
+         *     q0,  
+         *     q1,
+         *     q2,
+         *     q3
          * }
          */
     },
@@ -33,7 +36,7 @@ const mutations = {
     // 播放
     [types.SET_PLAYING](state) {
         state.playing = true;
-        state.onloadmp3Url = state.currentTrackInfo.mp3Url;
+        state.onloadmp3Url = state.currentTrackInfo.urls.q0;
     },
     // 暂停
     [types.SET_PAUSE](state) {

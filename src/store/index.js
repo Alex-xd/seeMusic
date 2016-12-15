@@ -11,7 +11,7 @@ const state = {
     tracks: [], // 歌单
     tracksbak: [], // 歌单副本
     currentTrack: 0, // 正在播放歌曲在歌单中的索引
-    quality: 0, // 音乐品质 0~3 低 中 高 超高
+    quality: 0, // 音乐品质 0~3 普通 较高 超高 无损
 }
 
 const mutations = {
@@ -21,9 +21,10 @@ const mutations = {
             tracks: tracks
         }
     }) {
+        // FIXME:此处需要性能优化！做异步处理
         tracks.forEach((elem) => {
             let o = {
-                dfsId: {}
+                urls: {}
             };
             ({
                 album: {
@@ -34,23 +35,24 @@ const mutations = {
                 artists: [{
                     name: o.artists
                 }],
-                duration: o.duration,
-                mp3Url: o.mp3Url,
+                duration: o.duration
             } = elem);
+
+            o.urls.q0 = elem.mp3Url;
             if (elem.lMusic) {
-                o.dfsId.l = elem.lMusic.dfsId;
+                o.urls.q1 = elem.lMusic.dfsId;
             }
             if (elem.mMusic) {
-                o.dfsId.m = elem.mMusic.dfsId;
+                o.urls.q2 = elem.mMusic.dfsId;
             }
             if (elem.hMusic) {
-                o.dfsId.h = elem.hMusic.dfsId;
+                o.urls.q3 = elem.hMusic.dfsId;
             }
-
             state.tracks.push(o);
         });
-            // 创建歌单副本
+        // 创建歌单副本
         state.tracksbak = state.tracks.slice();
+
     },
     // 初始化播放器状态
     [types.INIT_PLAYER](state) {
@@ -111,8 +113,8 @@ const mutations = {
         }
     },
     // 改变音质
-    [types.CHANGE_QUALITY](state) {
-        state.quality = (state.quality + 1) % 4;
+    [types.CHANGE_QUALITY](state, payload) {
+        state.quality = parseInt(payload);
     }
 }
 
@@ -127,6 +129,7 @@ export default new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production' //发布环境不使用严格模式
 })
 
+//FIXME:有些问题
 // 开启热重载
 // if (module.hot) {
 //     // 使 actions 和 mutations 成为可热重载模块
