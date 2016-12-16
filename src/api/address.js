@@ -17,5 +17,5 @@ export default {
     // 添加歌曲到收藏夹
     addToCollections: host + '/Server/Addto_List',
     // 根据dfsid获取任意品质音源 dfsid
-    getUrlByDfsId: host + '/Server/encipher',
+    getUrlByDfsId: host + '/Server/Encipher',
 }

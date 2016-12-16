@@ -37,9 +37,24 @@ export default {
     play: ({ commit, state, dispatch }) => {
         if (state.player.playing) {
             return;
+        } else if (!/^http/.test(state.player.currentTrackInfo.urls['q' + state.quality])) {
+            // 如果所选音质url未解密，则向服务器请求url，解密在服务端
+            // TODO:将解密迁移至客户端
+            API.getUrlByDfsId({
+                params: {
+                    dfsid: state.player.currentTrackInfo.urls['q' + state.quality]
+                }
+            }).then((rsp) => {
+                commit(types.UPDATE_URL, { urlType: state.quality, url: rsp.data });
+                commit(types.SET_PLAYING);
+                _play();
+            })
         } else {
             commit(types.SET_PLAYING);
+            _play();
+        }
 
+        function _play() {
             // 走进度条
             let timer = setInterval(() => {
                 if (state.player.elapsed >= (state.player.currentTrackInfo.duration - 1000)) {
@@ -49,7 +64,6 @@ export default {
                 // 更新进度条状态
                 commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
             }, 1000);
-
             audio.play();
         }
     },

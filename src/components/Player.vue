@@ -123,6 +123,7 @@ export default {
             'skipBack',
         ]),
         // 暂停
+        // FIXME:暂停时仍然在不停的commit进度条mutation
         pause: function() {
             if (!this.playerSt.playing) {
                 return;

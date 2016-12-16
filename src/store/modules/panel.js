@@ -8,6 +8,7 @@ const state = {
     }
 }
 
+//【专注处理此模块的数据】
 const mutations = {
     [types.UPDATE_KEYWORDS](state, value) {
         state.search.keywords = value;

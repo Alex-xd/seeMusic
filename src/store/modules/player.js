@@ -31,13 +31,8 @@ const state = {
     onloadmp3Url: '' // 填进audio标签的url
 }
 
-// mutation 【专注处理此模块的数据，其他的什么都不干】
+//【专注处理此模块的数据】
 const mutations = {
-    // 播放
-    [types.SET_PLAYING](state) {
-        state.playing = true;
-        state.onloadmp3Url = state.currentTrackInfo.urls.q0;
-    },
     // 暂停
     [types.SET_PAUSE](state) {
         state.playing = false;
@@ -61,6 +56,10 @@ const mutations = {
     // 进度条
     [types.UPDATE_PROGRESS_BAR](state, currTime) {
         state.elapsed = currTime;
+    },
+    // 更新url
+    [types.UPDATE_URL](state, { urlType, url }) {
+        state.currentTrackInfo.urls['q' + urlType] = url;
     }
 }
 

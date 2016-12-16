@@ -14,6 +14,7 @@ const state = {
     quality: 0, // 音乐品质 0~3 普通 较高 超高 无损
 }
 
+//【处理全局或多个模块的状态】
 const mutations = {
     // 初始化歌单状态
     [types.INIT_SONGLIST](state, {
@@ -66,10 +67,11 @@ const mutations = {
         playerSt.imgUrl = playerSt.currentTrackInfo.cover;
         audio.volume = playerSt.volume / 100;
         audio.currentTime = 0;
-
-        if (state.quality !== 0) {
-
-        }
+    },
+    // 播放
+    [types.SET_PLAYING](state) {
+        state.player.playing = true;
+        state.player.onloadmp3Url = state.player.currentTrackInfo.urls['q' + state.quality];
     },
     // 切歌
     [types.SELECT_TRACK](state, newtrack) {
