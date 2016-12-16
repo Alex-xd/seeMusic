@@ -14,8 +14,7 @@ module.exports = {
         filename: '[name].[hash:6].js'
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
@@ -84,7 +83,8 @@ module.exports = {
             'css': path.resolve(__dirname, './src/css'),
             'api': path.resolve(__dirname, './src/api'),
             'components': path.resolve(__dirname, './src/components'),
-            'store': path.resolve(__dirname, './src/store')
+            'store': path.resolve(__dirname, './src/store'),
+            'node_modules': path.resolve(__dirname, './node_modules'),
         }
     },
 

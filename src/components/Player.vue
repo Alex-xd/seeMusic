@@ -1,6 +1,6 @@
 <template>
     <div class="player">
-        <div class="player--topbox">
+        <div class="player--topbox" :class="{'shake-slow shake-constant':isShake}">
             <!-- 专辑封面 -->
             <div class="player__cover--wrapper">
                 <img :src="playerSt.imgUrl" class="player__cover" :class="{'player__cover--rotating':playerSt.playing}">
@@ -16,7 +16,7 @@
             </div>
             <!-- 进度条 -->
             <div class="slider player__progress-bar">
-                <input type="range" :value="playerSt.elapsed" @input="changeElapsed" :max="playerSt.currentTrackInfo.duration">
+                <input type="range" v-model="elapsed" :max="playerSt.currentTrackInfo.duration">
             </div>
             <!-- 下载 -->
             <div class="player__download">
@@ -62,7 +62,7 @@
                 <span class="fa fa-volume-off fa-2x" v-if="playerSt.muted"></span>
             </div>
             <div class="slider slider--volume player__volume__slider">
-                <input type="range" :value="playerSt.volume" @input="changeVolume" max="100" />
+                <input type="range" v-model="volume" max="100" />
             </div>
         </div>
         <!-- audio标签 -->
@@ -93,7 +93,8 @@ export default {
             }, {
                 text: '无损 320kbps',
                 value: '3'
-            }]
+            }],
+            isShake: false,
         }
     },
     computed: {
@@ -102,12 +103,33 @@ export default {
             // 导入player模块状态
             playerSt: state => state.player
         }),
+        // 音质
         quality: {
             get: function() {
                 return this.$store.state.quality;
             },
-            set: function(value) {
-                this.$store.commit(types.CHANGE_QUALITY, value);
+            set: function(newQuality) {
+                this.changeQuality(newQuality);
+            }
+        },
+        // 播放进度
+        elapsed: {
+            get: function() {
+                return this.$store.state.player.elapsed;
+            },
+            set: function(newValue) {
+                this.$store.commit(types.UPDATE_PROGRESS_BAR, newValue);
+                audio.currentTime = newValue / 1000;
+            }
+        },
+        // 音量
+        volume: {
+            get: function() {
+                return this.$store.state.player.volume;
+            },
+            set: function(newValue) {
+                this.$store.commit(types.UPDATE_VOLUME, newValue);
+                audio.volume = newValue / 100;
             }
         }
     },
@@ -122,8 +144,24 @@ export default {
             'skipForward',
             'skipBack',
         ]),
+        // 改变音质
+        changeQuality: function(newQuality) {
+            const _this = this;
+            let elapsed = this.playerSt.elapsed;
+
+            this.pause();
+            this.$store.commit(types.CHANGE_QUALITY, newQuality);
+            this.isShake = true;
+            this.$store.dispatch('play').then(function() {
+                audio.oncanplaythrough = () => {
+                    _this.isShake = false;
+                };
+                audio.currentTime = elapsed / 1000;
+                _this.$store.commit(types.UPDATE_PROGRESS_BAR, elapsed);
+
+            });
+        },
         // 暂停
-        // FIXME:暂停时仍然在不停的commit进度条mutation
         pause: function() {
             if (!this.playerSt.playing) {
                 return;
@@ -141,16 +179,7 @@ export default {
                 this.$store.commit(types.CHANGE_MUTE_STATE);
             }
         },
-        // 改变音量
-        changeVolume: function(e) {
-            this.$store.commit(types.UPDATE_VOLUME, e.target.value);
-            audio.volume = e.target.value / 100;
-        },
-        // 拖进度条
-        changeElapsed: function(e) {
-            this.$store.commit(types.UPDATE_PROGRESS_BAR, e.target.value);
-            audio.currentTime = e.target.value / 1000;
-        },
+
     }
 }
 

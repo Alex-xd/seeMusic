@@ -1,4 +1,5 @@
 import './css/main.scss'
+import 'node_modules/.1.5.1@csshake/dist/csshake.min.css'
 import 'font-awesome/css/font-awesome.css'
 import Vue from 'vue'
 import App from './components/App.vue'

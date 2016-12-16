@@ -35,37 +35,58 @@ export default {
     },
     // 播放
     play: ({ commit, state, dispatch }) => {
-        if (state.player.playing) {
-            return;
-        } else if (!/^http/.test(state.player.currentTrackInfo.urls['q' + state.quality])) {
-            // 如果所选音质url未解密，则向服务器请求url，解密在服务端
-            // TODO:将解密迁移至客户端
-            API.getUrlByDfsId({
-                params: {
-                    dfsid: state.player.currentTrackInfo.urls['q' + state.quality]
+        return new Promise((resolve, reject) => {
+            let url = state.player.currentTrackInfo.urls['q' + state.quality]
+
+            if (typeof url === 'undefined') {
+                // 如果url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
+                if (state.quality == 0) {
+                    alert('播放失败：未找到音乐url');
+                    return;
+                } else {
+                    commit(types.CHANGE_QUALITY, state.quality - 1);
+                    dispatch('play');
                 }
-            }).then((rsp) => {
-                commit(types.UPDATE_URL, { urlType: state.quality, url: rsp.data });
-                commit(types.SET_PLAYING);
+            } else if (!/^http/.test(url)) {
+                // 如果所选音质url未解密，则向服务器请求url，解密在服务端
+                // TODO:将解密迁移至客户端
+                API.getUrlByDfsId({
+                    params: {
+                        dfsid: state.player.currentTrackInfo.urls['q' + state.quality]
+                    }
+                }).then((rsp) => {
+                    commit(types.UPDATE_URL, { urlType: state.quality, url: rsp.data });
+                    _play();
+                    resolve();
+                })
+            } else {
                 _play();
-            })
-        } else {
-            commit(types.SET_PLAYING);
-            _play();
-        }
+                resolve();
+            }
+        });
 
         function _play() {
+            commit(types.SET_PLAYING);
             // 走进度条
-            let timer = setInterval(() => {
-                if (state.player.elapsed >= (state.player.currentTrackInfo.duration - 1000)) {
-                    timer = null;
-                    dispatch('skipForward');
+            // FIXME:快速播放/暂停切换时定时器会叠加
+            var timer = setInterval(function () {
+                if (state.player.playing) {
+                    // 更新进度条状态
+                    commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
+                    if (state.player.elapsed >= (state.player.currentTrackInfo.duration - 1000)) {
+                        // 下一首
+                        console.log("什么鬼")
+                        clearInterval(timer);
+                        dispatch('skipForward');
+                    }
+                } else {
+                    console.log(11111)
+                    clearInterval(timer);
                 }
-                // 更新进度条状态
-                commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
             }, 1000);
             audio.play();
         }
+
     },
     // 下一首
     skipForward: ({ commit, state, dispatch }) => {

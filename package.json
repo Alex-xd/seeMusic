@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "csshake": "^1.5.1",
     "font-awesome": "^4.7.0",
     "material-design-lite": "^1.2.1",
     "vue": "^2.0.1",
