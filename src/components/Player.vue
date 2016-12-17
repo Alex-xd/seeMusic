@@ -427,14 +427,14 @@ export default {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    transition: all 0.8s ease;
+    transition: all 0.6s ease;
     justify-content: center;
     &--small {
         -webkit-transform: scale(0.4);
         transform: scale(0.4);
     }
     &--dimmed {
-        opacity: 0.6;
+        opacity: 0.5;
     }
     &--active {
         color: #f9774e;

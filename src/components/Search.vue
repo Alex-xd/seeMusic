@@ -4,34 +4,27 @@
         <div class="search__input input input--yoko">
             <input class="input__field input__field--yoko" type="text" id="input-16" v-model.trim="keywords" @keyup.enter="searchSongs">
             <span class="input__label input__label--yoko" for="input-16" @click="searchSongs">
-            <span class="input__label-content input__label-content--yoko" >{{searchSt.text}}</span>
+            <span class="input__label-content input__label-content--yoko" >{{searchStateText}}</span>
             </span>
         </div>
     </div>
 </template>
 <script>
-import {
-    mapMutations,
-    mapState,
-    mapActions
-} from 'vuex';
+// import {
+//     mapMutations,
+//     mapState,
+//     mapActions
+// } from 'vuex';
 import 'css/textinput/input-text-effect.css';
 import * as types from 'store/mutation-types';
+import API from 'api/API'
 
 export default {
     name: 'search',
-    computed: {
-        ...mapState({
-            searchSt: state => state.panel.search,
-            playerSt: state => state.player
-        }),
-        keywords: {
-            get: function() {
-                return this.$store.state.panel.search.keywords
-            },
-            set: function(value) {
-                this.$store.commit(types.UPDATE_KEYWORDS, value);
-            }
+    data:function(){
+        return {
+            keywords:'',
+            searchStateText:'Search'
         }
     },
     methods: {
@@ -39,24 +32,23 @@ export default {
         searchSongs: function() {
             const commit = this.$store.commit;
 
-            if (this.searchSt.keywords === '') {
+            if (this.keywords === '') {
                 // 如果搜索关键字为空，则显示默认歌单
-                commit(types.GET_DEFAULT_SONGLIST);
-                commit(types.INIT_PLAYER);
+                this.$store.dispatch('init');
             } else {
-                commit(types.UPDATE_SEARCH_STAT, 'Searching...');
+                this.searchStateText='Searching...';
                 API.searchSongs({
                     params: {
-                        s: searchSt.keywords
+                        s: this.keywords
                     }
                 }).then((rsp) => {
-                    commit(types.UPDATE_SONGLIST, rsp.data);
-                    if (!this.playerSt.playing) {
+                    commit(types.INIT_SONGLIST, rsp.data);
+                    if (!this.$store.state.player.playing) {
                         commit(types.INIT_PLAYER);
                     }
-                    commit(types.UPDATE_SEARCH_STAT, 'Search')
+                    this.searchStateText='Search';
                 }).catch((e) => {
-                    commit(types.UPDATE_SEARCH_STAT, 'Search')
+                    this.searchStateText='Search';
                     console.error(e)
                 });
             }
@@ -78,6 +70,7 @@ export default {
 .input__label-content {
     transition: color .6s;
     font-style: italic;
+    font-family: fantasy;
     &:hover {
         color: #f9934e;
     }

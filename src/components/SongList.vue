@@ -1,20 +1,18 @@
 <template>
-    <div class="songlist--container">
-        <ol class="songlist">
-            <li class="songlist__track" v-for="(track,index) in state.tracks" :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
-                <img :src="track.cover" class="songlist__track__cover">
-                <div class="songlist__track__info">
-                    <h3 class="songlist__track__info__title">{{track.title}}</h3>
-                    <span class="songlist__track__info__sub-title">
+    <ol class="songlist animation-menu-1">
+        <li class="songlist__track" v-for="(track,index) in state.tracks" :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
+            <img :src="track.cover" class="songlist__track__cover">
+            <div class="songlist__track__info">
+                <h3 class="songlist__track__info__title">{{track.title}}</h3>
+                <span class="songlist__track__info__sub-title">
                         {{track.album}} - {{track.artists}}
                     </span>
-                </div>
-                <span class="songlist__track__time">
+            </div>
+            <span class="songlist__track__time">
                 {{track.duration | time}}
             </span>
-            </li>
-        </ol>
-    </div>
+        </li>
+    </ol>
 </template>
 <script>
 import {
@@ -40,21 +38,16 @@ export default {
 
 </script>
 <style lang="scss">
-.songlist--container {
-    height: 85%;
-}
-
 .songlist {
-    background: #4a473c;
     color: #f2f2f2;
-    height: 100%;
+    height: 85%;
     overflow-x: hidden;
     overflow-y: scroll;
-    padding: 0 3rem;
     &__track {
+        background: #4a473c;
         display: flex;
         justify-content: space-between;
-        padding: 2rem 0;
+        padding: 2rem 3rem;
         cursor: pointer;
         margin: 0;
         border-bottom: 1px solid #3f3d34;
@@ -83,13 +76,15 @@ export default {
 ::-webkit-scrollbar-track {
     display: none;
 }
-
+::-webkit-scrollbar-track-piece {
+    background-color: #4a473c;
+}
 ::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
 ::-webkit-scrollbar-button {
-    background-color: #3f3d34;
+    background-color: red;
 }
 
 </style>

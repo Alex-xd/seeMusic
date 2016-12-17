@@ -25,9 +25,12 @@ export default {
     mounted() {
         // 初始化数据
         this.$store.dispatch('init');
-        audio.addEventListener("canplaythrough", function() {
+        audio.addEventListener('canplaythrough', function() {
             audio.play();
         }, false);
+        audio.addEventListener('change',function(){
+            console.log('11111')
+        },false)
     }
 }
 

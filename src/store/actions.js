@@ -6,32 +6,11 @@ export default {
     // ajax初始化默认歌单
     init: ({ commit }) => {
         API.getDefaultSonglist()
-            .then((rsp) => commit(types.INIT_SONGLIST, rsp.data))
-            .then(() => commit(types.INIT_PLAYER))
+            .then((rsp) => {
+                commit(types.INIT_SONGLIST, rsp.data);
+                commit(types.INIT_PLAYER);
+            })
             .catch((e) => console.error(e))
-    },
-    /**
-     * 从歌单里选择一首歌并立即播放
-     * @params newtrack    跳转到下标为'newtrack'的这首歌
-     * @params isSelected  用于区分随机播放和点歌
-     */
-    selectTrack: ({
-        commit,
-        state,
-        dispatch
-    }, { newtrack, isSelected }) => {
-        if (newtrack < 0) {
-            newtrack = 0;
-        }
-
-        if (state.player.shuffle && !isSelected) {
-            newtrack = Math.floor(Math.random() * (state.tracks.length - 1));
-        }
-
-        commit(types.SELECT_TRACK, newtrack);
-        commit(types.INIT_PLAYER);
-
-        dispatch('play');
     },
     // 播放
     play: ({ commit, state, dispatch }) => {
@@ -75,18 +54,15 @@ export default {
                     commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
                     if (state.player.elapsed >= (state.player.currentTrackInfo.duration - 1000)) {
                         // 下一首
-                        console.log("什么鬼")
                         clearInterval(timer);
                         dispatch('skipForward');
                     }
                 } else {
-                    console.log(11111)
                     clearInterval(timer);
                 }
             }, 1000);
             audio.play();
         }
-
     },
     // 下一首
     skipForward: ({ commit, state, dispatch }) => {
@@ -109,5 +85,28 @@ export default {
                 newtrack: newtrack - 1
             });
         }
+    },
+    /**
+     * 从歌单里选择一首歌并立即播放
+     * @params newtrack    跳转到下标为'newtrack'的这首歌
+     * @params isSelected  用于区分随机播放和点歌
+     */
+    selectTrack: ({
+        commit,
+        state,
+        dispatch
+    }, { newtrack, isSelected }) => {
+        if (newtrack < 0) {
+            newtrack = 0;
+        }
+
+        if (state.player.shuffle && !isSelected) {
+            newtrack = Math.floor(Math.random() * (state.tracks.length - 1));
+        }
+
+        commit(types.SELECT_TRACK, newtrack);
+        commit(types.INIT_PLAYER);
+
+        dispatch('play');
     },
 }

@@ -76,7 +76,6 @@ input {
     clear: both;
 }
 
-
 // Global ---------------
 #app {
     height: 100%;
@@ -92,17 +91,33 @@ input {
 
 // Drop Menu -----------
 .drop-menu > li {
-    display:none; 
-}
-.drop-title:hover .drop-menu > li {
-    display:block; 
+    display: none;
 }
 
+.drop-title:hover .animation-menu-1 > li {
+    display: block;
+}
 
+// style 1 
+.animation-menu-1 > li {
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            opacity: 0;
+            animation-name: animationMenu1;
+            animation-duration: 200ms * $i;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: forwards;
+        }
+    }
+}
 
-
-
-
-
-
-
+@keyframes animationMenu1 {
+    0% {
+        opacity: 0;
+        transform: rotateY(-90deg) translate3d(0, 30px, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+}

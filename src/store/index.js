@@ -9,7 +9,6 @@ Vue.use(Vuex);
 
 const state = {
     tracks: [], // 歌单
-    tracksbak: [], // 歌单副本
     currentTrack: 0, // 正在播放歌曲在歌单中的索引
     quality: 0, // 音乐品质 0~3 普通 较高 超高 无损
 }
@@ -17,43 +16,46 @@ const state = {
 //【处理全局或多个模块的状态】
 const mutations = {
     // 初始化歌单状态
-    [types.INIT_SONGLIST](state, {
-        result: {
-            tracks: tracks
+    [types.INIT_SONGLIST](state, data) {
+        var tracks = data.result.tracks || data.result.songs || 0;
+
+        state.tracks = [];
+        if (tracks === 0) {
+            state.tracks[0] = {
+                title: '根据相关法律法规，搜索结果未予显示。(手动斜眼)'
+            }
+        } else {
+            // FIXME:此处需要性能优化！做异步处理
+            tracks.forEach((elem) => {
+                let o = {
+                    urls: {}
+                };
+                ({
+                    album: {
+                        picUrl: o.cover,
+                        name: o.album
+                    },
+                    name: o.title,
+                    artists: [{
+                        name: o.artists
+                    }],
+                    duration: o.duration
+                } = elem);
+
+                o.urls.q0 = elem.mp3Url;
+                if (elem.lMusic) {
+                    o.urls.q1 = elem.lMusic.dfsId;
+                }
+                if (elem.mMusic) {
+                    o.urls.q2 = elem.mMusic.dfsId;
+                }
+                if (elem.hMusic) {
+                    o.urls.q3 = elem.hMusic.dfsId;
+                }
+                state.tracks.push(o);
+            });
+            console.timeEnd(); // 20ms
         }
-    }) {
-        // FIXME:此处需要性能优化！做异步处理
-        tracks.forEach((elem) => {
-            let o = {
-                urls: {}
-            };
-            ({
-                album: {
-                    picUrl: o.cover,
-                    name: o.album
-                },
-                name: o.title,
-                artists: [{
-                    name: o.artists
-                }],
-                duration: o.duration
-            } = elem);
-
-            o.urls.q0 = elem.mp3Url;
-            if (elem.lMusic) {
-                o.urls.q1 = elem.lMusic.dfsId;
-            }
-            if (elem.mMusic) {
-                o.urls.q2 = elem.mMusic.dfsId;
-            }
-            if (elem.hMusic) {
-                o.urls.q3 = elem.hMusic.dfsId;
-            }
-            state.tracks.push(o);
-        });
-        // 创建歌单副本
-        state.tracksbak = state.tracks.slice();
-
     },
     // 初始化播放器状态
     [types.INIT_PLAYER](state) {
@@ -77,43 +79,42 @@ const mutations = {
     [types.SELECT_TRACK](state, newtrack) {
         state.currentTrack = newtrack;
     },
-    // 重置为默认歌单
-    [types.GET_DEFAULT_SONGLIST](state) {
-        state.tracks = state.tracksbak.slice();
-    },
-    // 根据搜索结果更新歌单
-    [types.UPDATE_SONGLIST](state, {
-        result: {
-            songs: songs,
-            songCount: songCount
-        }
-    }) {
-        state.tracks = [];
-        if (songCount === 0) {
-            state.tracks[0] = {
-                title: '根据相关法律法规，搜索结果未予显示。'
-            }
-        } else {
-            songs.forEach((elem) => {
-                let o = {};
-                ({
-                    album: {
-                        picUrl: o.cover
-                    },
-                    name: o.title,
-                    album: {
-                        name: o.album
-                    },
-                    artists: [{
-                        name: o.artists
-                    }],
-                    duration: o.duration,
-                    mp3Url: o.mp3Url
-                } = elem);
-                state.tracks.push(o);
-            })
-        }
-    },
+    // // 重置为默认歌单
+    // [types.GET_DEFAULT_SONGLIST](state) {
+    //     state.tracks = state.tracksbak.slice();
+    // },
+    // // 根据搜索结果更新歌单
+    // [types.UPDATE_SONGLIST](state, {
+    //     result: {
+    //         songs: songs
+    //     }
+    // }) {
+    //     state.tracks = [];
+    //     if (songCount === 0) {
+    //         state.tracks[0] = {
+    //             title: '根据相关法律法规，搜索结果未予显示。'
+    //         }
+    //     } else {
+    //         songs.forEach((elem) => {
+    //             let o = {};
+    //             ({
+    //                 album: {
+    //                     picUrl: o.cover
+    //                 },
+    //                 name: o.title,
+    //                 album: {
+    //                     name: o.album
+    //                 },
+    //                 artists: [{
+    //                     name: o.artists
+    //                 }],
+    //                 duration: o.duration,
+    //                 mp3Url: o.mp3Url
+    //             } = elem);
+    //             state.tracks.push(o);
+    //         })
+    //     }
+    // },
     // 改变音质
     [types.CHANGE_QUALITY](state, payload) {
         state.quality = parseInt(payload);
