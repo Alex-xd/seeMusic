@@ -19,6 +19,7 @@ const state = {
          *     q3
          * }
          */
+        
     },
     elapsed: 0, // 已播放时间
     playing: false,
@@ -27,7 +28,7 @@ const state = {
     shuffle: true,
     volume: 68,
     muted: false,
-    imgUrl: 'http://zhangboyuan-10039837.cos.myqcloud.com/loadingImg.png', // 默认填充一张图片
+    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png', // 默认填充一张图片
     onloadmp3Url: '' // 填进audio标签的url
 }
 
@@ -73,3 +74,16 @@ export default {
     mutations,
     actions
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

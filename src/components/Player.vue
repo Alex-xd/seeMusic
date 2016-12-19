@@ -244,6 +244,7 @@ export default {
     text-align: center;
     font-family: fantasy, Nunito, arial, sans-serif;
     &--topbox {
+        z-index: 1000;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -263,7 +264,7 @@ export default {
     }
     &__cover {
         transition: all .8s;
-        z-index: 9999;
+        z-index: 999;
         margin: 0 auto;
         border-radius: 50%;
         animation: 60s linear 0s infinite normal both paused rotate;
@@ -317,6 +318,7 @@ export default {
         right: 5%;
         font-size: 20px;
         bottom: 44px;
+        z-index: 999;
     }
     &__quality {
         font-family: fantasy, 'Microsoft YaHei', STXihei, sans-serif;
@@ -329,6 +331,7 @@ export default {
         border: none;
         background: #ddd8c8;
         padding: 3px 2px 0 3px;
+        z-index: 999;
         &:focus {
             outline: none;
         }

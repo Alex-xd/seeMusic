@@ -1,5 +1,5 @@
 // 是否使用远程服务器url（用于构建electron时请设置为true）
-let fullUrl = false;
+let fullUrl = 0;
 
 let host = fullUrl ? 'http://music.alexxd.com' : '';
 

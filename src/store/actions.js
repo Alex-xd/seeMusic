@@ -2,6 +2,8 @@
 import * as types from './mutation-types'
 import API from 'api/API'
 
+var timer;
+
 export default {
     // ajax初始化默认歌单
     init: ({ commit }) => {
@@ -10,17 +12,17 @@ export default {
                 commit(types.INIT_SONGLIST, rsp.data);
                 commit(types.INIT_PLAYER);
             })
-            .catch((e) => console.error(e))
     },
     // 播放
     play: ({ commit, state, dispatch }) => {
         return new Promise((resolve, reject) => {
             let url = state.player.currentTrackInfo.urls['q' + state.quality]
 
-            if (typeof url === 'undefined') {
+            if (url === '') {
                 // 如果url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
                 if (state.quality == 0) {
                     alert('播放失败：未找到音乐url');
+                    reject();
                     return;
                 } else {
                     commit(types.CHANGE_QUALITY, state.quality - 1);
@@ -47,8 +49,8 @@ export default {
         function _play() {
             commit(types.SET_PLAYING);
             // 走进度条
-            // FIXME:快速播放/暂停切换时定时器会叠加
-            var timer = setInterval(function () {
+            timer && clearInterval(timer);
+            timer = setInterval(function () {
                 if (state.player.playing) {
                     // 更新进度条状态
                     commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);

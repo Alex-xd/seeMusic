@@ -25,10 +25,15 @@ const mutations = {
                 title: '根据相关法律法规，搜索结果未予显示。(手动斜眼)'
             }
         } else {
-            // FIXME:此处需要性能优化！做异步处理
+            // FIXME:此处需要性能优化
             tracks.forEach((elem) => {
-                let o = {
-                    urls: {}
+                var o = {
+                    urls: {
+                        q0:'',
+                        q1:'',
+                        q2:'',
+                        q3:''
+                    }
                 };
                 ({
                     album: {
@@ -54,7 +59,6 @@ const mutations = {
                 }
                 state.tracks.push(o);
             });
-            console.timeEnd(); // 20ms
         }
     },
     // 初始化播放器状态
@@ -79,42 +83,6 @@ const mutations = {
     [types.SELECT_TRACK](state, newtrack) {
         state.currentTrack = newtrack;
     },
-    // // 重置为默认歌单
-    // [types.GET_DEFAULT_SONGLIST](state) {
-    //     state.tracks = state.tracksbak.slice();
-    // },
-    // // 根据搜索结果更新歌单
-    // [types.UPDATE_SONGLIST](state, {
-    //     result: {
-    //         songs: songs
-    //     }
-    // }) {
-    //     state.tracks = [];
-    //     if (songCount === 0) {
-    //         state.tracks[0] = {
-    //             title: '根据相关法律法规，搜索结果未予显示。'
-    //         }
-    //     } else {
-    //         songs.forEach((elem) => {
-    //             let o = {};
-    //             ({
-    //                 album: {
-    //                     picUrl: o.cover
-    //                 },
-    //                 name: o.title,
-    //                 album: {
-    //                     name: o.album
-    //                 },
-    //                 artists: [{
-    //                     name: o.artists
-    //                 }],
-    //                 duration: o.duration,
-    //                 mp3Url: o.mp3Url
-    //             } = elem);
-    //             state.tracks.push(o);
-    //         })
-    //     }
-    // },
     // 改变音质
     [types.CHANGE_QUALITY](state, payload) {
         state.quality = parseInt(payload);

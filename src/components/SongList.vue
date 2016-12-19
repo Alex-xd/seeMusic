@@ -44,12 +44,12 @@ export default {
     overflow-x: hidden;
     overflow-y: scroll;
     &__track {
+        margin-right: -1px;
         background: #4a473c;
         display: flex;
         justify-content: space-between;
         padding: 2rem 3rem;
         cursor: pointer;
-        margin: 0;
         border-bottom: 1px solid #3f3d34;
         &__cover {
             width: 3rem;
@@ -76,9 +76,11 @@ export default {
 ::-webkit-scrollbar-track {
     display: none;
 }
+
 ::-webkit-scrollbar-track-piece {
     background-color: #4a473c;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
 }

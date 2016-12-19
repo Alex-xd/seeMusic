@@ -2,38 +2,37 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: './src/main.js',
-    output: {
-        // 生成的文件实体存放路径
-        path: path.resolve(__dirname, './dist/static/'),
-        // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
-        // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
-        publicPath: 'http://localhost:8000/',
-        filename: '[name].[hash:6].js'
-    },
-    module: {
-        rules: [{
+        entry: './src/main.js',
+        output: {
+            // 生成的文件实体存放路径
+            path: path.resolve(__dirname, './dist/static/'),
+            // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
+            // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
+            publicPath: 'http://localhost:8000/',
+            filename: '[name].js'
+        },
+        module: {
+            rules: [{
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
                     autoprefixer: {
-                        browsers: ['last 3 versions']
+                        browsers: ['last 2 versions']
                     },
                     loaders: {
                         js: 'babel-loader',
-                        scss: 'vue-style-loader!css-loader?souceMap!sass-loader',
-                        sass: 'vue-style-loader!css-loader?souceMap!sass-loader?'
-
-                        // css: ExtractTextPlugin.extract({
-                        //     fallbackloader: 'vue-style-loader',
-                        //     loader: 'vue-style-loader!css!sass?souceMap',
-                        // }),
-                        // sass: ExtractTextPlugin.extract({
-                        //     fallbackloader: 'vue-style-loader',
-                        //     loader: 'vue-style-loader!css!sass?souceMap',
-                        // }),
+                        css: ExtractTextPlugin.extract({
+                            loader: 'css-loader?souceMap',
+                            fallbackLoader: 'vue-style-loader'
+                        }),
+                        scss: ExtractTextPlugin.extract({
+                            loader: 'css-loader?souceMap!sass-loader',
+                            fallbackloader: 'vue-style-loader'
+                        }),
+                        // scss: 'vue-style-loader!css-loader?souceMap!sass-loader',
                     }
                 }
             }, {
@@ -48,25 +47,35 @@ module.exports = {
                 }
             }, {
                 test: /\.s[a|c]ss$/,
-                loader: 'style-loader!css-loader?souceMap!sass-loader!postcss-loader'
+                loader: ExtractTextPlugin.extract({
+                    loader: "css-loader?souceMap!sass-loader!postcss-loader",
+                    fallbackLoader: "style-loader"
+                })
             }, {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader?souceMap!postcss-loader'
+                loader: ExtractTextPlugin.extract({
+                    loader: "css-loader?souceMap!postcss-loader",
+                    fallbackLoader: "style-loader"
+                })
             },
             // 支持font awesome的一组loader
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url-loader?limit=10000&mimetype=application/font-woff"
-            }, {
+            },
+            {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url-loader?limit=10000&mimetype=application/font-woff"
-            }, {
+            },
+            {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url-loader?limit=10000&mimetype=application/octet-stream"
-            }, {
+            },
+            {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "file-loader"
-            }, {
+            },
+            {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url-loader?limit=10000&mimetype=image/svg+xml"
             }
@@ -91,8 +100,7 @@ module.exports = {
     plugins: [
         new webpack.LoaderOptionsPlugin({
             options: {
-                // 给postcss添加autoprefixer  (postcss是一个css处理平台)
-                // TODO:这里暂时还不知道怎么自定义浏览器版本
+                // 给postcss添加autoprefixer 
                 context: __dirname,
                 postcss: [autoprefixer]
             },
@@ -101,21 +109,10 @@ module.exports = {
                 postcss: [require('autoprefixer')()]
             }
         }),
-        new FaviconsWebpackPlugin({
-            logo: './src/assets/favicon.png',
-            title: 'See Music',
-            icons: {
-                android: false,
-                appleIcon: false,
-                appleStartup: false,
-                coast: false,
-                favicons: true,
-                firefox: false,
-                opengraph: false,
-                twitter: false,
-                yandex: false,
-                windows: false
-            }
+        new ExtractTextPlugin({
+            filename:'style.css',
+            // disable:true
+            allChunks: false
         })
     ]
 }

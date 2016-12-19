@@ -2,7 +2,7 @@ const webpack = require('webpack')
 const config = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-config.devtool = '#eval-source-map'
+config.devtool = '#source-map'
 
 config.plugins = (config.plugins || []).concat([
     new HtmlWebpackPlugin({
@@ -13,6 +13,7 @@ config.plugins = (config.plugins || []).concat([
         // http://localhost:8000/ 下面
         filename: 'index.html',
         template: 'src/index.template.html',
+        favicon:'src/assets/favicon.png',
         hash: true,
         minify: {
             removeComments: true

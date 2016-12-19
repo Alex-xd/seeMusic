@@ -18,8 +18,10 @@ config.devtool = SOURCE_MAP
 
 config.plugins = (config.plugins || []).concat([
     new HtmlWebpackPlugin({
-        title: 'See Music', filename: '../index.html', // build模式下这里是相对于output.path的路径
+        title: 'See Music', 
+        filename: '../index.html', // build模式下这里是相对于output.path的路径
         template: 'src/index.template.html',
+        favicon:'src/assets/favicon.png',
         hash: true,
         minify: {
             removeComments: true
