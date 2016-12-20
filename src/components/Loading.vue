@@ -63,6 +63,7 @@
 
 <script>
     export default {
+        name: 'loading',
         data() {
             return {}
         },
@@ -70,7 +71,7 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     $grey: #96a0a5;
     $orange: #e88218;
     $white: #d3d8d6;

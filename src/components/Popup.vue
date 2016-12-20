@@ -7,7 +7,8 @@
 </template>
 
 <script>
-    export default{
+    export default {
+        name: 'popup',
         computed: {
             msg(){
                 return this.$store.state.popup.msg
@@ -19,11 +20,12 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     .popup {
+        font-size: 1.3rem;
+        font-family: Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
         color: #f2f2f2;
         background: #b6423a;
-        padding: 20px 40px;
     }
 
     // 进场

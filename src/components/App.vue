@@ -1,12 +1,13 @@
 <!-- 根组件 在此组装子组件 -->
 <template>
     <div class="app">
-        <Player class="component-player"></Player>
+        <Player class="c-player"></Player>
         <div class="container">
-            <Panel class="component-panel"></Panel>
-            <router-view class="component-router-view"></router-view>
+            <Panel class="c-panel"></Panel>
+            <router-view class="router-view main"></router-view>
         </div>
-        <Popup class="component-popup"></Popup>
+        <router-view class="router-view modal" name="modal"></router-view>
+        <Popup class="c-popup tips"></Popup>
     </div>
 </template>
 <script>
@@ -24,19 +25,19 @@
             Panel,
             Popup
         },
-        methods: {},
         // 注入store
         store,
-        mounted: function () {
+        mounted() {
             let lock = 0,
                 _this = this;
             // 初始化数据
             this.$store.dispatch('init').then(() => {
                 setTimeout(() => {
-                    // 欢迎光临弹窗
-                    _this.$store.dispatch('showPopup', {msg: '尽情享用吧^^', autodes: 1500});
+                    _this.$store.dispatch('showPopup', {msg: 'Welcome to SeeMusic', autodes: 1800});
                 }, 1800)
             });
+
+            // 音源错误处理
             audio.addEventListener('error', function () {
                 if (!lock) {
                     lock = 1;
@@ -62,11 +63,12 @@
         background: url('../assets/bg.svg');
     }
 
+    // 移动端适配
     @media screen and (min-width: 451px) {
         .container {
             width: 60%;
         }
-        .component-player {
+        .c-player {
             width: 40%;
         }
     }
@@ -75,12 +77,12 @@
         .container {
             width: 100%;
         }
-        .component-player {
+        .c-player {
             width: 100%;
         }
     }
 
-    .component-player {
+    .c-player {
         height: 100%;
     }
 
@@ -88,22 +90,38 @@
         height: 100%;
     }
 
-    .component-panel {
+    .c-panel {
         height: 15%;
     }
 
-    .component-router-view {
+    .router-view.main {
         position: relative;
         height: 85%;
     }
 
-    .component-popup {
+    .router-view.modal {
+        position: fixed;
+        top: 0;
+        right:0;
+        bottom:0;
+        left: 0;
+        background: #000;
+        opacity:.3;
+        z-index: 10000;
+    }
+
+    .c-popup {
         z-index: 9999;
         position: fixed;
         top: 46%;
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
     }
+
+    .c-popup.tips {
+        padding: 20px 40px;
+    }
+
 
 </style>
 

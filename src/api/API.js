@@ -15,20 +15,23 @@ export default {
      * @params options {object} 格式：{params: {s: keywords }}
      * @return {promise}
      */
-    searchSongs: (options) => axios.get(API.searchSongs, options),
+    searchSongs: (keywords) => axios.get(API.searchSongs, {params: {s: keywords}}),
 
     // 根据dfsid获取任意品质音源
-    getUrlByDfsId: (options) => axios.get(API.getUrlByDfsId, options),
+    getUrlByDfsId: (dfsId) => axios.get(API.getUrlByDfsId, {params: {dfsId: dfsId}}),
 
     /**
      *  获取评论
-     *  @params options {object} 格式：{params: {id: commentThreadId }}
+     *  @params options {object} 格式：{params: {rid: commentThreadId }}
      */
-    getCommments: (options) => axios.get(API.getComments, options),
+    getCommments: (rid) => axios.get(API.getComments, {params: {rid: rid}}),
 
     // 添加歌曲到收藏夹
     addToCollections: () => axios.get(API.addToCollections),
 
-    //登录
-    login: (params) => axios.get(API.login, params),
+    /**
+     * 登录
+     * @param params {object} 格式：{username:xxx, password:xxx}
+     */
+    login: (params) => axios.post(API.login, params),
 }

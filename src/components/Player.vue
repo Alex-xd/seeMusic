@@ -10,10 +10,10 @@
                 <!-- 播放时间 -->
                 <div class="player__timer">
                     <div class="player__timer__elapsed">
-                        {{playerSt.elapsed | time}}
+                        {{playerSt.elapsed | msecondToMinutes}}
                     </div>
                     <div class="player__timer__total">
-                        {{playerSt.currentTrackInfo.duration | time}}
+                        {{playerSt.currentTrackInfo.duration | msecondToMinutes}}
                     </div>
                 </div>
                 <!-- 进度条 -->
@@ -193,7 +193,7 @@
     }
 
 </script>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     // 高度响应式
     @media all and (max-height: 451px) {
         .player__cover {

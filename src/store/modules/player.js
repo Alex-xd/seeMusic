@@ -21,7 +21,7 @@ const state = {
         title: 'loading',
         artist: 'loading',
         duration: 0,
-        commentThreadId:0,
+        commentThreadId: 0,
         // MP3 url, q0~q3代表不同品质
         // q0为url，q1~q3均是一个加密id，
         // 需向后台发送请求解密后才可得到真实url
@@ -44,6 +44,9 @@ const state = {
 
 //【专注处理此模块的数据】
 const mutations = {
+    [types.SET_PAUSE](state){
+        state.playing = false;
+    },
     // 开启/关闭 重复播放
     [types.TOGGLE_REPEAT](state) {
         state.repeat = !state.repeat
@@ -65,7 +68,7 @@ const mutations = {
         state.elapsed = currTime;
     },
     // 更新url
-    [types.UPDATE_URL](state, { urlType, url }) {
+    [types.UPDATE_URL](state, {urlType, url}) {
         state.currentTrackInfo.urls['q' + urlType] = url;
     }
 };

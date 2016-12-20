@@ -8,26 +8,26 @@ let timer;
 
 export default {
     // ajax初始化默认歌单
-    init: ({commit, dispatch}) => {
-        // API.login({
-        //     username: 'm200',
-        //     password: 'm200'
-        // }).then((rsp) => {
+    init: ({commit}) => {
+        // let params = new URLSearchParams();
+        // params.append('username','m200');
+        // params.append('password','m200');
+        // API.login(params).then((rsp) => {
         //     console.log(rsp)
-        // });
-        // API.getComments({
-        //     params:{
-        //         id:
-        //     }
         // });
         commit(types.CHANGE_LOADING_STATE);
         return API.getDefaultSonglist()
-            .then((rsp) => {
-                commit(types.INIT_SONGLIST, rsp.data);
+            .then(({data}) => {
+                commit(types.INIT_SONGLIST, data);
                 commit(types.INIT_PLAYER);
                 commit(types.CHANGE_LOADING_STATE);
-            }).catch((e) => console.error(e))
-
+            }).catch((e) => {
+                this.$store.dispatch('showPopup', {
+                    msg: 'Error:' + e.message,
+                    autodes: 2500
+                });
+                console.error(e.message)
+            })
     },
     // 播放
     play: ({commit, state, dispatch}) => {
@@ -35,7 +35,7 @@ export default {
             let url = state.player.currentTrackInfo.urls['q' + state.quality];
 
             if (url == '') {
-                // 如果url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
+                // 若url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
                 if (state.quality == 0) {
                     dispatch('showPopup', {msg: '播放失败：音源不存在，换个品质试试！', autodes: 2500});
                     reject();
@@ -48,17 +48,21 @@ export default {
                     dispatch('play');
                 }
             } else if (!/^http/.test(url)) {
-                // 如果所选音质url未解密，则向服务器请求url，解密在服务端
+                // 若所选音质url未解密，则向服务器请求url，解密在服务端
                 // TODO:将解密迁移至客户端
-                API.getUrlByDfsId({
-                    params: {
-                        dfsid: state.player.currentTrackInfo.urls['q' + state.quality]
-                    }
-                }).then((rsp) => {
-                    commit(types.UPDATE_URL, {urlType: state.quality, url: rsp.data});
-                    _play();
-                    resolve();
-                })
+                API.getUrlByDfsId(state.player.currentTrackInfo.urls['q' + state.quality])
+                    .then(({data}) => {
+                        commit(types.UPDATE_URL, {urlType: state.quality, url: data});
+                        _play();
+                        resolve();
+                    })
+                    .catch((e) => {
+                        this.$store.dispatch('showPopup', {
+                            msg: 'Error:' + e.message,
+                            autodes: 2500
+                        });
+                        console.error(e.message)
+                    })
             } else {
                 _play();
                 resolve();
@@ -66,13 +70,15 @@ export default {
         });
 
         function _play() {
+            let _audio = document.getElementById('audio');  // 缓存audio dom
+
             commit(types.SET_PLAYING);
             // 走进度条
             timer && clearInterval(timer);
             timer = setInterval(function () {
                 if (state.player.playing) {
                     // 更新进度条状态
-                    commit(types.UPDATE_PROGRESS_BAR, audio.currentTime * 1000);
+                    commit(types.UPDATE_PROGRESS_BAR, _audio.currentTime * 1000);
                     if (state.player.elapsed >= (state.player.currentTrackInfo.duration - 1000)) {
                         // 下一首
                         clearInterval(timer);
@@ -82,8 +88,8 @@ export default {
                     clearInterval(timer);
                 }
             }, 1000);
-            if (audio.currentSrc && audio.networkState !== 3) {
-                audio.play();
+            if (_audio.currentSrc && _audio.networkState !== 3) {
+                _audio.play();
             }
         }
     },
@@ -134,7 +140,7 @@ export default {
      * @param opt {object} msg:消息内容,autodes:自动销毁时间,0表示不销毁
      */
     showPopup: ({commit, state}, opt) => {
-        commit(types.POPUP, opt.msg || state.popup.msg);
+        commit(types.POPUP, opt.msg || '');
         if (opt.autodes) {
             setTimeout(() => {
                 commit(types.POPUP, '');

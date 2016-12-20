@@ -3,7 +3,7 @@
         <ol class="songlist animation-menu-1" v-if="!state.loading">
             <li class="songlist__track" v-for="(track,index) in state.tracks"
                 :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
-                <img :src="track.cover" class="songlist__track__cover">
+                <!--<img :src="track.cover" class="songlist__track__cover">-->
                 <div class="songlist__track__info">
                     <h3 class="songlist__track__info__title">{{track.title}}</h3>
                     <span class="songlist__track__info__sub-title">
@@ -11,7 +11,7 @@
                     </span>
                 </div>
                 <span class="songlist__track__time">
-                {{track.duration | time}}
+                {{track.duration | msecondToMinutes}}
             </span>
             </li>
         </ol>
@@ -22,13 +22,9 @@
     import {
         mapState
     } from 'vuex'
-    import Loading from 'components/Loading'
 
     export default {
         name: 'songlist',
-        components: {
-            Loading
-        },
         computed: {
             ...mapState({
                 state: state => state
@@ -45,7 +41,7 @@
     }
 
 </script>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     .songlist {
         color: #f2f2f2;
         height: 100%;
@@ -72,28 +68,6 @@
                 color: #f9934e;
             }
         }
-    }
-
-    /* 滚动条样式 */
-
-    ::-webkit-scrollbar {
-        width: 15px;
-    }
-
-    ::-webkit-scrollbar-track {
-        display: none;
-    }
-
-    ::-webkit-scrollbar-track-piece {
-        background-color: #4a473c;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    ::-webkit-scrollbar-button {
-        background-color: red;
     }
 
 </style>

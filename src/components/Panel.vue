@@ -7,7 +7,7 @@
                     <span class="fa fa-list"></span>
                     <span>SongList</span>
                 </router-link>
-                <router-link to="/search" class="panel__item hover-1">
+                <router-link to="/login" class="panel__item hover-1">
                     <span class="fa fa-user-circle"></span>
                     <span>LogIn</span>
                 </router-link>
@@ -23,12 +23,6 @@
     </div>
 </template>
 <script>
-    import {
-        mapMutations,
-        mapGetters,
-        mapActions
-    } from 'vuex';
-    import * as types from 'store/mutation-types';
     import Search from './Search';
 
     export default {
@@ -39,7 +33,7 @@
     }
 
 </script>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     .panel {
         height: 100%;
         background: #3f3d34;

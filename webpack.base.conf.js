@@ -5,59 +5,62 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-        entry: './src/main.js',
-        output: {
-            // 生成的文件实体存放路径
-            path: path.resolve(__dirname, './dist/static/'),
-            // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
-            // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
-            publicPath: 'http://localhost:8000/',
-            filename: '[name].js'
+    entry: './src/main.js',
+    output: {
+        // 生成的文件实体存放路径
+        path: path.resolve(__dirname, './dist/static/'),
+        // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
+        // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
+        publicPath: 'http://localhost:8000/',
+        filename: '[name].js'
+    },
+    module: {
+        rules: [{
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+                autoprefixer: {
+                    browsers: ['last 2 versions']
+                },
+                loaders: {
+                    js: 'babel-loader',
+                    // css:'vue-style-loader!css-loader?souceMap',
+                    // scss:'vue-style-loader!css-loader?souceMap!sass-loader',
+                    css: ExtractTextPlugin.extract({
+                        loader: 'css-loader?souceMap',
+                        fallbackLoader: 'vue-style-loader'
+                    }),
+                    scss: ExtractTextPlugin.extract({
+                        loader: 'css-loader?souceMap!sass-loader',
+                        fallbackloader: 'vue-style-loader'
+                    }),
+                }
+            }
+        }, {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/
+        }, {
+            test: /\.(png|jpg|gif)$/,
+            loader: 'url-loader?limit=8192',
+            options: {
+                name: '[name].[ext]?[hash:6]'
+            }
+        }, {
+            test: /\.s[a|c]ss$/,
+            // loader:'style-loader!css-loader?souceMap!sass-loader!postcss-loader'
+            loader: ExtractTextPlugin.extract({
+                loader: "css-loader?souceMap!sass-loader!postcss-loader",
+                fallbackLoader: "style-loader"
+            })
+        }, {
+            test: /\.css$/,
+            // loader:'style-loader!css-loader?souceMap!postcss-loader'
+            loader: ExtractTextPlugin.extract({
+                loader: "css-loader?souceMap!postcss-loader",
+                fallbackLoader: "style-loader"
+            })
         },
-        module: {
-            rules: [{
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    autoprefixer: {
-                        browsers: ['last 2 versions']
-                    },
-                    loaders: {
-                        js: 'babel-loader',
-                        css: ExtractTextPlugin.extract({
-                            loader: 'css-loader?souceMap',
-                            fallbackLoader: 'vue-style-loader'
-                        }),
-                        scss: ExtractTextPlugin.extract({
-                            loader: 'css-loader?souceMap!sass-loader',
-                            fallbackloader: 'vue-style-loader'
-                        }),
-                        // scss: 'vue-style-loader!css-loader?souceMap!sass-loader',
-                    }
-                }
-            }, {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            }, {
-                test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?limit=8192',
-                options: {
-                    name: '[name].[ext]?[hash:6]'
-                }
-            }, {
-                test: /\.s[a|c]ss$/,
-                loader: ExtractTextPlugin.extract({
-                    loader: "css-loader?souceMap!sass-loader!postcss-loader",
-                    fallbackLoader: "style-loader"
-                })
-            }, {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    loader: "css-loader?souceMap!postcss-loader",
-                    fallbackLoader: "style-loader"
-                })
-            },
             // 支持font awesome的一组loader
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -81,7 +84,8 @@ module.exports = {
             }
         ]
     },
-
+// TODO:使用webpack code spliting技术分割代码按需加载，因为main.js太大了！！
+// https://webpack.js.org/guides/code-splitting/
     resolve: {
         extensions: [
             '.js', '.vue'
@@ -89,7 +93,7 @@ module.exports = {
         alias: {
             'vue$': 'vue/dist/vue',
             'src': path.resolve(__dirname, './src'),
-            'assets':path.resolve(__dirname, './src/assets'),
+            'assets': path.resolve(__dirname, './src/assets'),
             'css': path.resolve(__dirname, './src/css'),
             'api': path.resolve(__dirname, './src/api'),
             'components': path.resolve(__dirname, './src/components'),
@@ -111,9 +115,9 @@ module.exports = {
             }
         }),
         new ExtractTextPlugin({
-            filename:'style.css',
+            filename: 'style.css',
             // disable:true
-            allChunks: false
+            // allChunks: true
         })
     ]
-}
+};

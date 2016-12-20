@@ -1,7 +1,7 @@
 html {
     box-sizing: border-box;
     font-size: 12px;
-    font-family: Helvetica Neue, Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
+    font-family: Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
     font-weight: 400;
     height: 100%;
 }
@@ -43,9 +43,8 @@ td {
 
 body {
     height: 100%;
-    font-family: Helvetica Neue, Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
+    font-family: Helvetica, 'Microsoft YaHei', STXihei, sans-serif;
     display: block;
-    // margin: 8px;
 }
 
 ol,
@@ -82,11 +81,11 @@ input {
 }
 
 .hover-1 {
-    transition: color .6s;
+    transition: color .6s !important;
 }
 
 .hover-1:hover {
-    color: #f9934e;
+    color: #f9934e !important;
 }
 
 // Drop Menu -----------
@@ -98,7 +97,7 @@ input {
     display: block;
 }
 
-// style 1 
+// animation style 1
 .animation-menu-1 > li {
     @for $i from 1 through 10 {
         &:nth-child(#{$i}) {
@@ -120,4 +119,60 @@ input {
         opacity: 1;
         transform: rotate(0deg) translate3d(0, 0, 0);
     }
+}
+
+@keyframes animationMenu1 {
+    0% {
+        opacity: 0;
+        transform: rotateY(-90deg) translate3d(0, 30px, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+}
+
+// animation style 2
+.animation-menu-2 > li {
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            opacity: 0;
+            animation-name: animationMenu2;
+            animation-duration: 300ms * $i;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: forwards;
+        }
+    }
+}
+
+@keyframes animationMenu2 {
+    0% {
+        opacity: 0;
+        transform:rotateX(90deg) translate3d(0, 30px, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #4a473c;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-button {
+    background-color: red;
 }

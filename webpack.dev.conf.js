@@ -1,8 +1,8 @@
-const webpack = require('webpack')
-const config = require('./webpack.base.conf')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack');
+const config = require('./webpack.base.conf');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-config.devtool = '#source-map'
+config.devtool = '#source-map';
 
 config.plugins = (config.plugins || []).concat([
     new HtmlWebpackPlugin({
@@ -19,7 +19,7 @@ config.plugins = (config.plugins || []).concat([
             removeComments: true
         }
     }),
-])
+]);
 
 config.devServer = {
     historyApiFallback: true,
@@ -32,6 +32,6 @@ config.devServer = {
             secure: false
         }
     }
-}
+};
 
 module.exports = config

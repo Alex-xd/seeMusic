@@ -1,13 +1,18 @@
 // Filters
 export default {
-    time: function (mseconds) {
-        let minutes = Math.floor(mseconds / 60000);
+    msecondToMinutes: function (msec) {
+        let minutes = Math.floor(msec / 60000);
 
-        mseconds = Math.floor(mseconds / 60000 % 1 * 60);
-        if (mseconds < 10) {
-            mseconds = '0' + mseconds;
+        msec = Math.floor(msec / 60000 % 1 * 60);
+        if (msec < 10) {
+            msec = '0' + msec;
         }
 
-        return minutes + ':' + mseconds;
+        return minutes + ':' + msec;
+    },
+    getTime: function (msec) {
+        const date = new Date(msec);
+
+        return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + date.toTimeString().slice(0, 5)
     }
 }
