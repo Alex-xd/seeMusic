@@ -20,6 +20,12 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+    .popup {
+        color: #f2f2f2;
+        background: #b6423a;
+        padding: 20px 40px;
+    }
+
     // 进场
     .fade-enter-active {
         animation: fadeIn 400ms
@@ -28,17 +34,6 @@
     // 离场
     .fade-leave-active {
         animation: fadeOut 400ms
-    }
-
-    .popup {
-        z-index: 9999;
-        position: fixed;
-        top: 40%;
-        left: 50%;
-        color: #f2f2f2;
-        background: #b6423a;
-        padding: 20px 40px;
-        transform: translate3d(-50%, -50%, 0);
     }
 
     @keyframes fadeIn {

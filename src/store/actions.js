@@ -2,21 +2,32 @@
 // https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLMediaElement
 import * as types from "./mutation-types";
 import API from "api/API";
+import utils from 'src/utils';
 
 let timer;
 
 export default {
     // ajax初始化默认歌单
     init: ({commit, dispatch}) => {
-        API.getDefaultSonglist()
+        // API.login({
+        //     username: 'm200',
+        //     password: 'm200'
+        // }).then((rsp) => {
+        //     console.log(rsp)
+        // });
+        // API.getComments({
+        //     params:{
+        //         id:
+        //     }
+        // });
+        commit(types.CHANGE_LOADING_STATE);
+        return API.getDefaultSonglist()
             .then((rsp) => {
                 commit(types.INIT_SONGLIST, rsp.data);
                 commit(types.INIT_PLAYER);
-                setTimeout(() => {
-                    // 欢迎光临弹窗
-                    dispatch('showPopup', {autodes: 1500});
-                }, 1200)
+                commit(types.CHANGE_LOADING_STATE);
             }).catch((e) => console.error(e))
+
     },
     // 播放
     play: ({commit, state, dispatch}) => {
@@ -26,10 +37,13 @@ export default {
             if (url == '') {
                 // 如果url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
                 if (state.quality == 0) {
-                    dispatch('showPopup', {msg: '播放失败：未找到音乐url', autodes: 2500});
+                    dispatch('showPopup', {msg: '播放失败：音源不存在，换个品质试试！', autodes: 2500});
                     reject();
                 } else {
-                    dispatch('showPopup', {msg: 'Sorry..这首歌暂无' + mapQuality[state.quality] + '音质音源', autodes: 2500});
+                    dispatch('showPopup', {
+                        msg: 'Sorry..这首歌暂无' + utils.mapQuality[state.quality] + '音质音源',
+                        autodes: 2500
+                    });
                     commit(types.CHANGE_QUALITY, state.quality - 1);
                     dispatch('play');
                 }

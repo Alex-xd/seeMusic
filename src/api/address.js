@@ -18,4 +18,8 @@ export default {
     addToCollections: host + '/Server/Addto_List',
     // 根据dfsid获取任意品质音源 dfsid
     getUrlByDfsId: host + '/Server/Encipher',
+    // 登录
+    login: host + 'Server/Login',
+
+
 }

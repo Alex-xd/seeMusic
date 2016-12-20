@@ -21,6 +21,7 @@ const state = {
         title: 'loading',
         artist: 'loading',
         duration: 0,
+        commentThreadId:0,
         // MP3 url, q0~q3代表不同品质
         // q0为url，q1~q3均是一个加密id，
         // 需向后台发送请求解密后才可得到真实url

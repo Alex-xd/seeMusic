@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ol class="songlist animation-menu-1">
+        <ol class="songlist animation-menu-1" v-if="!state.loading">
             <li class="songlist__track" v-for="(track,index) in state.tracks"
                 :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
                 <img :src="track.cover" class="songlist__track__cover">
@@ -15,82 +15,86 @@
             </span>
             </li>
         </ol>
+        <Loading v-if="state.loading"></Loading>
     </div>
 </template>
 <script>
-import {
-    mapState
-} from 'vuex'
+    import {
+        mapState
+    } from 'vuex'
+    import Loading from 'components/Loading'
 
-export default {
-    name: 'songlist',
-    computed: {
-        ...mapState({
-            state: state => state
-        })
-    },
-    methods: {
-        playthis(index) {
-            this.$store.dispatch('selectTrack', {
-                newtrack: index,
-                isSelected: true
-            });
+    export default {
+        name: 'songlist',
+        components: {
+            Loading
+        },
+        computed: {
+            ...mapState({
+                state: state => state
+            })
+        },
+        methods: {
+            playthis(index) {
+                this.$store.dispatch('selectTrack', {
+                    newtrack: index,
+                    isSelected: true
+                });
+            }
         }
     }
-}
 
 </script>
 <style lang="scss" rel="stylesheet/scss">
-.songlist {
-    color: #f2f2f2;
-    height: 85%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    &__track {
-        margin-right: -1px;
-        background: #4a473c;
-        display: flex;
-        justify-content: space-between;
-        padding: 2rem 3rem;
-        cursor: pointer;
-        border-bottom: 1px solid #3f3d34;
-        &__cover {
-            width: 3rem;
-            height: 3rem;
-            max-width: 100%;
-        }
-        &__info {
-            margin: 0 2rem;
-            width: 100%;
-        }
-        &--active {
-            color: #f9934e;
+    .songlist {
+        color: #f2f2f2;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        &__track {
+            margin-right: -1px;
+            background: #4a473c;
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 3rem;
+            cursor: pointer;
+            border-bottom: 1px solid #3f3d34;
+            &__cover {
+                width: 3rem;
+                height: 3rem;
+                max-width: 100%;
+            }
+            &__info {
+                margin: 0 2rem;
+                width: 100%;
+            }
+            &--active {
+                color: #f9934e;
+            }
         }
     }
-}
 
+    /* 滚动条样式 */
 
-/* 滚动条样式 */
+    ::-webkit-scrollbar {
+        width: 15px;
+    }
 
-::-webkit-scrollbar {
-    width: 15px;
-}
+    ::-webkit-scrollbar-track {
+        display: none;
+    }
 
-::-webkit-scrollbar-track {
-    display: none;
-}
+    ::-webkit-scrollbar-track-piece {
+        background-color: #4a473c;
+    }
 
-::-webkit-scrollbar-track-piece {
-    background-color: #4a473c;
-}
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
 
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-::-webkit-scrollbar-button {
-    background-color: red;
-}
+    ::-webkit-scrollbar-button {
+        background-color: red;
+    }
 
 </style>
 

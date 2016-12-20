@@ -1,20 +1,26 @@
 <!-- 顶栏控制面板 -->
 <template>
-    <header class="panel">
-        <div class="panel--left">
-            <router-link to="/songlist" class="panel__item panel__item__songlist hover-1">
-                <span class="fa fa-list"></span>
-                <span>SongList</span>
-            </router-link>
-            <router-link to="" class="panel__item panel__item__songlist hover-1">
-                <span class="fa fa-user-circle"></span>
-                <span>LogIn</span>
-            </router-link>
-        </div>
-        <div class="panel--right">
-            <Search></Search>
-        </div>
-    </header>
+    <div>
+        <header class="panel">
+            <div class="panel--left">
+                <router-link to="/songlist" class="panel__item hover-1">
+                    <span class="fa fa-list"></span>
+                    <span>SongList</span>
+                </router-link>
+                <router-link to="/search" class="panel__item hover-1">
+                    <span class="fa fa-user-circle"></span>
+                    <span>LogIn</span>
+                </router-link>
+                <router-link to="/comments" class="panel__item hover-1">
+                    <span class="fa fa-user-circle"></span>
+                    <span>Comments</span>
+                </router-link>
+            </div>
+            <div class="panel--right">
+                <Search></Search>
+            </div>
+        </header>
+    </div>
 </template>
 <script>
     import {
@@ -36,7 +42,6 @@
 <style lang="scss" rel="stylesheet/scss">
     .panel {
         background: #3f3d34;
-        height: 15%;
         display: flex;
         align-items: center;
         justify-content: space-between;

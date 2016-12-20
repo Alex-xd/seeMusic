@@ -6,20 +6,22 @@ import App from './components/App.vue'
 import filters from './filters.js'
 import VueRouter from 'vue-router'
 import SongList from 'components/SongList'
+import Comments from 'components/Comments'
 
 Vue.use(VueRouter);
 Vue.filter('time', filters.time);
 
 const routes = [
-    { path: '/', component: SongList },
-    { path: '/songlist', component: SongList }
-]
+    {path: '/', component: SongList},
+    {path: '/songlist', component: SongList},
+    {path:'/comments',component:Comments}
+];
 
 const router = new VueRouter({
     routes
-})
+});
 
 const app = new Vue({
     router,
     ...App
-}).$mount('#app')
+}).$mount('#app');

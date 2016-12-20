@@ -13,8 +13,9 @@ const state = {
     quality: 0, // 音乐品质 0~3 普通 较高 超高 无损
     popup: {
         isShow: 0,
-        msg: '尽情享用吧^^'
-    }
+        msg: ''
+    },
+    loading: false
 };
 
 //【处理全局或多个模块的状态】
@@ -49,7 +50,8 @@ const mutations = {
                     artists: [{
                         name: o.artists
                     }],
-                    duration: o.duration
+                    duration: o.duration,
+                    commentThreadId: o.commentThreadId
                 } = elem);
 
                 o.urls.q0 = elem.mp3Url;
@@ -94,6 +96,10 @@ const mutations = {
     [types.POPUP](state, msg){
         state.popup.msg = msg;
         state.popup.isShow = !state.popup.isShow;
+    },
+    // 改变loading状态
+    [types.CHANGE_LOADING_STATE](state){
+        state.loading = !state.loading;
     }
 };
 
