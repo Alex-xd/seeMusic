@@ -5,7 +5,7 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.conf.js --inline --hot",
+    "dev": "webpack-dev-server --config webpack.dev.conf.js --open --inline --hot",
     "build": "webpack --config webpack.prod.conf.js --progress --hide-modules"
   },
   "dependencies": {
