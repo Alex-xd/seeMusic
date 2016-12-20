@@ -1,12 +1,12 @@
 <!-- 根组件 在此组装子组件 -->
 <template>
     <div class="app">
-        <Player></Player>
+        <Player class="component-player"></Player>
         <div class="container">
-            <Panel class="panel"></Panel>
-            <router-view class="router-view"></router-view>
+            <Panel class="component-panel"></Panel>
+            <router-view class="component-router-view"></router-view>
         </div>
-        <Popup class="popup"></Popup>
+        <Popup class="component-popup"></Popup>
     </div>
 </template>
 <script>
@@ -66,28 +66,38 @@
         .container {
             width: 60%;
         }
+        .component-player {
+            width: 40%;
+        }
     }
 
     @media screen and (max-width: 450px) {
         .container {
             width: 100%;
         }
+        .component-player {
+            width: 100%;
+        }
+    }
+
+    .component-player {
+        height: 100%;
     }
 
     .container {
         height: 100%;
     }
 
-    .panel {
+    .component-panel {
         height: 15%;
     }
 
-    .router-view {
+    .component-router-view {
         position: relative;
         height: 85%;
     }
 
-    .popup {
+    .component-popup {
         z-index: 9999;
         position: fixed;
         top: 46%;

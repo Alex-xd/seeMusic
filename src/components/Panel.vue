@@ -12,7 +12,7 @@
                     <span>LogIn</span>
                 </router-link>
                 <router-link to="/comments" class="panel__item hover-1">
-                    <span class="fa fa-user-circle"></span>
+                    <span class="fa fa-comments-o"></span>
                     <span>Comments</span>
                 </router-link>
             </div>
@@ -41,6 +41,7 @@
 </script>
 <style lang="scss" rel="stylesheet/scss">
     .panel {
+        height: 100%;
         background: #3f3d34;
         display: flex;
         align-items: center;
