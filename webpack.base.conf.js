@@ -7,8 +7,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: './src/main.js',
     output: {
-        // 生成的文件实体存放路径
-        path: path.resolve(__dirname, './dist/static/'),
+        // 生成的静态文件存放路径
+        path: path.resolve(__dirname, './build/static/'),
         // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
         // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
         publicPath: 'http://localhost:8000/',

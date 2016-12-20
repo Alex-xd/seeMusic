@@ -24,7 +24,7 @@ npm run build
 第二步：
 
 ```bash
-# 重要！以下操作均在dist目录下进行
+# 重要！以下操作均在build目录下进行
 # 安装electron相关依赖
 npm run install
 

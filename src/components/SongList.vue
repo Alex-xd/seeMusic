@@ -3,7 +3,7 @@
         <ol class="songlist animation-menu-1" v-if="!state.loading">
             <li class="songlist__track" v-for="(track,index) in state.tracks"
                 :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
-                <!--<img :src="track.cover" class="songlist__track__cover">-->
+                <img :src="track.cover" class="songlist__track__cover">
                 <div class="songlist__track__info">
                     <h3 class="songlist__track__info__title">{{track.title}}</h3>
                     <span class="songlist__track__info__sub-title">

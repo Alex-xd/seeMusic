@@ -56,14 +56,12 @@
                         this.comments.push(o);
                     });
                     this.$store.commit(CHANGE_LOADING_STATE);
-                }).catch((e) => {
-                this.$store.dispatch('showPopup', {
-                    msg: 'Error:' + e.message,
-                    autodes: 2500
-                });
-                console.error(e.message);
-                this.$store.commit(CHANGE_LOADING_STATE);
-            })
+                })
+                .catch((e) => {
+                    this.$store.commit(CHANGE_LOADING_STATE);
+                    this.$router.push('/songlist');
+                    console.error(e.message);
+                })
         }
     }
 </script>
@@ -97,13 +95,12 @@
                     line-height: 2em;
                 }
                 &__title span {
-                    color: #FC9452;
-                    font-weight:bold;
+                    color: #fc9452;
+                    font-weight: bold;
                 }
             }
             &__liked-count {
                 font-size: 1rem;
-                align-self: flex-end;
                 font-weight: bold;
             }
 

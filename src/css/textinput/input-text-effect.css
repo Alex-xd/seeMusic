@@ -2,8 +2,8 @@
     font-weight: normal;
     font-style: normal;
     font-family: 'codropsicons';
-    src: url('../fonts/codropsicons/codropsicons.eot');
-    src: url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'), url('../fonts/codropsicons/codropsicons.woff') format('woff'), url('../fonts/codropsicons/codropsicons.ttf') format('truetype'), url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+    src: url('../fonts/codropsicons/codropsicons.eot?v=1');
+    src: url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'), url('../fonts/codropsicons/codropsicons.woff?v=1') format('woff'), url('../fonts/codropsicons/codropsicons.ttf?v=1') format('truetype'), url('../fonts/codropsicons/codropsicons.svg#codropsicons?v=1') format('svg');
 }
 
 
