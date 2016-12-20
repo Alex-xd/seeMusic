@@ -24,7 +24,7 @@ config.plugins = (config.plugins || []).concat([
 config.devServer = {
     historyApiFallback: true,
     noInfo: true,
-    port: 8000,
+    port: 8001,
     proxy: {
         '/Server/**': {
             changeOrigin: true,

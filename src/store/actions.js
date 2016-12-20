@@ -1,30 +1,35 @@
 // actions
-import * as types from './mutation-types'
-import API from 'api/API'
+// https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLMediaElement
+import * as types from "./mutation-types";
+import API from "api/API";
 
-var timer;
+let timer;
 
 export default {
     // ajax初始化默认歌单
-    init: ({ commit }) => {
+    init: ({commit, dispatch}) => {
         API.getDefaultSonglist()
             .then((rsp) => {
                 commit(types.INIT_SONGLIST, rsp.data);
                 commit(types.INIT_PLAYER);
-            })
+                setTimeout(() => {
+                    // 欢迎光临弹窗
+                    dispatch('showPopup', {autodes: 1500});
+                }, 1200)
+            }).catch((e) => console.error(e))
     },
     // 播放
-    play: ({ commit, state, dispatch }) => {
+    play: ({commit, state, dispatch}) => {
         return new Promise((resolve, reject) => {
-            let url = state.player.currentTrackInfo.urls['q' + state.quality]
+            let url = state.player.currentTrackInfo.urls['q' + state.quality];
 
-            if (url === '') {
+            if (url == '') {
                 // 如果url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
                 if (state.quality == 0) {
-                    alert('播放失败：未找到音乐url');
+                    dispatch('showPopup', {msg: '播放失败：未找到音乐url', autodes: 2500});
                     reject();
-                    return;
                 } else {
+                    dispatch('showPopup', {msg: 'Sorry..这首歌暂无' + mapQuality[state.quality] + '音质音源', autodes: 2500});
                     commit(types.CHANGE_QUALITY, state.quality - 1);
                     dispatch('play');
                 }
@@ -36,7 +41,7 @@ export default {
                         dfsid: state.player.currentTrackInfo.urls['q' + state.quality]
                     }
                 }).then((rsp) => {
-                    commit(types.UPDATE_URL, { urlType: state.quality, url: rsp.data });
+                    commit(types.UPDATE_URL, {urlType: state.quality, url: rsp.data});
                     _play();
                     resolve();
                 })
@@ -63,17 +68,19 @@ export default {
                     clearInterval(timer);
                 }
             }, 1000);
-            audio.play();
+            if (audio.currentSrc && audio.networkState !== 3) {
+                audio.play();
+            }
         }
     },
     // 下一首
-    skipForward: ({ commit, state, dispatch }) => {
+    skipForward: ({commit, state, dispatch}) => {
         let newtrack = state.currentTrack + 1;
         newtrack = newtrack % state.tracks.length;
-        dispatch('selectTrack', { newtrack: newtrack });
+        dispatch('selectTrack', {newtrack: newtrack});
     },
     // 上一首
-    skipBack: ({ commit, state, dispatch }) => {
+    skipBack: ({commit, state, dispatch}) => {
         let newtrack = state.currentTrack;
 
         // 如果播放一首歌超过2分钟，则重新播放这首歌，不切换
@@ -93,11 +100,7 @@ export default {
      * @params newtrack    跳转到下标为'newtrack'的这首歌
      * @params isSelected  用于区分随机播放和点歌
      */
-    selectTrack: ({
-        commit,
-        state,
-        dispatch
-    }, { newtrack, isSelected }) => {
+    selectTrack: ({commit, state, dispatch}, {newtrack, isSelected}) => {
         if (newtrack < 0) {
             newtrack = 0;
         }
@@ -111,4 +114,17 @@ export default {
 
         dispatch('play');
     },
+    /**
+     * 显示弹窗
+     *
+     * @param opt {object} msg:消息内容,autodes:自动销毁时间,0表示不销毁
+     */
+    showPopup: ({commit, state}, opt) => {
+        commit(types.POPUP, opt.msg || state.popup.msg);
+        if (opt.autodes) {
+            setTimeout(() => {
+                commit(types.POPUP, '');
+            }, opt.autodes);
+        }
+    }
 }

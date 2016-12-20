@@ -26,7 +26,7 @@
             </div>
             <!-- 选择音质 -->
             <select href="javascript:;" class="player__quality hover-1" v-model="quality">
-                <option v-for="(option,index) in qualityOptions" v-if="playerSt.currentTrackInfo.urls['q'+index]"
+                <option v-for="(option,index) in qualityOptions" v-if="playerSt.currentTrackInfo.urls[index]"
                         :value="option.value">{{option.text}}
                 </option>
             </select>

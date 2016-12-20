@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as types from './mutation-types'
-import actions from './actions'
-import player from './modules/player'
-import panel from './modules/panel'
+import Vue from "vue";
+import Vuex from "vuex";
+import * as types from "./mutation-types";
+import actions from "./actions";
+import player from "./modules/player";
+import panel from "./modules/panel";
 
 Vue.use(Vuex);
 
@@ -11,13 +11,17 @@ const state = {
     tracks: [], // 歌单
     currentTrack: 0, // 正在播放歌曲在歌单中的索引
     quality: 0, // 音乐品质 0~3 普通 较高 超高 无损
-}
+    popup: {
+        isShow: 0,
+        msg: '尽情享用吧^^'
+    }
+};
 
 //【处理全局或多个模块的状态】
 const mutations = {
     // 初始化歌单状态
     [types.INIT_SONGLIST](state, data) {
-        var tracks = data.result.tracks || data.result.songs || 0;
+        let tracks = data.result.tracks || data.result.songs || 0;
 
         state.tracks = [];
         if (tracks === 0) {
@@ -25,14 +29,15 @@ const mutations = {
                 title: '根据相关法律法规，搜索结果未予显示。(手动斜眼)'
             }
         } else {
-            // FIXME:此处需要性能优化
+            // TODO:此处需要性能优化  
+            // 建议：将来在后台将数据做一层缓存层，直接返回格式化好的缓存数据
             tracks.forEach((elem) => {
-                var o = {
+                let o = {
                     urls: {
-                        q0:'',
-                        q1:'',
-                        q2:'',
-                        q3:''
+                        q0: '',
+                        q1: '',
+                        q2: '',
+                        q3: ''
                     }
                 };
                 ({
@@ -65,12 +70,10 @@ const mutations = {
     [types.INIT_PLAYER](state) {
         let playerSt = state.player;
 
-        // 拷贝当前播放歌曲信息到player模块state中
         playerSt.currentTrackInfo = state.tracks[state.currentTrack];
         playerSt.elapsed = 0;
         playerSt.playing = false;
         playerSt.onloadmp3Url = '';
-        playerSt.imgUrl = playerSt.currentTrackInfo.cover;
         audio.volume = playerSt.volume / 100;
         audio.currentTime = 0;
     },
@@ -86,8 +89,13 @@ const mutations = {
     // 改变音质
     [types.CHANGE_QUALITY](state, payload) {
         state.quality = parseInt(payload);
+    },
+    // 弹窗
+    [types.POPUP](state, msg){
+        state.popup.msg = msg;
+        state.popup.isShow = !state.popup.isShow;
     }
-}
+};
 
 export default new Vuex.Store({
     state,
@@ -100,7 +108,7 @@ export default new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production' //发布环境不使用严格模式
 })
 
-//FIXME:有些问题
+// FIXME:有些问题
 // 开启热重载
 // if (module.hot) {
 //     // 使 actions 和 mutations 成为可热重载模块

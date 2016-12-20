@@ -1,18 +1,21 @@
 <template>
-    <ol class="songlist animation-menu-1">
-        <li class="songlist__track" v-for="(track,index) in state.tracks" :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
-            <img :src="track.cover" class="songlist__track__cover">
-            <div class="songlist__track__info">
-                <h3 class="songlist__track__info__title">{{track.title}}</h3>
-                <span class="songlist__track__info__sub-title">
+    <div>
+        <ol class="songlist animation-menu-1">
+            <li class="songlist__track" v-for="(track,index) in state.tracks"
+                :class="{'songlist__track--active':state.currentTrack === index}" @click="playthis(index)">
+                <img :src="track.cover" class="songlist__track__cover">
+                <div class="songlist__track__info">
+                    <h3 class="songlist__track__info__title">{{track.title}}</h3>
+                    <span class="songlist__track__info__sub-title">
                         {{track.album}} - {{track.artists}}
                     </span>
-            </div>
-            <span class="songlist__track__time">
+                </div>
+                <span class="songlist__track__time">
                 {{track.duration | time}}
             </span>
-        </li>
-    </ol>
+            </li>
+        </ol>
+    </div>
 </template>
 <script>
 import {
@@ -37,7 +40,7 @@ export default {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" rel="stylesheet/scss">
 .songlist {
     color: #f2f2f2;
     height: 85%;

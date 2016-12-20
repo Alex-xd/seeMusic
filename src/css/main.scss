@@ -104,7 +104,7 @@ input {
         &:nth-child(#{$i}) {
             opacity: 0;
             animation-name: animationMenu1;
-            animation-duration: 200ms * $i;
+            animation-duration: 300ms * $i;
             animation-timing-function: ease-in-out;
             animation-fill-mode: forwards;
         }

@@ -1,4 +1,4 @@
-import * as types from 'store/mutation-types'
+import * as types from "store/mutation-types";
 
 const state = {
     currentTrackInfo: {
@@ -9,9 +9,6 @@ const state = {
          * title,
          * artist,
          * duration,
-         * // MP3 url, q0~q3代表不同品质
-         * // q0为url，q1~q3均是一个加密id，
-         * // 需向后台发送请求解密后才可得到真实url
          * urls:{ 
          *     q0,  
          *     q1,
@@ -19,7 +16,20 @@ const state = {
          *     q3
          * }
          */
-        
+        cover: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png',
+        album: 'loading',
+        title: 'loading',
+        artist: 'loading',
+        duration: 0,
+        // MP3 url, q0~q3代表不同品质
+        // q0为url，q1~q3均是一个加密id，
+        // 需向后台发送请求解密后才可得到真实url
+        urls: {
+            q0: '',
+            q1: '',
+            q2: '',
+            q3: ''
+        }
     },
     elapsed: 0, // 已播放时间
     playing: false,
@@ -28,16 +38,11 @@ const state = {
     shuffle: true,
     volume: 68,
     muted: false,
-    imgUrl: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png', // 默认填充一张图片
     onloadmp3Url: '' // 填进audio标签的url
-}
+};
 
 //【专注处理此模块的数据】
 const mutations = {
-    // 暂停
-    [types.SET_PAUSE](state) {
-        state.playing = false;
-    },
     // 开启/关闭 重复播放
     [types.TOGGLE_REPEAT](state) {
         state.repeat = !state.repeat
@@ -62,28 +67,13 @@ const mutations = {
     [types.UPDATE_URL](state, { urlType, url }) {
         state.currentTrackInfo.urls['q' + urlType] = url;
     }
-}
+};
 
 // actions
-const actions = {
-
-}
+const actions = {};
 
 export default {
     state,
     mutations,
     actions
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

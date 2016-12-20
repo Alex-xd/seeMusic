@@ -21,7 +21,7 @@ import API from 'api/API'
 
 export default {
     name: 'search',
-    data:function(){
+    data(){
         return {
             keywords:'',
             searchStateText:'Search'
@@ -57,7 +57,7 @@ export default {
 }
 
 </script>
-<style lang="scss">
+<style lang="scss" rel="stylesheet/scss">
 .search {
     &__input {
         top: 10px;
