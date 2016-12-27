@@ -11,11 +11,6 @@
     </div>
 </template>
 <script>
-    // import {
-    //     mapMutations,
-    //     mapState,
-    //     mapActions
-    // } from 'vuex';
     import * as types from 'store/mutation-types';
     import API from 'api/API'
 
@@ -37,7 +32,6 @@
                 const commit = this.$store.commit;
 
                 if (this.keywords !== '') {
-                    this.searchStateText = 'Searching...';
                     commit(types.CHANGE_LOADING_STATE);
                     API.searchSongs(this.keywords).then(({data}) => {
                         commit(types.INIT_SONGLIST, data);
