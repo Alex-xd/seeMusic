@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ol class="com-list animation-menu-2" v-if="!state.loading">
+        <ol class="com-list animation-style-2" v-if="!state.loading">
             <li class="com-list__track" v-for="(comment,index) in comments">
                 <img :src="comment.avatarUrl" class="com-list__track__cover">
                 <div class="com-list__track__info">
@@ -28,40 +28,19 @@
 
     export default {
         name: 'comments',
-        data() {
+        data(){
             return {
-                comments: []
+                test: 'testsssss'
             }
         },
         computed: {
             ...mapState({
                 state: state => state,
+                comments: state => state.comments
             })
         },//TODO:将评论改成异步组件
-        mounted(){
-            this.$store.commit(CHANGE_LOADING_STATE);
-            API.getCommments(this.$store.state.player.currentTrackInfo.commentThreadId)
-                .then(({data:{hotComments:comments}}) => {
-                    comments.forEach((elem) => {
-                        let o = {};
-                        ({
-                            content: o.content,
-                            likedCount: o.likedCount,
-                            time: o.time,
-                            user: {
-                                nickname: o.nickname,
-                                avatarUrl: o.avatarUrl
-                            }
-                        } = elem);
-                        this.comments.push(o);
-                    });
-                    this.$store.commit(CHANGE_LOADING_STATE);
-                })
-                .catch((e) => {
-                    this.$store.commit(CHANGE_LOADING_STATE);
-                    this.$router.push('/songlist');
-                    console.error(e.message);
-                })
+        mounted() {
+            this.$store.dispatch('getComments');
         }
     }
 </script>

@@ -3,19 +3,31 @@ import Vuex from "vuex";
 import * as types from "./mutation-types";
 import actions from "./actions";
 import player from "./modules/player";
-import panel from "./modules/panel";
 
 Vue.use(Vuex);
 
+// 全局状态
 const state = {
     tracks: [], // 歌单
     currentTrack: 0, // 正在播放歌曲在歌单中的索引
     quality: 0, // 音乐品质 0~3 普通 较高 超高 无损
+    loading: 0,
+    comments: [],
     popup: {
-        isShow: 0,
-        msg: ''
+        show: 0,
+        msg: '',
+        className: 'normal'
     },
-    loading: false
+    showLogin: 0,
+    hasLogin: 0,
+    user: {
+        name: '',
+        id: 0
+    },
+};
+
+const getters = {
+
 };
 
 //【处理全局或多个模块的状态】
@@ -93,13 +105,36 @@ const mutations = {
         state.quality = parseInt(payload);
     },
     // 弹窗
-    [types.POPUP](state, msg){
-        state.popup.msg = msg;
-        state.popup.isShow = !state.popup.isShow;
+    [types.POPUP](state, opt){
+        state.popup.msg = opt.msg;
+        state.popup.className = opt.className;
+        state.popup.show = !state.popup.show;
     },
     // 改变loading状态
     [types.CHANGE_LOADING_STATE](state){
         state.loading = !state.loading;
+    },
+    // 更新评论
+    [types.UPDATE_COMMENTS](state, comments){
+        comments.forEach((elem) => {
+            let o = {};
+            ({
+                content: o.content,
+                likedCount: o.likedCount,
+                time: o.time,
+                user: {
+                    nickname: o.nickname,
+                    avatarUrl: o.avatarUrl
+                }
+            } = elem);
+            state.comments.push(o);
+        });
+    },
+    [types.LOGIN_SHOW_HIDE](state, payload){
+        state.showLogin = payload;
+    },
+    [types.CHANGE_LOGIN_STATE](state, payload){
+        state.hasLogin = payload;
     }
 };
 
@@ -107,9 +142,9 @@ export default new Vuex.Store({
     state,
     actions,
     mutations,
+    getters,
     modules: {
-        player,
-        panel
+        player
     },
     strict: process.env.NODE_ENV !== 'production' //发布环境不使用严格模式
 })

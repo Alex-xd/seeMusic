@@ -1,9 +1,11 @@
 <template>
     <div>
         <div class="player">
-            <div class="player--topbox" :class="{'shake-slow shake-constant':isShake}">
+            <div class="player--topbox" :class="{'shake-slow shake-constant':shaking}">
                 <!-- 专辑封面 -->
                 <div class="player__cover--wrapper">
+                    <!--fork me on github-->
+                    <a href="https://github.com/Alex-xd/seeMusic"><img style="z-index:200000;width: 30%;height:25%;position: absolute; top: 0; left: 0; border: 0;" src="http://o6x2vif88.bkt.clouddn.com/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
                     <img :src="playerSt.currentTrackInfo.cover" class="player__cover"
                          :class="{'player__cover--rotating':playerSt.playing}">
                 </div>
@@ -104,7 +106,7 @@
                     text: '无损 320kbps',
                     value: '3'
                 }],
-                isShake: false,
+                shaking: false,
             }
         },
         computed: {
@@ -161,10 +163,10 @@
                 this.pause();
                 this.$store.commit(types.CHANGE_QUALITY, newQuality);
                 // 抖动图片
-                this.isShake = true;
+                this.shaking = true;
                 this.$store.dispatch('play').then(function () {
                     audio.oncanplaythrough = () => {
-                        _this.isShake = false; // 停止抖动
+                        _this.shaking = false; // 停止抖动
                     };
                     // 恢复播放进度
                     audio.currentTime = elapsed / 1000;

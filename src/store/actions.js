@@ -1,20 +1,14 @@
-// actions
-// https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLMediaElement
+// 全局actions
 import * as types from "./mutation-types";
 import API from "api/API";
 import utils from 'src/utils';
+import {router} from 'src/main';
 
 let timer;
 
 export default {
-    // ajax初始化默认歌单
-    init: ({commit}) => {
-        // let params = new URLSearchParams();
-        // params.append('username','m200');
-        // params.append('password','m200');
-        // API.login(params).then((rsp) => {
-        //     console.log(rsp)
-        // });
+    // 初始化默认歌单
+    init: ({commit, dispatch}) => {
         commit(types.CHANGE_LOADING_STATE);
         return API.getDefaultSonglist()
             .then(({data}) => {
@@ -22,7 +16,7 @@ export default {
                 commit(types.INIT_PLAYER);
                 commit(types.CHANGE_LOADING_STATE);
             }).catch((e) => {
-                this.$store.dispatch('showPopup', {
+                dispatch('showPopup', {
                     msg: 'Error:' + e.message,
                     autodes: 2500
                 });
@@ -36,17 +30,13 @@ export default {
 
             if (url == '') {
                 // 若url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
-                if (state.quality == 0) {
-                    dispatch('showPopup', {msg: '播放失败：音源不存在，换个品质试试！', autodes: 2500});
-                    reject();
-                } else {
-                    dispatch('showPopup', {
-                        msg: 'Sorry..这首歌暂无' + utils.mapQuality[state.quality] + '音质音源',
-                        autodes: 2500
-                    });
-                    commit(types.CHANGE_QUALITY, state.quality - 1);
-                    dispatch('play');
-                }
+                dispatch('showPopup', {
+                    msg: 'Sorry..这首歌暂无' + utils.mapQuality[state.quality] + '品质音源',
+                    autodes: 2500
+                });
+                commit(types.CHANGE_QUALITY, state.quality > 0 ? state.quality - 1 : 0);
+                dispatch('play');
+                resolve();
             } else if (!/^http/.test(url)) {
                 // 若所选音质url未解密，则向服务器请求url，解密在服务端
                 // TODO:将解密迁移至客户端
@@ -57,11 +47,12 @@ export default {
                         resolve();
                     })
                     .catch((e) => {
-                        this.$store.dispatch('showPopup', {
+                        dispatch('showPopup', {
                             msg: 'Error:' + e.message,
                             autodes: 2500
                         });
-                        console.error(e.message)
+                        console.error(e.message);
+                        reject()
                     })
             } else {
                 _play();
@@ -94,13 +85,13 @@ export default {
         }
     },
     // 下一首
-    skipForward: ({commit, state, dispatch}) => {
+    skipForward: ({state, dispatch}) => {
         let newtrack = state.currentTrack + 1;
         newtrack = newtrack % state.tracks.length;
         dispatch('selectTrack', {newtrack: newtrack});
     },
     // 上一首
-    skipBack: ({commit, state, dispatch}) => {
+    skipBack: ({state, dispatch}) => {
         let newtrack = state.currentTrack;
 
         // 如果播放一首歌超过2分钟，则重新播放这首歌，不切换
@@ -133,18 +124,46 @@ export default {
         commit(types.INIT_PLAYER);
 
         dispatch('play');
+        // 判断是否在评论板块下
+        if (router.currentRoute.path === '/comments') {
+            dispatch('getComments');
+        }
     },
     /**
      * 显示弹窗
-     *
-     * @param opt {object} msg:消息内容,autodes:自动销毁时间,0表示不销毁
+     * @param opt {object}
+     *  opt#msg 消息内容
+     *  opt#autodes 自动销毁时间,0表示不销毁
+     *  opt#className 'normal'|'warn' 默认为normal（红色）
      */
-    showPopup: ({commit, state}, opt) => {
-        commit(types.POPUP, opt.msg || '');
+    showPopup: ({commit}, opt) => {
+        let optset = {
+            msg: opt.msg || 'Welcome to SeeMusic',
+            className: opt.className || 'normal'
+        };
+
         if (opt.autodes) {
             setTimeout(() => {
-                commit(types.POPUP, '');
+                commit(types.POPUP, optset);
             }, opt.autodes);
         }
+        commit(types.POPUP, optset);
+    },
+    /**
+     * 获取正在播放歌曲的评论
+     */
+    getComments: ({commit, state}) => {
+        commit(types.CHANGE_LOADING_STATE);
+        return API.getCommments(state.player.currentTrackInfo.commentThreadId)
+            .then(({data:{hotComments:comments}}) => {
+                // comments为一个对象数组
+                commit(types.UPDATE_COMMENTS, comments);
+                commit(types.CHANGE_LOADING_STATE);
+            })
+            .catch((e) => {
+                commit(types.CHANGE_LOADING_STATE);
+                router.push('/songlist');
+                console.error(e.message);
+            })
     }
 }

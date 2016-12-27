@@ -88,21 +88,32 @@ input {
     color: #f9934e !important;
 }
 
-// Drop Menu -----------
+// Vue animations ----------------------
+// 进场
+.fade-enter-active {
+    animation: fadeIn 400ms
+}
+
+// 离场
+.fade-leave-active {
+    animation: fadeOut 400ms
+}
+
+
+// Drop Menu animations ----------------------
 .drop-menu > li {
     display: none;
 }
 
-.drop-title:hover .animation-menu-1 > li {
+.drop-title:hover .animation-style-1 > li {
     display: block;
 }
 
-// animation style 1
-.animation-menu-1 > li {
+.animation-style-1 > li {
     @for $i from 1 through 10 {
         &:nth-child(#{$i}) {
             opacity: 0;
-            animation-name: animationMenu1;
+            animation-name: animationStyle1;
             animation-duration: 300ms * $i;
             animation-timing-function: ease-in-out;
             animation-fill-mode: forwards;
@@ -110,7 +121,23 @@ input {
     }
 }
 
-@keyframes animationMenu1 {
+.animation-style-2 > li {
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            opacity: 0;
+            animation-name: animationStyle2;
+            animation-duration: 300ms * $i;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: forwards;
+        }
+    }
+}
+.animation-style-3 {
+    animation: fadeIn 400ms
+}
+
+// keyframes ----------------------------------
+@keyframes animationStyle1 {
     0% {
         opacity: 0;
         transform: rotateY(-90deg) translate3d(0, 30px, 0);
@@ -121,7 +148,7 @@ input {
     }
 }
 
-@keyframes animationMenu1 {
+@keyframes animationStyle1 {
     0% {
         opacity: 0;
         transform: rotateY(-90deg) translate3d(0, 30px, 0);
@@ -132,29 +159,42 @@ input {
     }
 }
 
-// animation style 2
-.animation-menu-2 > li {
-    @for $i from 1 through 10 {
-        &:nth-child(#{$i}) {
-            opacity: 0;
-            animation-name: animationMenu2;
-            animation-duration: 300ms * $i;
-            animation-timing-function: ease-in-out;
-            animation-fill-mode: forwards;
-        }
-    }
-}
 
-@keyframes animationMenu2 {
+
+@keyframes animationStyle2 {
     0% {
         opacity: 0;
-        transform:rotateX(90deg) translate3d(0, 30px, 0);
+        transform: rotateX(90deg) translate3d(0, 30px, 0);
     }
     100% {
         opacity: 1;
         transform: rotate(0deg) translate3d(0, 0, 0);
     }
 }
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: rotateX(-90deg) rotateY(-90deg) translate3d(-50%, 50px, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg) rotateY(0deg) translate3d(-50%, -50%, 0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: rotateX(0deg) rotateY(0deg) translate3d(-50%, -50%, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: rotateX(-90deg) rotateY(90deg) translate3d(-50%, 50px, 0);
+    }
+}
+
+
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {

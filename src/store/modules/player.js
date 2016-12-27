@@ -17,9 +17,9 @@ const state = {
          * }
          */
         cover: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png',
-        album: 'loading',
-        title: 'loading',
-        artist: 'loading',
+        album: 'loading..',
+        title: 'loading..',
+        artist: 'loading..',
         duration: 0,
         commentThreadId: 0,
         // MP3 url, q0~q3代表不同品质
@@ -35,7 +35,6 @@ const state = {
     elapsed: 0, // 已播放时间
     playing: false,
     repeat: false,
-    repeatOne: false,
     shuffle: true,
     volume: 68,
     muted: false,
@@ -73,11 +72,9 @@ const mutations = {
     }
 };
 
-// actions
-const actions = {};
+
 
 export default {
     state,
-    mutations,
-    actions
+    mutations
 }
