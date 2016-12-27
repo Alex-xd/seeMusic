@@ -3,12 +3,15 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BUILD_PATH = path.resolve(__dirname, './build');
+const ROOT_PATH = path.resolve(__dirname, './');
+const SRC_PATH = path.resolve(__dirname, './src');
 
 module.exports = {
     entry: './src/main.js',
     output: {
         // 生成的静态文件存放路径
-        path: path.resolve(__dirname, './build/static/'),
+        path: BUILD_PATH,
         // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
         // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
         publicPath: 'http://localhost:8000/',
@@ -92,13 +95,14 @@ module.exports = {
         ],
         alias: {
             'vue$': 'vue/dist/vue',
-            'src': path.resolve(__dirname, './src'),
-            'assets': path.resolve(__dirname, './src/assets'),
-            'css': path.resolve(__dirname, './src/css'),
-            'api': path.resolve(__dirname, './src/api'),
-            'components': path.resolve(__dirname, './src/components'),
-            'store': path.resolve(__dirname, './src/store'),
-            'node_modules': path.resolve(__dirname, './node_modules'),
+            'root': ROOT_PATH,
+            'src': SRC_PATH,
+            'assets': SRC_PATH + '/assets',
+            'css': SRC_PATH + '/css',
+            'api': SRC_PATH + '/api',
+            'components': SRC_PATH + '/components',
+            'store': SRC_PATH + '/store',
+            'node_modules': ROOT_PATH + '/node_modules',
         }
     },
 
