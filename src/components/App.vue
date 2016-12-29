@@ -6,7 +6,7 @@
         <div class="container">
             <Panel class="c-panel"></Panel>
             <!--右侧歌单、评论区-->
-            <router-view class="router-view main"></router-view>
+            <router-view class="router-view"></router-view>
         </div>
         <!--登录弹窗-->
         <Login class="c-popup"></Login>
@@ -86,7 +86,7 @@
         background: url('../assets/bg.svg');
     }
 
-    .router-view.main {
+    .router-view {
         position: relative;
         height: 85%;
     }

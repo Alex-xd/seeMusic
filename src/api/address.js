@@ -1,18 +1,20 @@
 export default {
     // 根据歌曲名或歌手名查找歌曲 s
-    searchSongs: '/Server/Song',
+    searchSongs: '/Song',
     // 获取默认歌单  无参数
-    getDefaultSonglist: '/Server/Recommend',
+    getDefaultSonglist: '/Recommend',
     // 根据歌曲id获取评论  
-    getComments: '/Server/Comments',
-    // 添加好友
-    addFriend: '/Server/Add_friends',
-    // 获取好友的收藏
-    getFriendCollections: '/Server/Get_friend_list',
-    // 添加歌曲到收藏夹
-    addToCollections: '/Server/Addto_List',
+    getComments: '/Comments',
     // 根据dfsid获取任意品质音源 dfsid
-    getUrlByDfsId: '/Server/Encipher',
+    getUrlByDfsId: '/Encipher',
     // 登录
-    login: 'Server/Login',
+    login: '/Login',
+    // 用户歌单
+    getUserInfo:'/User_Info',
+    // 添加好友
+    addFriend: '/Add_friends',
+    // 获取好友的收藏
+    getFriendCollections: '/Get_friend_list',
+    // 添加歌曲到收藏夹
+    addToCollections: '/Addto_List'
 }

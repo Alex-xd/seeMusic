@@ -3,11 +3,11 @@
         <ol class="songlist animation-style-1" v-if="!state.loading">
             <ListItem v-for="(track,index) in state.tracks"
                       :isActive="state.currentTrack === index"
-                      :cover="track.cover"
                       :title="track.title"
+                      :cover="track.cover"
                       :subtitle="track.album + ' - ' + track.artists"
                       :number="track.duration | msecondToMinutes"
-                      @click="playthis(index)"
+                      @click.native="playthis(index)"
             ></ListItem>
         </ol>
         <Loading v-if="state.loading"></Loading>

@@ -63,11 +63,7 @@
 
 <script>
     export default {
-        name: 'loading',
-        data() {
-            return {}
-        },
-        components: {}
+        name: 'loading'
     }
 </script>
 

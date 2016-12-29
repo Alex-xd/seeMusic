@@ -11,7 +11,6 @@
   "dependencies": {
     "axios": "^0.15.3",
     "csshake": "^1.5.1",
-    "font-awesome": "^4.7.0",
     "vue": "^2.0.1",
     "vue-router": "^2.0.3",
     "vuex": "^2.0.0"

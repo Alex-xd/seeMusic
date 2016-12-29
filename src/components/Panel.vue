@@ -40,7 +40,7 @@
         methods: {
             userActions(){
                 if (this.$store.state.hasLogin) {
-                    this.$router.push('/User/:id')
+                    this.$router.push('/user');
                 } else {
                     this.$store.commit(types.LOGIN_SHOW_HIDE, 1);
                 }

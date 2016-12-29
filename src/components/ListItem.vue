@@ -1,15 +1,16 @@
 <template>
-    <li class="c-list-item"
-        :class="{'c-list-item--active':isActive}"
+    <li class="item"
+        :class="{'item--active':isActive}"
+
     >
-        <img v-if="cover" :src="cover" class="c-list-item__cover">
-        <div class="c-list-item__info">
-            <h3 class="c-list-item__info__title">{{title}}</h3>
-            <span class="c-list-item__info__sub-title">
+        <img v-if="cover" :src="cover" class="item__cover">
+        <div class="item__info">
+            <h3 class="item__info__title">{{title}}</h3>
+            <span class="item__info__sub-title">
                         {{subtitle}}
                     </span>
         </div>
-        <span class="c-list-item__time">
+        <span class="item__time">
                 {{number}}
             </span>
     </li>
@@ -28,9 +29,8 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
-
-    .c-list-item {
+<style lang="scss" rel="stylesheet/scss" scoped>
+    .item {
         margin-right: -1px;
         background: #4a473c;
         display: flex;
@@ -51,5 +51,4 @@
             color: #f9934e;
         }
     }
-
 </style>

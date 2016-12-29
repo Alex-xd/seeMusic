@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BUILD_PATH = path.resolve(__dirname, './build');
 const ROOT_PATH = path.resolve(__dirname, './');
@@ -20,72 +19,68 @@ module.exports = {
     module: {
         rules: [{
             test: /\.vue$/,
-            loader: 'vue-loader',
+            loader: 'vue',
             options: {
                 autoprefixer: {
                     browsers: ['last 2 versions']
                 },
                 loaders: {
-                    js: 'babel-loader',
-                    // css:'vue-style-loader!css-loader?souceMap',
-                    // scss:'vue-style-loader!css-loader?souceMap!sass-loader',
+                    js: 'babel',
+                    // css:'vue-style!css?souceMap',
+                    // scss:'vue-style!css?souceMap!sass',
                     css: ExtractTextPlugin.extract({
-                        loader: 'css-loader?souceMap',
-                        fallbackLoader: 'vue-style-loader'
+                        loader: 'css?souceMap',
+                        fallbackLoader: 'vue-style'
                     }),
                     scss: ExtractTextPlugin.extract({
-                        loader: 'css-loader?souceMap!sass-loader',
-                        fallbackloader: 'vue-style-loader'
+                        loader: 'css?souceMap!sass',
+                        fallbackloader: 'vue-style'
                     }),
                 }
             }
         }, {
             test: /\.js$/,
-            loader: 'babel-loader',
+            loader: 'babel',
             exclude: /node_modules/
         }, {
             test: /\.(png|jpg|gif)$/,
-            loader: 'url-loader?limit=8192',
+            loader: 'url?limit=8192',
             options: {
                 name: '[name].[ext]?[hash:6]'
             }
         }, {
             test: /\.s[a|c]ss$/,
-            // loader:'style-loader!css-loader?souceMap!sass-loader!postcss-loader'
+            // loader:'style!css?souceMap!sass!postcss'
             loader: ExtractTextPlugin.extract({
-                loader: "css-loader?souceMap!sass-loader!postcss-loader",
-                fallbackLoader: "style-loader"
+                loader: "css?souceMap!sass!postcss",
+                fallbackLoader: "style"
             })
         }, {
             test: /\.css$/,
-            // loader:'style-loader!css-loader?souceMap!postcss-loader'
+            // loader:'style!css?souceMap!postcss'
             loader: ExtractTextPlugin.extract({
-                loader: "css-loader?souceMap!postcss-loader",
-                fallbackLoader: "style-loader"
+                loader: "css?souceMap!postcss",
+                fallbackLoader: "style"
             })
-        },
-            // 支持font awesome的一组loader
-            {
-                test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url-loader?limit=10000&mimetype=application/font-woff"
-            },
-            {
-                test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url-loader?limit=10000&mimetype=application/font-woff"
-            },
-            {
-                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url-loader?limit=10000&mimetype=application/octet-stream"
-            },
-            {
-                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file-loader"
-            },
-            {
-                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
-            }
-        ]
+        }, { // 支持font awesome的一组loader
+            test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=application/font-woff"
+        }, {
+            test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=application/font-woff"
+        }, {
+            test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=application/octet-stream"
+        }, {
+            test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "file"
+        }, {
+            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=image/svg+xml"
+        }]
+    },
+    resolveLoader:{
+        moduleExtensions:["-loader"]
     },
 // TODO:使用webpack code spliting技术分割代码按需加载，因为main.js太大了！！
 // https://webpack.js.org/guides/code-splitting/

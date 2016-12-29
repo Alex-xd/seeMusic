@@ -21,14 +21,12 @@ const state = {
     showLogin: 0,
     hasLogin: 0,
     user: {
-        name: '',
-        id: 0
+        tracks: [],
+        friends: []
     },
 };
 
-const getters = {
-
-};
+const getters = {};
 
 //【处理全局或多个模块的状态】
 const mutations = {
@@ -116,6 +114,7 @@ const mutations = {
     },
     // 更新评论
     [types.UPDATE_COMMENTS](state, comments){
+        state.comments = [];
         comments.forEach((elem) => {
             let o = {};
             ({
@@ -135,7 +134,22 @@ const mutations = {
     },
     [types.CHANGE_LOGIN_STATE](state, payload){
         state.hasLogin = payload;
-    }
+    },
+    [types.UPDATE_USER_INFO](state, payload){
+        state.user.tracks = payload.list.slice();
+        state.user.friends = payload.friends.slice();
+    },
+    // 初始化播放器状态
+    [types.INIT_PLAYER_USER](state, payload) {
+        let playerSt = state.player;
+
+        playerSt.currentTrackInfo = payload;
+        playerSt.elapsed = 0;
+        playerSt.playing = false;
+        playerSt.onloadmp3Url = '';
+        audio.volume = playerSt.volume / 100;
+        audio.currentTime = 0;
+    },
 };
 
 export default new Vuex.Store({

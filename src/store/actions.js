@@ -2,12 +2,14 @@
 import * as types from "./mutation-types";
 import API from "api/API";
 import utils from 'src/utils';
-import {router} from 'src/main';
+import router from 'src/router';
 
 let timer;
 
 export default {
-    // 初始化默认歌单
+    /**
+     * 初始化默认歌单
+     */
     init: ({commit, dispatch}) => {
         commit(types.CHANGE_LOADING_STATE);
         return API.getDefaultSonglist()
@@ -18,12 +20,15 @@ export default {
             }).catch((e) => {
                 dispatch('showPopup', {
                     msg: 'Error:' + e.message,
-                    autodes: 2500
+                    autodes: 2500,
+                    className: 'warn'
                 });
                 console.error(e.message)
             })
     },
-    // 播放
+    /**
+     * 播放
+     */
     play: ({commit, state, dispatch}) => {
         return new Promise((resolve, reject) => {
             let url = state.player.currentTrackInfo.urls['q' + state.quality];
@@ -84,13 +89,17 @@ export default {
             }
         }
     },
-    // 下一首
+    /**
+     * 下一首
+     */
     skipForward: ({state, dispatch}) => {
         let newtrack = state.currentTrack + 1;
         newtrack = newtrack % state.tracks.length;
         dispatch('selectTrack', {newtrack: newtrack});
     },
-    // 上一首
+    /**
+     * 上一首
+     */
     skipBack: ({state, dispatch}) => {
         let newtrack = state.currentTrack;
 
@@ -152,7 +161,7 @@ export default {
     /**
      * 获取正在播放歌曲的评论
      */
-    getComments: ({commit, state}) => {
+    getComments: ({commit, state, dispatch}) => {
         commit(types.CHANGE_LOADING_STATE);
         return API.getCommments(state.player.currentTrackInfo.commentThreadId)
             .then(({data:{hotComments:comments}}) => {
@@ -161,9 +170,52 @@ export default {
                 commit(types.CHANGE_LOADING_STATE);
             })
             .catch((e) => {
+                dispatch('showPopup', {
+                    msg: 'Error:' + e.message,
+                    autodes: 2500,
+                    className: 'warn'
+                });
                 commit(types.CHANGE_LOADING_STATE);
                 router.push('/songlist');
-                console.error(e.message);
             })
-    }
+    },
+    /**
+     * 获取用户信息
+     */
+    getUserInfo: ({commit}) => {
+        return API.getUserInfo()
+            .then(({data}) => {
+                commit(types.UPDATE_USER_INFO, data);
+            }).catch((e) => {
+                dispatch('showPopup', {
+                    msg: 'Error:' + e.message,
+                    autodes: 2500
+                });
+                console.error(e.message);
+                router.push('/songlist');
+            })
+    },
+    /**
+     * 登录
+     */
+    login: ({commit, dispatch}, params) => {
+        // 处理表单数据
+        let _params = new URLSearchParams();
+
+        _params.append('username', params.uname);
+        _params.append('password', params.psw);
+        API.login(_params).then(({data}) => {
+            if (data === 1) {
+                commit(types.LOGIN_SHOW_HIDE, 0);
+                commit(types.CHANGE_LOGIN_STATE, 1);
+                dispatch('getUserInfo');
+            } else {
+                dispatch('showPopup', {
+                    msg: '账号或密码错误，请重新输入！',
+                    autodes: 1500,
+                    className: 'warn'
+                })
+            }
+        });
+    },
 }
