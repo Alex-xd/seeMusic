@@ -77,6 +77,6 @@ npm run build
 
 ## LISENCE
 
-
+[MIT](https://opensource.org/licenses/MIT)
 
 本项目仅供交流学习之用
