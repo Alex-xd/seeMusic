@@ -19,7 +19,7 @@ npm run build
 
 **重要！**
 
-第一步：请先将`src/api/address.js`中`fullUrl`设为`true`
+第一步：请先将`build.option.js`中`MODE`设为`1`
 
 第二步：
 
