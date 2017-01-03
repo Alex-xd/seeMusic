@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ol class="com-list animation-style-2" v-if="!state.loading">
+        <ol class="com-list animation-style-4" v-if="!state.loading">
             <li class="com-list__track" v-for="(comment,index) in comments">
                 <img :src="comment.avatarUrl" class="com-list__track__cover">
                 <div class="com-list__track__info">
@@ -18,7 +18,7 @@
         <Loading v-if="state.loading"></Loading>
     </div>
 </template>
-
+\
 <script>
     import {
         mapState

@@ -23,6 +23,7 @@
     import Popup from './Popup'
     import Login from './Login'
     import * as types from 'store/mutation-types'
+    import utils from 'src/utils';
 
     export default {
         name: 'app',
@@ -39,18 +40,19 @@
                 _this = this;
 
             // 初始化数据
-            this.$store.dispatch('init').then(() => {
-                setTimeout(() => {
+            this.$store.dispatch('init').then(function () {
+                setTimeout(function () {
                     _this.$store.dispatch('showPopup', {msg: 'Welcome to SeeMusic', autodes: 1800});
                 }, 1800)
             });
+
             // 音源错误处理
             audio.addEventListener('error', function () {
                 // 第一次不执行
                 if (!lock) {
                     lock = 1;
                 } else {
-                    _this.$store.state.quality = (_this.$store.state.quality + 1) % 4;
+                    _this.$store.commit(types.CHANGE_QUALITY, (_this.$store.state.quality + 1) % 4);
                     _this.$store.dispatch('play');
                 }
             }, false);

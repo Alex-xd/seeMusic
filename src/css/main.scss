@@ -1,3 +1,6 @@
+//=======================================
+//  reset styles
+//=======================================
 html {
     box-sizing: border-box;
     font-size: 12px;
@@ -75,7 +78,9 @@ input {
     clear: both;
 }
 
-// Global ---------------
+//=======================================
+// Global
+//=======================================
 #app {
     height: 100%;
 }
@@ -88,55 +93,87 @@ input {
     color: #f9934e !important;
 }
 
-// Vue animations ----------------------
-// 进场
+//=======================================
+// Vue animations
+//=======================================
+
+// fade
+//---------------------------------------
 .fade-enter-active {
     animation: fadeIn 400ms
 }
 
-// 离场
 .fade-leave-active {
     animation: fadeOut 400ms
 }
 
-
-// Drop Menu animations ----------------------
+//=======================================
+// Drop Menu animations
+//=======================================
 .drop-menu > li {
     display: none;
 }
 
-.drop-title:hover .animation-style-1 > li {
+.drop-title:hover .drop-menu > li {
     display: block;
 }
 
+// style1
+//---------------------------------------
 .animation-style-1 > li {
+    opacity: 0;
+    animation-name: animationStyle1;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
     @for $i from 1 through 10 {
         &:nth-child(#{$i}) {
-            opacity: 0;
-            animation-name: animationStyle1;
             animation-duration: 300ms * $i;
-            animation-timing-function: ease-in-out;
-            animation-fill-mode: forwards;
         }
     }
 }
 
+// style2
+//---------------------------------------
 .animation-style-2 > li {
+    opacity: 0;
+    animation-name: animationStyle2;
+    transform-origin:top center;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
     @for $i from 1 through 10 {
         &:nth-child(#{$i}) {
-            opacity: 0;
-            animation-name: animationStyle2;
             animation-duration: 300ms * $i;
-            animation-timing-function: ease-in-out;
-            animation-fill-mode: forwards;
+            animation-delay: (150ms * $i) - 300;
         }
     }
 }
+
+// style3
+//---------------------------------------
 .animation-style-3 {
     animation: fadeIn 400ms
 }
 
-// keyframes ----------------------------------
+// style4
+//---------------------------------------
+.animation-style-4  >li {
+    opacity: 0;
+    animation-name: animationStyle4;
+    animation-duration: 300ms;
+    transform-origin: top right;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}){
+            animation-delay: (150ms * $i) - 300;
+        }
+    }
+}
+
+
+//=======================================
+//  keyframes
+//=======================================
 @keyframes animationStyle1 {
     0% {
         opacity: 0;
@@ -147,31 +184,28 @@ input {
         transform: rotate(0deg) translate3d(0, 0, 0);
     }
 }
-
-@keyframes animationStyle1 {
-    0% {
-        opacity: 0;
-        transform: rotateY(-90deg) translate3d(0, 30px, 0);
-    }
-    100% {
-        opacity: 1;
-        transform: rotate(0deg) translate3d(0, 0, 0);
-    }
-}
-
-
 
 @keyframes animationStyle2 {
     0% {
         opacity: 0;
-        transform: rotateX(90deg) translate3d(0, 30px, 0);
+        transform: rotateX(-90deg);
     }
     100% {
         opacity: 1;
-        transform: rotate(0deg) translate3d(0, 0, 0);
+        transform: rotate(0deg);
     }
 }
 
+@keyframes animationStyle4 {
+    0%{
+        opacity:0;
+        transform: rotate(-30deg);
+    }
+    100%{
+        opacity:1;
+        transform: rotate(0deg);
+    }
+}
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -194,9 +228,9 @@ input {
     }
 }
 
-
-
-/* 滚动条样式 */
+//=======================================
+//  scrollbar styles
+//=======================================
 ::-webkit-scrollbar {
     width: 15px;
 }

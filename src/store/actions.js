@@ -36,8 +36,9 @@ export default {
             if (url == '') {
                 // 若url不存在 说明这首歌没有对应音质的音源，降低音源品质后再次尝试
                 dispatch('showPopup', {
-                    msg: 'Sorry..这首歌暂无' + utils.mapQuality[state.quality] + '品质音源',
-                    autodes: 2500
+                    msg: 'Sorry..这首歌暂无' + utils.mapQuality[state.quality] + '品质音源，已自动切换音质',
+                    autodes: 2500,
+                    className: 'warn'
                 });
                 commit(types.CHANGE_QUALITY, state.quality > 0 ? state.quality - 1 : 0);
                 dispatch('play');
