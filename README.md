@@ -17,6 +17,8 @@ npm run build
 
 ## 编译为桌面端应用
 
+当前配置仅编译为mac端桌面程序，如需window、linux版本只需在`build/package.json`中`script`字段下的`--platform=darwin`后添加对应平台名称即可。
+
 **重要！**
 
 第一步：请先将`build.option.js`中`MODE`设为`1`
