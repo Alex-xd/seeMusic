@@ -1,11 +1,8 @@
 .DS_Store
 node_modules/
-build/node_modules/
-build/SeeMusic*
-build/static/**
-build/*.html
-build/static/*.js
-dist/
+build/*
+!build/app.js
+!build/package.json
 npm-debug.log
 .idea
 .DS_Store?
