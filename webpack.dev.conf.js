@@ -28,7 +28,7 @@ config.devServer = {
     proxy: {
         '/Server/**': {
             changeOrigin: true,
-            target: 'http://localhost:8080',
+            target: 'https://music.alexxd.com/',
             secure: false
         }
     }

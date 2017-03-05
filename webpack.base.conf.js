@@ -29,12 +29,12 @@ module.exports = {
                     // css:'vue-style!css?souceMap',
                     // scss:'vue-style!css?souceMap!sass',
                     css: ExtractTextPlugin.extract({
-                        loader: 'css?souceMap',
-                        fallbackLoader: 'vue-style'
+                        use: 'css?souceMap',
+                        fallback: 'vue-style'
                     }),
                     scss: ExtractTextPlugin.extract({
-                        loader: 'css?souceMap!sass',
-                        fallbackloader: 'vue-style'
+                        use: 'css?souceMap!sass',
+                        fallback: 'vue-style'
                     }),
                 }
             }
@@ -52,15 +52,15 @@ module.exports = {
             test: /\.s[a|c]ss$/,
             // loader:'style!css?souceMap!sass!postcss'
             loader: ExtractTextPlugin.extract({
-                loader: "css?souceMap!sass!postcss",
-                fallbackLoader: "style"
+                use: "css?souceMap!sass!postcss",
+                fallback: "style"
             })
         }, {
             test: /\.css$/,
             // loader:'style!css?souceMap!postcss'
             loader: ExtractTextPlugin.extract({
-                loader: "css?souceMap!postcss",
-                fallbackLoader: "style"
+                use: "css?souceMap!postcss",
+                fallback: "style"
             })
         }, { // 支持font awesome的一组loader
             test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
