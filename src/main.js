@@ -1,24 +1,15 @@
-import './css/main.scss'
-import 'csshake/dist/csshake.min.css'
-import 'css/textinput/input-text-effect.css'
-import Vue from 'vue'
-import filters from './filters.js'
-import router from './router'
-import App from './components/App'
-import Loading from 'components/Loading'
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue';
+import App from './App';
+import router from './router';
 
-Object.keys(filters).forEach(key => {
-    Vue.filter(key, filters[key])
+Vue.config.productionTip = false;
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: { App },
 });
-
-// 全局注册Loading组件
-Vue.component('Loading', {...Loading});
-
-const app = new Vue({
-    router,
-    ...App
-}).$mount('#app');
-
-
-
-

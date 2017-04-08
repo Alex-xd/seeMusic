@@ -1,33 +1,15 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import SongList from 'components/SongList'
-import Comments from 'components/Comments'
-import User from 'components/User'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Hello from '@/components/Hello';
 
 Vue.use(Router);
 
-const routes = [
+export default new Router({
+  routes: [
     {
-        path: '/',
-        redirect:'/songlist'
+      path: '/',
+      name: 'Hello',
+      component: Hello,
     },
-    {
-        path: '/songlist',
-        component: SongList
-    },
-    {
-        path: '/comments',
-        component: Comments
-    },
-    {
-        path: '/user',
-        component: User
-    }
-];
-
-const router = new Router({
-    routes
+  ],
 });
-
-export default router
-
