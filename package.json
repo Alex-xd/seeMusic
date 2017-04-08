@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.conf.js --open --inline --hot",
-    "build": "webpack --config webpack.prod.conf.js --progress --hide-modules"
+    "build": "webpack --config webpack.prod.conf.js --progress --hide-modules",
+    "commit": "./node_modules/.bin/git-cz"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -22,8 +23,10 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-2": "^6.18.0",
     "chai": "^3.5.0",
+    "commitizen": "^2.9.6",
     "cross-env": "^3.0.0",
     "css-loader": "^0.25.0",
+    "cz-conventional-changelog": "^2.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "favicons-webpack-plugin": "^0.0.7",
     "file-loader": "^0.9.0",
@@ -37,5 +40,10 @@
     "vue-loader": "^11.1.4",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
