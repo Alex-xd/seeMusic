@@ -1,5 +1,11 @@
 # See Music
 
+# 重要
+
+本项目正在进行二次重新开发，当前开发分支为dev分支，老版的源码在old-version分支上，如需老版的源码可直接下载最新[release]()，老版不再更新。
+
+- - -
+
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 > 使用vue2 vuex vue-router axios webpack Electron搭建的跨平台云音乐播放器，网易云音乐接口强力支撑，可随意畅听高品质收费歌曲
