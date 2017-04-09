@@ -1,5 +1,10 @@
 # See Music
 
+# 重要
+
+本项目正在进行二次重新开发，当前开发分支为dev分支，老版的源码在old-version分支上，老版将不再更新。
+
+- - -
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 > Vue 云音乐播放器，网易云音乐API，可听网易云高品质付费歌曲。 Vue music player https://music.alexxd.com
