@@ -39,6 +39,14 @@ npm test
 npm run commit
 ```
 
+## Contribution
+
+First time run `npm run init` once and leave it forever.
+
+then `git add .` add ur changes files;
+
+then `npm run commit` commit ur changes with Commitizen;
+
 ## Dev Schedules
 
 ## LISENCE

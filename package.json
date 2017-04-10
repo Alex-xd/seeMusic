@@ -11,7 +11,8 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "commit": "./node_modules/.bin/git-cz"
+    "init": "./node_modules/.bin/commitizen init cz-conventional-changelog --save-dev --save-exact",
+    "commit": "git-cz"
   },
   "dependencies": {
     "vue": "^2.2.2",
@@ -36,6 +37,7 @@
     "cross-env": "^3.1.4",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.26.1",
+    "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.14.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-friendly-formatter": "^2.0.7",
@@ -91,5 +93,10 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
