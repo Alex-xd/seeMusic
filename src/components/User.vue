@@ -5,6 +5,7 @@
                       :title="track.title"
                       :subtitle="track.singer"
                       :number="track.time"
+                      :key="index"
             ></ListItem>
         </ol>
         <Loading v-if="loading"></Loading>

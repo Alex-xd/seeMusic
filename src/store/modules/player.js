@@ -16,7 +16,7 @@ const state = {
          *     q3
          * }
          */
-        cover: 'http://o6x2vif88.bkt.clouddn.com/loadingImg.png',
+        cover: 'https://zhangboyuan-10039837.cossh.myqcloud.com/loadingImg.png',
         album: 'loading..',
         title: 'loading..',
         artist: 'loading..',

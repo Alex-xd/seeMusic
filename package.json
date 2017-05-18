@@ -5,9 +5,10 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.conf.js --open --inline --hot",
+    "dev": "webpack-dev-server --config webpack.dev.conf.js --open --inline --hot --host 127.0.0.1",
     "build": "webpack --config webpack.prod.conf.js --progress --hide-modules",
-    "commit": "./node_modules/.bin/git-cz"
+    "commit": "./node_modules/.bin/git-cz",
+    "dist": "sh build.sh"
   },
   "dependencies": {
     "axios": "^0.15.3",

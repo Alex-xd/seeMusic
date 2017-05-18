@@ -8,6 +8,7 @@
                       :subtitle="track.album + ' - ' + track.artists"
                       :number="track.duration | msecondToMinutes"
                       @click.native="playthis(index)"
+                      :key="index"
             ></ListItem>
         </ol>
         <Loading v-if="state.loading"></Loading>

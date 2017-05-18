@@ -41,7 +41,6 @@ const mutations = {
             }
         } else {
             // TODO:此处需要性能优化  
-            // 建议：将来在后台将数据做一层缓存层，直接返回格式化好的缓存数据
             tracks.forEach((elem) => {
                 let o = {
                     urls: {
@@ -74,8 +73,17 @@ const mutations = {
                 if (elem.hMusic) {
                     o.urls.q3 = elem.hMusic.dfsId;
                 }
+
+                o.cover = _toHttps(o.cover);
+                
                 state.tracks.push(o);
             });
+        }
+
+        function _toHttps(str){
+            let tmp = Array.from(str);
+            tmp.splice(4, 0, 's');
+            return tmp.join('')
         }
     },
     // 初始化播放器状态

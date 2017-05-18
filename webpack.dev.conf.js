@@ -2,7 +2,8 @@ const webpack = require('webpack');
 const config = require('./webpack.base.conf');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-config.devtool = '#source-map';
+config.output.publicPath = '/'
+config.devtool = '#cheap-module-eval-source-map';
 
 config.plugins = (config.plugins || []).concat([
     new HtmlWebpackPlugin({
@@ -14,7 +15,7 @@ config.plugins = (config.plugins || []).concat([
         filename: 'index.html',
         template: 'src/index.template.html',
         favicon:'src/assets/favicon.png',
-        hash: true,
+        hash: false,
         minify: {
             removeComments: true
         }

@@ -11,20 +11,30 @@ export default {
      * 初始化默认歌单
      */
     init: ({commit, dispatch}) => {
+        // FIXME: 由于获取推荐歌单的接口发生改变，导致无法获取url，遂不再显示我自己的推荐歌单了，默认搜索xxx
+        // commit(types.CHANGE_LOADING_STATE);
+        // return API.getDefaultSonglist()
+        //     .then(({data}) => {
+        //         commit(types.INIT_SONGLIST, data);
+        //         commit(types.INIT_PLAYER);
+        //         commit(types.CHANGE_LOADING_STATE);
+        //     }).catch((e) => {
+        //         dispatch('showPopup', {
+        //             msg: 'Error:' + e.message,
+        //             autodes: 2500,
+        //             className: 'warn'
+        //         });
+        //         console.error(e.message)
+        //     })
         commit(types.CHANGE_LOADING_STATE);
-        return API.getDefaultSonglist()
-            .then(({data}) => {
-                commit(types.INIT_SONGLIST, data);
-                commit(types.INIT_PLAYER);
-                commit(types.CHANGE_LOADING_STATE);
-            }).catch((e) => {
-                dispatch('showPopup', {
-                    msg: 'Error:' + e.message,
-                    autodes: 2500,
-                    className: 'warn'
-                });
-                console.error(e.message)
-            })
+        API.searchSongs('Main Theme').then(({data}) => {
+            commit(types.INIT_SONGLIST, data);
+            commit(types.INIT_PLAYER);
+            commit(types.CHANGE_LOADING_STATE);
+        }).catch((e) => {
+            commit(types.CHANGE_LOADING_STATE);
+            console.error(e)
+        })
     },
     /**
      * 播放

@@ -13,8 +13,8 @@ module.exports = {
         path: BUILD_PATH,
         // publicPath就是打包生成的文件在引用时在前面的替换路径 src="publicPath/index_bundle.js"
         // 此处有坑，因为路径最后是直接拼接的，所以最后必须要加上反斜杠！！
-        publicPath: 'http://localhost:8000/',
-        filename: '[name].js'
+        publicPath: '/Server/build/',
+        filename: '[name].[chunkhash:8].js'
     },
     module: {
         rules: [{
@@ -114,7 +114,7 @@ module.exports = {
             }
         }),
         new ExtractTextPlugin({
-            filename: 'style.css',
+            filename: 'style.[chunkhash:8].css',
             // disable:true
             // allChunks: true
         })
